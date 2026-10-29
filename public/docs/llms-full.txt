@@ -1,0 +1,2653 @@
+# Free GST Billing Software: complete documentation (version 1.10.81)
+
+Source: /docs/
+
+---
+
+# Free GST Billing documentation
+
+URL: /docs/
+
+Make GST invoices, keep track of who owes you, and prepare your GST returns. On your own computer, with no account and no monthly fee.
+
+- [Install it Download, extract, click Install. About three minutes, no admin rights needed.](/docs/install.html)
+- [Make your first invoice From a blank app to a GST tax invoice you can send, in five minutes.](/docs/first-invoice.html)
+- [Something isn't working The common problems, what causes each one, and the fix.](/docs/troubleshooting.html)
+
+## What it does
+
+Free GST Billing is invoicing and GST software for small businesses in India, and for anyone billing in other currencies: 20 are supported. It runs on your computer and opens in your web browser, the way a website does, but nothing leaves your machine.
+
+- **Invoices**: tax invoices, bills of supply, proforma estimates, credit notes and delivery challans, with CGST, SGST, IGST and UTGST worked out for you.
+- **Getting paid**: record payments, print receipts, see who is overdue and by how much.
+- **GST returns**: GSTR-1 and GSTR-3B built from your invoices and purchases, as files you upload to the GST portal.
+- **The rest of the books**: clients, products and stock, purchases, expenses, recurring invoices, profit and loss, and an income tax calculator.
+
+## What you need
+
+| Computer | Windows 10 or 11, macOS, or Linux (a NAS works too). |
+
+| Browser | Chrome, Edge, Firefox or Brave. The app opens in it. |
+
+| Disk space | Roughly 200 MB once installed. |
+
+| Internet | Only for the first install and for updates. Everything else works offline. |
+
+| Account or signup | None. |
+
+## Where your data lives
+
+Every invoice, client and setting is saved as plain files inside the app's folder, in _system\data. They never leave your computer unless you turn on Google Drive backup yourself.
+
+That also means backing up is your job, and it is easy. See [Backups, updates and moving PC](/docs/backup.html).
+
+## Is it really free?
+
+Yes. It is open source under the MIT licence. There is no trial, no invoice limit, no feature that unlocks for money, and no advertising. The code is public on [GitHub](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-), so anyone can check what it does.
+
+## Getting help
+
+Every screen in the app with a ? button links to the matching part of these pages. If something is missing here, or the app does something these pages don't describe, [open an issue on GitHub](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues) with a screenshot. Many features began as someone's request.
+
+---
+
+# Install
+
+URL: /docs/install.html
+
+Download one ZIP, extract it, open the launcher for your computer and click Install. On Windows it sets up everything it needs by itself.
+
+## Download
+
+Download the ZIP. The link always gives you the newest version.
+
+[Download Free GST Billing](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest/download/Free-GST-Billing.zip)
+
+**Use this link, not GitHub's green Code button**
+The green Code button on GitHub gives you the source code, not the app. It will not install.
+
+## Install on Windows
+
+- **Extract the ZIP**Right-click the downloaded file and choose Extract All…, then Extract. Put it somewhere you will remember, such as Documents.
+- **Open the launcher**In the new folder, double-click **Free GST Billing - WINDOWS**. Each launcher is named after the computer it is for.
+- **Click Install**A small window opens with one button. Click Install. There is nothing to fill in.
+- **Wait for the browser**A black window does the work and closes by itself. It takes one to three minutes the first time. The app then opens in your browser at http://localhost:47371.
+
+Before install, the launcher shows one button. Afterwards it shows Open App, and everything else is under More options.
+
+## Extract the ZIP before opening anything
+
+Windows lets you double-click a file while you are still looking inside a ZIP. When you do, it copies just that one file to a temporary folder and runs it there, so the rest of the app is not next to it.
+
+The launcher notices this and says Please extract the ZIP first, with a button that opens your Downloads folder. Close it, extract the ZIP, and open the launcher from the extracted folder.
+
+## "Windows protected your PC"
+
+You may see this blue warning the first time. It appears for software that is not signed with a paid certificate, which costs a few hundred dollars a year and would make a free app not free.
+
+- Click More info.
+- Click Run anyway.
+
+If the file will not open at all, right-click **Free GST Billing - WINDOWS**, choose Properties, tick Unblock at the bottom, and click OK.
+
+If your antivirus removes a file during install, add the app's folder to its exclusions and click Install again.
+
+## What the installer does
+
+- **Sets up Node.js inside the app folder**, if your PC does not already have it. Node.js is the engine the app runs on. It is downloaded once (about 30 MB) from nodejs.org and kept in _system\node. Nothing is installed into Windows, and no administrator rights are needed.
+- **Downloads the app's building blocks** from the internet. This is the only other download.
+- **Puts a Free GST Billing shortcut** on your Desktop and in the Start menu, with the app's icon.
+- **Opens the app** in your browser when it is done.
+
+If you already have Node.js, the installer uses yours and leaves it alone.
+
+## Install with one command (optional)
+
+If you are comfortable with a terminal, this does all of the above. Open PowerShell and paste:
+
+```
+irm https://raw.githubusercontent.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/main/install.ps1 | iex
+```
+
+It installs to %LOCALAPPDATA%\Programs\Free GST Billing. To choose another folder, run this first:
+
+```
+$env:FREEGSTBILL_DIR = 'D:\Apps\Free GST Billing'
+```
+
+If the app is already installed in that folder with data in it, the command stops and tells you to update from inside the app instead, so it can never write over your books.
+
+## Install on a Mac
+
+On a Mac, Node.js has to be installed first. It is free.
+
+- **Install Node.js**Download the installer from [nodejs.org](https://nodejs.org/en/download), or if you use Homebrew, run brew install node@20.
+- **Extract the ZIP**Double-click the downloaded ZIP. macOS extracts it next to the download.
+- **Open the launcher**In the folder, open **Free GST Billing - MAC**. If macOS says it is from an unidentified developer, right-click it, choose Open, then Open again.
+- **Let it finish**A Terminal window sets the app up the first time, then opens it in your browser.
+
+## Install on Linux or a NAS
+
+As on a Mac, install Node.js 18 or newer first, for example sudo apt install nodejs npm. Then:
+
+```
+unzip Free-GST-Billing.zip
+cd Free-GST-Billing
+chmod +x "Free GST Billing - LINUX.sh"
+./"Free GST Billing - LINUX.sh"
+```
+
+The app then runs at http://localhost:47371. To update later from inside the app, the system also needs unzip or python3.
+
+## The first time the app opens
+
+A short welcome asks for your business details and bank or UPI, then offers to set up your invoices for your kind of business. See [The first-run setup](/docs/first-run.html).
+
+## Opening the app every day
+
+Double-click the **Free GST Billing** shortcut on your Desktop, then Open App. The launcher is also where you update, back up, restore, and move to another PC, under More options.
+
+**Keep the launcher**
+It is the one file you need. You never have to download anything again to update; the launcher does it for you.
+
+## Removing the app
+
+Nothing is installed into Windows itself, so removing the app is just deleting it:
+
+- **Back up your data first** if you might want it again. See [Export everything to one file](/docs/backup.html#export-import).
+- In the launcher, open More options and click Stop the app.
+- Delete the app's folder, and the **Free GST Billing** shortcuts on the Desktop and in the Start menu.
+
+---
+
+# The first-run setup
+
+URL: /docs/first-run.html
+
+The screens you see the first time the app opens: a four-step welcome for your business details, then a three-step setup for how your invoices look. Both can be skipped and changed later.
+
+## Step 1 of the welcome: where you invoice from
+
+The first screen explains what the app does, and asks **Where will you be invoicing from?**
+
+| 🇮🇳 India | GST, GSTR-1 and 3B, UPI. The default. |
+
+| 🌍 Outside India | VAT and other local taxes |
+
+| 🌐 Both | India, with clients abroad |
+
+Get Started carries on. Skip Setup goes straight to the app; fill in [Settings](/docs/settings.html#company-details) later.
+
+## Step 2: business details
+
+These print at the top of every invoice. Only the **Business Name** is required.
+
+| Business Name | Required |
+
+| Address | Your full address |
+
+| State | Needed to work out CGST and SGST versus IGST |
+
+| GSTIN | Leave blank if you are not registered |
+
+| PAN, Phone, Email | Optional |
+
+## Step 3: bank and UPI
+
+Where clients should pay you: bank name, account number, IFSC code and UPI ID. A UPI ID puts a scan-to-pay QR code on your invoices. You can also upload your logo and signature here, up to 500 KB each. Skip, I’ll add later leaves it all for [Settings](/docs/settings.html#payment-accounts).
+
+## Step 4: you're all set
+
+A short list of what to do next. Start Billing saves everything; your bank details become your first [payment account](/docs/settings.html#payment-accounts).
+
+## Then: setting up your invoices
+
+Next, a three-step window sets up printing.
+
+- **What kind of business do you run?**Pick one of six: Retail Shop / Kirana, Freelancer / Consultant, Restaurant / Cafe / Bar, Wholesale / Trading, Manufacturing, or Service / Repair Shop. Each sets the invoice style, receipt options and features that suit that business. See [Business type](/docs/print-settings.html#business-type) for exactly what each one sets. Or choose **None of these** to set things up yourself.
+- **Paper size and language**Pick what you mostly print on: A4, A5, 80 mm or 58 mm thermal. It becomes the paper size of new invoices. Then the language for section labels such as BILL TO: English, Hindi, Tamil, Marathi or Bengali.
+- **Ready to go**A summary of your choices. Finish setup applies them.
+
+Skip setup, or the ✕, closes it. A ✨ Finish setup button then waits at the bottom right of the screen, for whenever you want to come back to it. Everything it sets can also be changed in [Print and PDF settings](/docs/print-settings.html).
+
+---
+
+# Your first invoice
+
+URL: /docs/first-invoice.html
+
+From a blank app to a GST tax invoice you can send, in about five minutes.
+
+## Before you start
+
+Have these to hand: your business name, address and GSTIN, and your bank account or UPI ID if you want clients to pay you directly from the invoice. None of it is compulsory, and all of it can be added later.
+
+## Make the invoice
+
+- **Add your business details**If you skipped the welcome, open Settings and fill in **Company Details**. This is the header of every invoice. Your state matters: it decides whether GST is split into CGST and SGST, or charged as IGST.
+- **Start a new invoice**Click New Invoice in the sidebar. **Tax Invoice** is already selected, which is the right choice for a normal GST sale.
+- **Add the client**Under **Billed To**, type the client's name. If they are registered for GST, type their GSTIN and their state fills in by itself. A mistyped GSTIN is caught straight away.
+- **Add what you sold**For each line, give a description, quantity, unit, rate and GST rate. The HSN or SAC code is optional but helps your GST return. Clicking a number field selects what is there, so you can just type.
+- **Check the tax**The preview on the right shows the totals. Same state as you: CGST and SGST. Another state: IGST. You do not need to choose.
+- **Save and download**Click Save & Download. The invoice gets its number, is saved to your records, and downloads as a PDF.
+
+## Send it
+
+- WhatsApp opens a message to the client. On a phone the PDF is attached for you; on a computer, WhatsApp does not let websites attach files, so download the PDF and drag it into the chat.
+- Print opens your printer directly, including thermal receipt printers.
+- Or attach the downloaded PDF to an email yourself.
+
+## When the client pays
+
+On the [Dashboard](/docs/dashboard.html), find the invoice and record the payment. A printable receipt opens straight away, and the invoice's status changes to **Partial** or **Paid**. Unpaid invoices past their due date are marked **Overdue** for you.
+
+## What to do next
+
+- [Add your products and services](/docs/products.html), so you pick them from a list instead of typing them each time.
+- [Add your bank or UPI](/docs/settings.html#payment-accounts), so a payment QR code prints on every invoice.
+- [Add your logo, signature and stamp](/docs/settings.html#branding).
+- At the end of the month, [prepare your GST returns](/docs/gst-returns.html) from the invoices you have made.
+
+The **Getting started** list on the Dashboard tracks these for you, and ticks each one off once it is done.
+
+---
+
+# Making an invoice
+
+URL: /docs/invoices.html
+
+Every part of the New Invoice screen, from top to bottom: the toolbar, the document type, the client, the items, terms, extra pages, and what happens when you save, print or share.
+
+## How the screen is laid out
+
+Open it with New Invoice in the sidebar, or Ctrl + N. The form is on the left and a live preview of the printed invoice is on the right. From top to bottom, the form has these cards:
+
+- **Invoice Type**, with the Customize panel when it is open
+- **Billed To**: the client
+- **Invoice Details**: number, dates, place of supply and delivery address
+- **Line Items**
+- **Terms & Conditions**, notes and a private note
+- **Additional Pages / Sections**
+
+The totals are not in the form. They are worked out as you type and shown in the preview.
+
+## The toolbar
+
+The toolbar stays at the top of the screen as you scroll.
+
+| Button | What it does |
+
+| ← Back | Leaves the invoice. If you have changed something that is not saved, you are asked first (see Leaving with unsaved changes ). |
+
+| ? | A short how-to for this screen. |
+
+| Save status | Shows **Draft - click to complete** until the invoice has a client and an item (click it to jump to what is missing), then **Not saved yet** until you first save it, then **Saving…**, **All changes saved** or **Ready**. |
+
+| Save | Saves the invoice without making a PDF. Ctrl + S does the same. |
+
+| Save & Download | Saves the invoice and downloads the PDF. See Save & Download . |
+
+| Print | Saves the invoice, then prints it. See Printing . |
+
+| WhatsApp | Opens WhatsApp with the invoice details typed in. See Sending on WhatsApp . |
+
+| E-Way Bill | Tax invoices and delivery challans only. Downloads the e-way bill file. See E-way bill . |
+
+| Customize | Opens the panel that controls what prints, the paper size, currency and more. See [Customize: what prints and how](/docs/invoice-options.html). |
+
+| Hide Preview | Hides the preview so the form uses the whole width, handy for long invoices. Show Preview brings it back, and the app remembers your choice. |
+
+## Choosing the document type
+
+The six chips at the top decide the printed title, whether GST is charged, and whether the document counts as a sale in your totals and returns.
+
+| Type | Prints as | Use it for | GST | Counts as a sale? |
+
+| Tax Invoice | TAX INVOICE | A normal sale by a GST-registered business | Yes | Yes |
+
+| Quotation | QUOTATION | A priced offer for work or supply, numbered QUO/…. Convert it to a tax invoice when the client accepts. | Shown | No |
+
+| Proforma / Estimate | PROFORMA INVOICE | A quote before the sale. Prints "This is not a tax invoice" and a faint ESTIMATE watermark. | Shown | No |
+
+| Bill of Supply (No GST) | BILL OF SUPPLY | Exempt goods or services | No | Yes |
+
+| Composition (Bill of Supply) | BILL OF SUPPLY | Sales under the composition scheme. The declaration required by Rule 46A prints automatically. | No | Yes |
+
+| Credit Note | CREDIT NOTE | Returns, a price cut after the sale, or a correction. Its total is subtracted from your sales. | Yes | Subtracted |
+
+| Delivery Challan | DELIVERY CHALLAN | Moving goods without a sale, such as to a job worker or on approval | No | No |
+
+There are seven types. Changing the type also changes the invoice number to that type's series, replacing any number you typed.
+
+**Once an invoice is saved, its type is locked.** The other chips are greyed out, because the number and the tax already issued to your client must not change. To make a different document from it, use Duplicate on the Dashboard.
+
+## Goods, services or both
+
+Under the type chips, **This invoice is for** sets which units you are offered:
+
+| 📦 Goods | Units such as Nos, Kg and Pcs. The default. |
+
+| ⏱ Services | Hours, sessions, visits and months. It also reminds you to put a SAC code in the HSN field. |
+
+| 🔀 Mixed | Every unit, unfiltered. |
+
+## Billed To: the client
+
+- **Type the name**Clicking **Client Name** lists your saved clients. As you type, the list narrows. Use ↓ ↑ and Enter, or click one. Picking a saved client fills in all their details.
+- **Or save a new one**For someone new, type their name and fill in the fields, then click **Save "name" as new client** to keep them for next time. You do not have to: an invoice can go to a name that is not saved.
+- **Check the address and GSTIN**Address, country, city, PIN, state and GSTIN print on the invoice.
+
+A saved client's pencil icon opens their details for editing. Their email, phone and **SEZ** setting are only edited there, not on the invoice: see [Adding and editing a client](/docs/clients.html#client-form). A client can also have a preferred paper size, currency and auto-print setting, which are applied when you pick them on a new invoice.
+
+Changing the **country** clears the state, since each country has its own list.
+
+## What the GSTIN check tells you
+
+When you leave the GSTIN box, the app reads the number. This works offline, with no GST portal lookup.
+
+| Message | Meaning |
+
+| ✓ Registered in state . State filled in. | The state was blank, so it has been filled in from the first two digits. |
+
+| ✓ Registered in state . | The GSTIN and the state agree. |
+
+| ⚠ This GSTIN is registered in state , but the state says other state . | Check which is right. The tax split follows the state and place of supply. |
+
+| ⚠ This GSTIN fails its own checksum. Check for a typo. | Every GSTIN ends with a check character. This one does not add up, so a character is almost certainly mistyped. |
+
+These are warnings only. They never stop you saving.
+
+## Using a client's credit
+
+If the client overpaid on earlier invoices, a banner shows how much credit they have and where it came from. On a new invoice you can:
+
+- type an amount to use, or click Apply full to use as much as this invoice needs;
+- click Skip to use none;
+- tick **Auto-apply available client credit on future invoices** to have it used automatically.
+
+When you save, the credit is recorded as a payment on this invoice.
+
+## Invoice Details
+
+| Field | What to know |
+
+| Invoice Number | Filled in with the next number for this type. It is only taken when you first save, so an invoice you abandon does not use up a number. If someone else's invoice took it meanwhile, yours gets the next free number and you are told. See [Invoice number format](/docs/settings.html#invoice-numbers). |
+
+| Invoice Date | Today, unless you change it. |
+
+| Due Date | Blank unless you set it. Once it passes, an unpaid invoice becomes **Overdue**. |
+
+| Place of Supply | Where the goods or services are supplied. Leave it on **Defaults to Client State** unless the delivery is in a different state from the client's address. The tax split follows it. Not shown for bills of supply, composition bills or delivery challans. |
+
+| Original Invoice Reference | Credit notes only: the invoice it is against, such as INV/2026-27/0001. It prints as "Against Invoice". |
+
+| Ship to same as bill-to address | Ticked by default. Untick it to enter a delivery address, city, PIN and state. The invoice then prints a separate **SHIP TO** block. |
+
+## Order, dispatch and reference details
+
+Under Invoice Details, **Order, dispatch & reference details** opens a set of optional fields, the boxes a Tally invoice carries:
+
+work details, revision no, vehicle no, service period from and to, buyer's order no and order date, reference no & date, other references, delivery note and its date, dispatch doc no, dispatched through, destination, mode or terms of payment, and terms of delivery.
+
+Only what you fill in prints. The [Tally style](/docs/invoice-options.html#style) design shows them in its reference boxes; the other designs list them under Bill To. The section stays open on an invoice that has any of them.
+
+## Line items
+
+Each row has these fields:
+
+| Field | What to know |
+
+| Description | The item name. Typing searches your [products](/docs/products.html) by name or HSN; picking one fills in the HSN, rate, unit and GST rate, and links the row to the product so its stock is counted. |
+
+| HSN/SAC | For common codes the app knows the usual GST rate, and shows it in green under the box. If the row's rate is still 18% or 0%, it is changed to match. |
+
+| Qty | 1 to start. Clicking the box selects the number, so typing replaces it. |
+
+| Unit | From the list for Goods, Services or Mixed. ＋ Add custom… adds your own unit (up to 20 characters), marked ★, and − Remove takes it away again. Invoices already made keep the unit they used. |
+
+| Rate | Price for one unit. |
+
+| Discount | An amount (₹) or a percentage (%) of the line. For an amount, a second box chooses what it comes off: **Net**, the line total (the default); **Unit**, that much off each unit; or **W/Tax**, off the total including tax. |
+
+| GST % | 0, 0.1, 0.25, 3, 5, 12, 18, 28 or 40%, plus any rates you added in [Print Settings](/docs/print-settings.html#tax-rates). Custom… takes any rate from 0 to 100. New rows start at 18%. Since 22 September 2025 most goods are at 5%, 18% or 40%; 12% and 28% stay for older invoices and the items still taxed at them. |
+
+| Cess % | Compensation cess, for tobacco, cars, coal and the like. Hidden until you turn on **GST Cess % column** under Customize. |
+
+- + Add description under a row adds a longer note that prints under the item name.
+- Add Item adds a row. So does pressing Enter in the last row once it has something in it.
+- Delivery charges adds the charge as its own line, SAC 996812, taxed at the highest GST rate among the goods on the invoice (delivery that comes with goods is taxed like them). Type the amount in its Rate. It is in the total and GST returns and never touches stock. Change its GST % if your delivery is a separate service.
+- The bin removes a row. The last remaining row cannot be removed.
+- Hiding a column under Customize, such as HSN or Discount, also hides it here.
+
+## Prices that already include GST
+
+If your rates already include GST, tick **Prices include tax** at the top of the Line Items card. The printed Subtotal is then the value before tax, so Subtotal + tax = Total. The GST is then worked out backwards from each rate, and the invoice shows the taxable value and the tax separately.
+
+## Discounts
+
+- **On a line**: in the row's Discount box, as described above. This is the GST-correct way, because the discount comes off before tax.
+- **On the whole bill**: **Discount on total**, under the items, as an amount or a percentage. It is taken off after tax, so it does not reduce the GST.
+
+## How GST is worked out
+
+You never choose between CGST, SGST and IGST. The app decides from your state and the place of supply:
+
+| Situation | Charged as |
+
+| Client in your state | CGST + SGST, half each |
+
+| Client in another state | IGST |
+
+| Within a Union Territory without a legislature (Chandigarh, Ladakh, Lakshadweep, Andaman and Nicobar, Dadra and Nagar Haveli and Daman and Diu) | CGST + UTGST |
+
+| SEZ client, or a client outside India | IGST |
+
+The preview shows **Intrastate (CGST + SGST)** or **Interstate (IGST)** next to the place of supply, so you can check it before saving.
+
+**Your own state must be set**
+If your business state is blank in [Settings](/docs/settings.html#company-details), the app warns you once and does not guess, because a wrong guess would charge the wrong tax on every invoice.
+
+## Reverse charge
+
+When the buyer pays the GST instead of you, under section 9(3) or 9(4), open Customize and tick **Reverse Charge applies** under Compliance flags. The invoice then says Reverse Charge: Yes and prints a notice that the recipient pays the GST. Every tax invoice and credit note prints Reverse Charge Yes or No, as the rules require.
+
+## TDS and TCS
+
+Both are under Customize, for Indian businesses. Turn on **TDS / TCS on invoices** in [Settings, Modules](/docs/settings.html#modules) first; it is off to begin with.
+
+- **TCS**, tax you collect: tick it and pick the section: CGST section 52 (1%, e-commerce operators), 206C(1), or a custom rate. TCS is added to the invoice total. Section 206C(1H), TCS on sale of goods, was removed from 1 April 2025, so new invoices cannot choose it; invoices already made with it keep it.
+- **TDS**, tax your client deducts: tick it and pick the section, such as 194Q, 194C, 194J, 194I, 194H, 194O or 195. It is for information: the invoice shows **Less: TDS** and the **Net Receivable**, and the total does not change.
+
+Both are worked out on the amount including GST.
+
+- **194Q** (and 206C(1H) on invoices before April 2025) only applies above ₹50 lakh a year with that client. The app adds up what you have already billed the client this financial year, and charges only the part above ₹50 lakh.
+- **Every other section**, such as 194C, 194J or CGST section 52, applies from the first rupee. Tick it only when the rules say it applies to this client.
+
+Invoices with TDS or TCS are summed in [the TDS / TCS report](/docs/gst-returns.html#tds-tcs). Have your CA confirm which sections apply to you.
+
+## Billing in another currency
+
+Under Customize, **Currency** offers 20 currencies, each with its own symbol and amount in words. For anything other than rupees you can enter the **exchange rate** for the day. It is kept with the invoice, so later reports stay right even when rates change, and it prints as an EXCHANGE RATE line.
+
+The UPI QR code only prints on rupee invoices.
+
+## Terms, notes and a private note
+
+- **Terms & Conditions**: a text box with **B**, I, U, bulleted and numbered lists, headings, links and ✕ to clear formatting.
+- **Insert preset** fills in starter wording for your kind of business: generic trader, freelancer, manufacturer or wholesaler, retail shop, restaurant, IT services, construction, medical, education and coaching, transport, real estate and rental, e-commerce seller, or export under LUT. If you already have terms, you are asked once before they are replaced.
+- **Load saved template** uses one of [your saved templates](/docs/settings.html#terms). On a new invoice, your first template is loaded automatically.
+- **PDF layout**: **Compact** prints the terms and notes small, to save paper; **Formatted** prints them as readable paragraphs.
+- **Notes / Remarks** print on the invoice, for the client.
+- **Private Note** is only for you, such as "follow up on the 20th". It never prints. On the Dashboard, a yellow note icon next to the client shows it.
+
+## Extra pages
+
+Under **Additional Pages / Sections**, + Add Section adds a titled section, such as a scope of work or delivery timeline. Each one prints as its own page after the invoice. You can paste formatted text, lists and tables from Word or Google Docs, and use the arrows to change the order.
+
+## The live preview
+
+The preview shows the invoice exactly as it will print, with the paper size, style and options you chose. − and + zoom out and in from 50% to 200%, and Fit fits it to the space. A saved invoice that has been cancelled shows CANCELLED across it.
+
+## What must be filled in
+
+A new invoice needs a **client name** and **at least one item** with a description, quantity and rate. Otherwise Save, Save & Download and Print tell you what is missing.
+
+## Save & Download
+
+Save & Download does all of this in one go:
+
+- Saves the invoice, giving a new invoice its number, and counts it as printed once more.
+- Downloads the PDF, showing that saved number, named after the type and number, such as INV_INV-2026-27-0001.pdf.
+- Keeps a copy of the PDF in the app's Saved Invoices folder, in a folder for that client.
+- Uploads it to Google Drive, if you have connected Drive in [Settings](/docs/settings.html#google-drive).
+- Prints it, if auto-print is on in [Print Settings](/docs/print-settings.html#auto-print) or for this client.
+
+Saving takes the items out of stock, for rows picked from your products; saving again after changing a quantity moves only the difference, and a quotation or proforma moves none (see [How stock is counted](/docs/products.html#stock)). If stock runs low or out, you are told.
+
+If you change an invoice you have already downloaded or printed, a plain Save also updates its PDF in the Saved Invoices folder, without downloading it again.
+
+Long invoices are split between rows, never through a row, and the signature and stamp are never cut across a page break: if they would be, the whole footer moves to the next page.
+
+## Printing
+
+- **On A4, A5 and other sheet sizes**, Print opens your browser's print window.
+- **On a thermal paper size**, it first shows a **Print preview** of the receipt, with Print, Download PDF and Cancel. See [Thermal receipt printing](/docs/thermal-printing.html).
+
+Printing saves the invoice first, like Save & Download, so what you hand the client is always in your records with the same number.
+
+## Sending on WhatsApp
+
+WhatsApp opens WhatsApp with the invoice number, date, client, subtotal and total typed in, and your business name. If the client is saved with a phone number, the chat opens with them; otherwise you choose the contact.
+
+From the invoice screen the PDF is not attached. Download it with Save & Download and drag it into the chat. The WhatsApp button on the [Dashboard](/docs/dashboard.html#row-actions) can attach the PDF on phones.
+
+## E-way bill
+
+For tax invoices and delivery challans, E-Way Bill downloads a file, such as EWB-INV-2026-27-0001.json, in the format the NIC e-way bill portal accepts. Upload it there instead of typing everything again. Your own GSTIN must be set in Settings first. An e-way bill is generally needed when goods worth more than ₹50,000 are moved.
+
+## Saving as you go
+
+- What you type is kept while the browser tab stays open. If you leave the screen by mistake and come back, the invoice is still there.
+- A **new** invoice is not stored in your records until you first click Save, Save & Download or Print. Until then the badge says **Not saved yet**.
+- After that, changes are saved automatically about two seconds after you stop typing.
+
+## Leaving with unsaved changes
+
+If you click Back with unsaved changes, you choose Keep editing, Discard & leave or Save & leave. Closing or reloading the browser tab asks too.
+
+## Keyboard shortcuts on this screen
+
+| Ctrl + S | Save |
+
+| Ctrl + P | Save and download the PDF (not print) |
+
+| Ctrl + Enter | Add an item row |
+
+| Ctrl + Shift + D | Duplicate the last row |
+
+| Enter in the last row | Add a row |
+
+| ↑ ↓ Enter | Pick from the client or product suggestions |
+
+| Esc | Close suggestions or a dialog |
+
+On a Mac, use ⌘ instead of Ctrl. More shortcuts: [Shortcuts, search and notifications](/docs/shortcuts.html).
+
+## How to make a credit note
+
+- **Start a new invoice**Choose **Credit Note** as the type.
+- **Point it at the original**In **Original Invoice Reference**, enter the number of the invoice it corrects.
+- **Enter what is being credited**Add the returned items, or the price difference, with the same GST rates as the original.
+- **Save**Its total is subtracted from your sales on the Dashboard, and it goes into GSTR-1 as a credit note.
+
+## Turning a quote into an invoice
+
+When a client accepts a Quotation or a Proforma / Estimate, click Convert to Tax Invoice on it in the Dashboard. A new tax invoice opens with the same client and items, and gets its own number when you save it. The same works for a delivery challan. Once saved, the original shows **Converted** and its Convert button goes away, so it cannot be turned into a second invoice by mistake.
+
+## Cancelling an invoice
+
+An invoice number, once issued, has to stay in your records, so a saved invoice is cancelled rather than deleted. Cancel it from the [Dashboard](/docs/dashboard.html#cancel): it keeps its number, prints with CANCELLED across it, drops out of your totals and GST returns, and its stock goes back.
+
+To correct an invoice already sent to a client, the GST way is a credit note rather than a cancellation.
+
+---
+
+# Customize: what prints and how
+
+URL: /docs/invoice-options.html
+
+The Customize panel on the invoice screen: title, currency, style, colour, every show-or-hide option, paper size and thermal settings, and exactly what each part of the printed invoice shows.
+
+## Your choices become the default
+
+Open the panel with Customize in the invoice toolbar. Whatever you change here is used for this invoice **and remembered for your next new invoice**, including the title, reverse charge, TDS and TCS. If a setting was only meant for one invoice, change it back afterwards.
+
+A saved invoice keeps the options it was saved with.
+
+These are per-invoice settings. The app-wide look, such as fonts, watermarks, copies and translated labels, is in [Print and PDF settings](/docs/print-settings.html).
+
+## Title, currency and exchange rate
+
+| Invoice Title | Replaces the printed title, such as TAX INVOICE. Leave it blank to use the type's own title. Thermal receipts ignore it. |
+
+| Currency | Rupees to start. See [Billing in another currency](/docs/invoices.html#currency). |
+
+| Exchange Rate | Only for currencies other than rupees. Kept with the invoice. |
+
+## Make this a recurring invoice
+
+Tick **🔁 Make this a recurring invoice** to have the app create this invoice again on a schedule, with the same client, items and amounts, a new number and that day's date.
+
+| Frequency | Weekly, Monthly (the default), Quarterly or Yearly |
+
+| Every N | 1 to 12. Monthly with 3 means every three months. |
+
+| Next invoice date | One month after this invoice, to start |
+
+| End condition | **Never (until I stop it)**, **On a specific date**, or **After N invoices**, for example 12 for a one-year monthly contract |
+
+The schedule is saved when you save the invoice, and can be paused or changed from [Recurring](/docs/recurring.html).
+
+## TCS, TDS and the payment account
+
+- **TCS** and **TDS**: see [TDS and TCS](/docs/invoices.html#tds-tcs).
+- **Payment account on this invoice**: if you have more than one bank account, choose which one prints. New invoices start with your ⭐ default account. The bank details and UPI QR are copied onto the invoice when you save it, so changing the account in Settings later never changes an invoice you have already sent.
+
+## PDF style and accent colour
+
+| Style | Look |
+
+| Classic | Clean, with a coloured bar across the top. The default. |
+
+| Modern | A solid colour block behind your business name, with the logo in white. |
+
+| Minimal | Simple, with no borders. |
+
+| Boxed grid | Every section in ruled boxes: your name large at the top, seller and document details side by side, Billing To and Shipping To, a Work Details line, and an item table filled with empty rows to a fixed height, like a printed quotation pad. |
+
+| Tally style | The Tally layout: reference and dispatch boxes beside your details, state names with their codes, taxes inside the item table, amount in words with E. & O.E, an HSN/SAC tax summary, tax amount in words, your PAN, a declaration, and a "Customer's Seal and Signature" box. |
+
+Tally style (left) and Boxed grid (right), with a made-up business.
+
+**Accent Color**: **Auto** gives each type its own colour, such as blue for tax invoices, purple for proformas, teal for bills of supply and red for credit notes. You can also choose one of eight fixed colours: blue, purple, teal, red, orange, green, sky or dark.
+
+## Showing and hiding parts of the invoice
+
+Each tick box shows or hides one part of the printed invoice. Hiding something never deletes it.
+
+| Group | Options | Off to start |
+
+| Header & branding | Logo, business name, address, phone, email, state, Tax ID (GSTIN) | |
+
+| Client / Bill-to | Client address, phone, email, Place of Supply | |
+
+| Invoice meta | Invoice number, invoice date, due date | |
+
+| Items table | HSN/SAC column, Qty column, unit next to the quantity, Rate column, Discount column, Tax % column, GST Cess % column | GST Cess |
+
+| Totals | Subtotal row, amount in words, round-off line, HSN/SAC tax summary table, tax amount in words | The HSN summary and tax in words are on only in Tally style. Round-off follows [Print & PDF](/docs/print-settings.html#round-off) (on for new installs). |
+
+| Compliance flags | Reverse Charge applies | Reverse Charge |
+
+| Footer | Bank details, "Pay via" account label, UPI QR, signature block, "Authorized Signatory" caption, Terms & Conditions, Notes, system-generated note, Declaration, "Customer's Seal and Signature" box | "Pay via" label, system-generated note. Declaration and the seal box are on only in Tally style. |
+
+A few options do more than show or hide:
+
+- **Tax % column** off means no GST is charged at all, and the tax rows disappear from the totals. Bill of Supply and Delivery Challan turn it off for you.
+- **Round-off line** rounds the grand total to the nearest rupee, and shows the difference. The default for new invoices is set in [Print & PDF](/docs/print-settings.html#round-off).
+- **Business state** also hides the client's state, and **Tax ID** also hides the client's GSTIN.
+- **Bank details** also hides your PAN, which prints in the bank block.
+- **GST Cess % column** adds a Cess box to each row of the form. The printed invoice shows cess as one line in the totals.
+- Hiding HSN, Discount, Place of Supply, state or Tax ID also hides the matching box in the form.
+
+When **Declaration** is on, a box appears to change its wording. It starts as the standard "We declare that this invoice shows the actual price of the goods described and that all particulars are true and correct."
+
+Hide all turns off everything in the header, client, invoice, items, totals and footer groups at once. Reset to default puts every option back as it was on a fresh install, including currency, paper size, recurring, TDS, TCS and reverse charge.
+
+## The "system-generated invoice" note
+
+In the Footer group, **Note: system-generated invoice** adds this line below the terms:
+
+**Note:** This is a system-generated invoice. No signature or stamp is required.
+
+It is off unless you turn it on. If you use it, consider turning the signature block off too, so the invoice does not contradict itself.
+
+## Paper size
+
+| Option | Size |
+
+| A4 Portrait (default) | 210 × 297 mm |
+
+| A4 Landscape | 297 × 210 mm |
+
+| A5 Portrait (compact) | 148 × 210 mm |
+
+| A5 Landscape (2 per A4 sheet) | 210 × 148 mm |
+
+| US Letter | 216 × 279 mm |
+
+| US Legal | 216 × 356 mm |
+
+| B5 | 176 × 250 mm |
+
+| 80mm Thermal (POS receipt) | 72 mm printable |
+
+| 76mm Thermal (kitchen printer) | 68 mm printable |
+
+| 58mm Thermal (compact / mobile) | 48 mm printable |
+
+| 112mm Thermal (wide receipt) | 104 mm printable |
+
+| Custom size | Width 30 to 500 mm, height 50 to 1200 mm |
+
+For a custom size, enter the printer's printable width, not the roll width. Anything under 100 mm wide prints as a receipt. The quick buttons 40mm, 76mm, 90mm and 110mm fill in common rolls.
+
+A client can have their own preferred paper size, which is used when you pick them on a new invoice.
+
+## Thermal printer settings
+
+When a thermal size is chosen, three more settings appear:
+
+| Font size | Small, Medium (the default) or Large |
+
+| Compact mode | Tighter item rows. Off to start. |
+
+| Cut mark at bottom | Prints a CUT HERE line, for printers without an automatic cutter. On to start. |
+
+More receipt settings are in [Print Settings](/docs/print-settings.html#thermal). See also [Thermal receipt printing](/docs/thermal-printing.html).
+
+## What prints: the header
+
+- **Your side**: logo, business name, address with city and PIN, state, GSTIN, email and phone. Each can be hidden.
+- **The invoice's side**: the title; for a proforma, "This is not a tax invoice"; for a credit note, "Against Invoice" and the original number; then the number, date and due date; and, for tax invoices and credit notes in India, **Reverse Charge** Yes or No.
+
+With a letterhead set in Print Settings, the header is replaced by your letterhead.
+
+## What prints: Bill To, Ship To and Place of Supply
+
+- **BILL TO**: the client's name, address, state, GSTIN, email and phone.
+- **SHIP TO**: only when a different delivery address is entered.
+- **PLACE OF SUPPLY**: the state, with **Interstate (IGST)** or **Intrastate (CGST + SGST)** beside it.
+
+## What prints: the items table
+
+Columns, left to right: **#**, **Description** (with its longer note underneath), **HSN/SAC**, **Qty** with the unit, **Rate**, **Disc.** (only when a line has a discount), the tax columns, and **Amount**.
+
+- Within your state: **CGST** and **SGST**, each with its rate and amount.
+- Another state: one **IGST** column.
+- Outside India: one column with the local tax name, such as VAT.
+
+**Amount** is the line's value after discount and before tax. The tax is in the columns beside it.
+
+## What prints: the totals
+
+On the left, the **amount in words** and a **Scan to pay (UPI)** QR code with your UPI ID and the amount. The QR only prints on rupee invoices, with a UPI ID set and a total above zero.
+
+On the right, in order: Subtotal, Discount, CGST and SGST or IGST, GST Cess, TCS, Discount on total, Round-off, and **Total Due**. For a credit note, the last line reads **Credit Amount**. With TDS, **Less: TDS** and **Net Receivable** follow.
+
+## What prints: notices and footer
+
+- **Reverse charge notice**, when turned on.
+- **Composition declaration**, always on composition bills: "Composition taxable person, not eligible to collect tax on supplies."
+- **BANK DETAILS**: "Pay via" label if on, account name, bank, account number and type, IFSC, SWIFT, and your PAN.
+- **EXCHANGE RATE**, on foreign-currency invoices.
+- **TERMS & CONDITIONS** and **NOTES**, compact or formatted.
+- **Signature block**: your signature and stamp side by side, "Authorized Signatory", and your business name. It only prints when a signature or stamp has been uploaded.
+
+Export and SEZ invoices print no LUT declaration by themselves. Use the **Export / International (LUT)** terms preset, or write your own.
+
+## Watermarks
+
+- **CANCELLED**, in red, on a cancelled invoice.
+- **ESTIMATE**, very faint, on a proforma.
+- Your own watermark, copy labels such as ORIGINAL and DUPLICATE, REPRINT, page numbers and QR codes come from [Print Settings](/docs/print-settings.html), and only on sheet paper, not receipts.
+
+---
+
+# Thermal receipt printing
+
+URL: /docs/thermal-printing.html
+
+Printing bills on a 58 mm or 80 mm receipt printer at a shop counter, from setting it up to what the receipt shows.
+
+## Setting it up
+
+- **Install the printer in Windows**Use the driver that came with it, set the paper size in the driver to your roll width, and make it your default printer, or pick it in the print window each time.
+- **Choose the receipt size**On an invoice, open Customize and set **Paper / print size** to **80mm Thermal** or **58mm Thermal**. The app remembers it for your next invoice.
+- **Try a test print**In [Print Settings](/docs/print-settings.html#how-it-saves), pick the **Thermal (80mm)** preview tab and click Test Print.
+- **Print a real bill**Save the invoice, then click Print. A preview of the receipt opens; click Print again.
+
+Picking the **Retail Shop** or **Restaurant** business type in [Print Settings](/docs/print-settings.html#business-type) sets sensible receipt defaults in one go.
+
+## The print preview
+
+On a receipt size, Print shows the receipt at 160% so you can read it. Its buttons:
+
+| Print | Sends it to the printer. Shows "Sending…" while it works. |
+
+| Download PDF | Saves and downloads a PDF instead, the same as Save & Download. |
+
+| Cancel | Closes it. So does Esc . |
+
+## Printing straight after saving
+
+At a busy counter, turn on [Auto-print on save](/docs/print-settings.html#auto-print): Save & Download then prints the receipt as well, with no extra click. It can also be turned on for just one client, in their details.
+
+## What a receipt shows
+
+- Your logo (if turned on in Print Settings), business name in capitals, tagline, address, GSTIN and phone.
+- The document type, such as TAX INVOICE, then the invoice number, reverse charge, date, and the client's name, GSTIN and phone.
+- Each item: its name, then quantity × rate, GST rate and HSN, with the amount on the right. The amount is quantity × rate, before discount and tax.
+- Subtotal, discount, CGST, SGST or IGST, cess, round-off and **TOTAL**.
+- Amount in words, bank details, a UPI QR code with "Scan to pay via UPI", and notes.
+- Your footer message, such as "Thank you for your business!", your email, the cut line and blank lines to tear against.
+
+## What a receipt leaves out
+
+To fit a narrow roll, receipts do not print: terms and conditions, the signature and stamp, extra pages, the due date, place of supply, client address, TCS, TDS, whole-bill discount lines, the exchange rate, watermarks, the reverse charge and composition notices, or the PDF style and colour. The custom invoice title is not used either.
+
+If you need any of these, print that invoice on A4 or A5 instead.
+
+## Changing how receipts look
+
+Font, boldness, capitals, spacing, darkness, what is shown, the QR size, the footer message, the cut mark and feed lines are all in [Print Settings, Thermal receipts](/docs/print-settings.html#thermal).
+
+## When a receipt prints badly
+
+| Problem | Try |
+
+| Text is cut off on the right | Use a smaller printable width: most 80 mm printers print 72 mm, and most 58 mm printers print 48 mm. Use **Custom size** if yours differs. |
+
+| Print is faint | Set **Font weight** to Bold or Ultra bold, and **Thermal ink darkness** to Dark. |
+
+| The printer jams or stops half-way | Turn on [Buffer-safe mode](/docs/print-settings.html#thermal-compatibility). |
+
+| Blurry text, or nothing prints | Set **Thermal print method** to **Via PDF**. |
+
+| Paper does not feed far enough to tear | Increase **Feed lines after cut**. |
+
+---
+
+# Dashboard
+
+URL: /docs/dashboard.html
+
+Your invoices at a glance: what you have sold, what you are owed, what is overdue, and every action you can take on an invoice.
+
+## At the top
+
+The count beside the title is every document for the business selected in the sidebar, including estimates, challans and cancelled invoices. New Invoice starts a blank invoice, and CSV import / export brings in or saves many invoices at once (see below). When a [PIN](/docs/settings.html#lock) is set, Lock locks the app straight away.
+
+## The Getting started list
+
+New installs show four steps. Each ticks itself off once you have really done it, and has a button that takes you there:
+
+| Step | Done when | Button |
+
+| Add your business details | A business name is saved | Open Settings |
+
+| Make your first invoice | Any invoice exists | Start |
+
+| Add your products or services | At least one product is saved | Open |
+
+| Add bank details or UPI | A bank account or UPI ID is saved | Open Settings |
+
+It disappears when all four are done, or when you close it with ✕. **Read the 5-minute guide** opens this documentation in your browser.
+
+## The support card
+
+Once you have made 10 invoices, a small card at the top asks, once a day, whether you would like to support the app, with how much users have given so far. Support with UPI opens [Support & About](/docs/shortcuts.html#support). Not today hides it until tomorrow and Hide for 30 days for a month. It never blocks your work and is never printed on an invoice.
+
+## Overdue invoices and reminders
+
+When any invoice is overdue, a red banner shows how many and how much is outstanding. Click the banner to show only overdue invoices.
+
+Remind All lists each overdue invoice with the client, amount and phone number. Remind opens WhatsApp with a polite reminder already written, such as "Invoice INV/0012 for ₹11,800 was due on 5 Sep 2026. Kindly arrange the payment…".
+
+## The four totals
+
+| **Total Invoiced** | The total of your sales, including GST |
+
+| **Tax Collected** | The GST on those sales |
+
+| **Outstanding** | What clients still owe on unpaid and part-paid invoices |
+
+| **Invoices** | How many sales documents there are |
+
+They cover only the selected business and only real sales. Tax invoices, bills of supply and composition bills count. Credit notes are subtracted. Proforma estimates, delivery challans and cancelled invoices are left out. Foreign-currency sales are shown on their own line, never added to rupees.
+
+## Low stock
+
+If alerts are on in [Settings](/docs/settings.html#stock), products at or below your threshold scroll past under **Low stock**, like a news ticker, with **Out of Stock** in red or the number left in amber. Point at it to stop it; click one to open Products.
+
+## Finding an invoice
+
+| Search | By client name or invoice number |
+
+| Financial year | All years, or one of the last five |
+
+| Type | Any of the six document types |
+
+| Status | Unpaid, Partial, Paid, Overdue or Cancelled |
+
+| From / To | A range of invoice dates |
+
+✕ clears all filters at once.
+
+## Choosing the columns
+
+Columns lets you show or hide: Date, Invoice #, Type, Client, Amount, Currency, Status, Due date, Print count and Actions. Currency, due date and print count are hidden to start. The **Paid** column is always shown. Your choice is remembered.
+
+A yellow note icon next to a client means the invoice has a private note. Point at it to read it.
+
+## Status
+
+Each invoice is **Unpaid**, **Partial**, **Paid**, **Overdue** or **Cancelled**. Recording payments sets it for you. Each time the Dashboard opens, unpaid and part-paid invoices past their due date become Overdue, and the row shows how many days late they are.
+
+You can also change it from the dropdown on the row. Choosing **Paid** records a payment for the rest of the balance, so your payment history stays complete.
+
+Choosing **Unpaid** on a paid invoice takes back the payment that marking it Paid recorded, so the Paid column clears and Send reminder comes back. Payments you recorded yourself stay; delete them under Payment History if they were wrong.
+
+Only sales get paid, so only Tax Invoices, Bills of Supply and Composition bills have this dropdown. Quotations, proformas and delivery challans show **Open**, or **Converted** once turned into an invoice; credit notes show **Issued**. A cancelled one shows **Cancelled**; Undo cancel is with its actions.
+
+## Recording a payment
+
+- **Open it**Click the ₹ Payment button on the invoice. The top line shows the total, what is paid, and the balance.
+- **Fill it in**Enter **Amount Received**, the **Payment Date** (today to start), the **Payment Mode** (Bank Transfer, UPI, Cash, Cheque, Card or Other), and a note such as the transaction ID.
+- **Record it**Click Record Payment. The status becomes Partial or Paid, and a printable receipt opens.
+
+A cancelled invoice cannot take a payment; change its status back first.
+
+If the amount is more than the balance, you are asked whether to record it as an overpayment. The extra is kept as the client's credit, to use on [their next invoice](/docs/invoices.html#client-credit).
+
+Under **Payment History**, each payment has Receipt to reprint it, a pencil to edit it, and a bin to delete it. The status is worked out again after any change.
+
+## The payment receipt
+
+It shows your business details, **PAYMENT RECEIPT**, the receipt number, date, invoice, payment mode and note, "Received with thanks from" the client, the amount (in words for rupees), the invoice total, total paid and balance, and signature lines. Print Receipt prints it on A5.
+
+## What you can do with an invoice
+
+The row shows the actions you use most. The rest are in the ⋯ menu at the end of the row; it closes with Esc or a click elsewhere.
+
+| 👁 View | Shows the invoice exactly as it prints, without opening the editor. Print prints it, Esc closes it. The slider at the bottom zooms the preview from 30% to 250% ( − and + step 10%); click the percentage to go back to the normal size. Zoom only changes the preview; the print is always full size. |
+
+| Edit | Opens it on the invoice screen. |
+
+| Duplicate | A new invoice with the same client and items, a new number and today's date. It starts Unpaid, with no payments. |
+
+| Print | Prints the invoice straight away, without opening it, then returns to the Dashboard. |
+
+| Convert to Tax Invoice | Quotations, proformas and delivery challans only, until they have been converted. See [Turning a quote into an invoice](/docs/invoices.html#proforma-to-invoice). |
+
+| ₹ Payment | Record a payment, as above. |
+
+| WhatsApp | On a phone, attaches the PDF through your phone's share menu. On a computer, WhatsApp does not let websites attach files, so the chat with the client opens (using the phone number saved for them) with the invoice details, and the PDF is downloaded for you to drag into the chat. |
+
+| Send reminder | Shown for unpaid, part-paid and overdue invoices. Opens WhatsApp with a reminder suited to the situation. |
+
+| Email | Opens your email program with the subject and a short message. Add the address and attach the PDF yourself. |
+
+| Cancel | See Cancelling an invoice . |
+
+A cancelled invoice keeps only View, Duplicate and Undo cancel. A quotation, proforma or challan already converted keeps only View and Duplicate, so it cannot be changed or converted twice. Opened, either one is read-only: you can download or print it, not change it. Payments they already have stay viewable from the ₹ button.
+
+## Cancelling an invoice
+
+Cancel asks first, then marks the invoice cancelled. It keeps its number, which GST requires, but no longer counts in totals, reports or GST returns, and any stock it used goes back. If you saved or printed its PDF, the copy in the Saved Invoices folder gets **CANCELLED** across every page.
+
+To undo it, click the Undo cancel arrow among the row's actions and answer **Yes, undo**. It goes back to Unpaid, Partial or Paid, from its payments, the stock is taken out again, and its saved PDF is put back exactly as it was. A cancelled invoice is never shown as overdue.
+
+## Importing and exporting invoices as CSV
+
+For moving invoices in from Excel, Tally or another program, or out to your CA.
+
+- **Open it**Click CSV import / export at the top of the Dashboard.
+- **Start from the template**Template downloads a CSV with the right columns and an example. Fill it in with Excel or Google Sheets and save it as CSV. Export all as CSV gives what you already have, in the same columns.
+- **Choose the file**Choose CSV file shows what will happen **before** anything is saved: how many are ready, which already exist and are skipped, and every row with a problem (a bad date, a missing rate). Rows with problems are not imported; fix the file and choose it again.
+- **Import**Click Import. A message says how many were imported and skipped.
+
+One row per item. Rows with the same invoice number make one invoice; give the client, date and other invoice details on the first row (later rows may leave them blank). Column names are matched loosely, so **Qty** or **Quantity**, **GSTIN** or **Client GSTIN** both work. Dates can be 2026-10-01, 01-10-2026 or 01/10/2026 (day first).
+
+| Column | What to put |
+
+| Invoice Number, Invoice Date | Required. |
+
+| Invoice Type | Tax Invoice (if blank), Bill of Supply, Composition, Quotation, Proforma, Delivery Challan or Credit Note. |
+
+| Due Date | Optional. |
+
+| Client Name, Client GSTIN, Client State, Client Address, Client Country | The name is required. A client already in Clients fills in the rest. The state can be a name, a 2-digit code, or left to the GSTIN. |
+
+| Place of Supply | Only if it differs from the client's state. |
+
+| Item Name, HSN/SAC, Quantity, Unit, Rate | Rate is required. A product of the same name fills in a missing HSN or unit. |
+
+| Discount | Rupees off that line. |
+
+| GST %, Cess % | Such as 18 and 0. |
+
+| Prices Include Tax | Yes if the rates already include GST. |
+
+| Notes | Printed on the invoice. |
+
+| Bill Discount, Round Off | For the whole invoice: rupees off after tax, and Yes to round the total to the rupee. |
+
+GST, CGST + SGST or IGST and the totals are worked out exactly as on the invoice screen. An invoice number that already exists is **skipped, never overwritten**. Two different invoices with the same number (for example, numbering that restarts each year) are refused: give one of them its own number.
+
+Two choices before importing: **Add new clients to Clients**, and **Take sold quantities out of product stock**. Leave stock off when importing old invoices whose stock you have already counted.
+
+## Printing many invoices as one PDF
+
+The **Quick print** buttons combine invoices from the list as it is currently filtered into one PDF, one invoice per page:
+
+- All shown: every invoice in the list
+- Unpaid: only those marked Unpaid, not part-paid or overdue
+- Overdue and Paid
+
+For more than five invoices, a message shows how far it has got. For more than 100, you are asked first.
+
+## Ticking several invoices
+
+Tick the box on each row, or the box in the header for every visible row. A bar appears with:
+
+| Mark paid , Mark unpaid , Mark overdue | Change them all, after asking. Mark paid records a payment for each balance. |
+
+| Export JSON | Saves the ticked invoices to a file, which can be imported as a backup. |
+
+| Bulk PDF | Combines the ticked invoices into one PDF, useful for your CA or for filing. Cancel stops it part-way and keeps what is done. |
+
+| Cancel invoices | Cancels the ticked invoices, after asking, and puts their stock back. Marking cancelled invoices as anything else brings them back and takes the stock out again. |
+
+Ticks stay when you change the filters, so check the count before acting.
+
+---
+
+# Clients
+
+URL: /docs/clients.html
+
+Everyone you bill, what each one owes, their account statement, and how quickly they pay.
+
+## The client list
+
+Every client you have saved, and every name you have invoiced, appears as a card, with the ones who owe the most at the top. **Search clients…** finds them by name.
+
+Each card shows the number of invoices, the state and GSTIN, and three figures: **Total**, **Paid**, and **Outstanding** in red, or **Overpaid** in blue if they have paid too much. Only real sales count: credit notes are subtracted, and quotations, estimates, challans and cancelled invoices are left out. Click a card to open it.
+
+Your client list is shared by all your businesses, since the same customer may buy from each.
+
+## Adding and editing a client
+
+Add Client opens the form. The same form opens from the invoice screen.
+
+| Field | What to know |
+
+| Client / Business Name | Required |
+
+| Address, City, PIN Code | The postal label changes with the country |
+
+| Country | Starts as your own country. Changing it clears the state. |
+
+| State | A list for India, a text box for countries without one |
+
+| GSTIN | Checked when you leave the box, as on the invoice: the state is filled in if blank, and typos and a mismatched state are pointed out. See [What the GSTIN check tells you](/docs/invoices.html#gstin-check). |
+
+| Email, Phone | The phone number is used for WhatsApp |
+
+| SEZ unit / Developer | India only. Charges IGST whatever their state, under section 16 of the IGST Act. |
+
+Under **Print preferences (optional)**, a client can have a **preferred paper size**, a **preferred currency** and **Auto-print on save**. They are applied whenever you pick this client on a new invoice.
+
+## A client's account
+
+Open a card to see all their invoices, newest first, with date, number, type, amount and status. Each row has buttons to edit, duplicate, share on WhatsApp, email or delete it. The status can be changed from the row too; choosing Paid records a payment for the balance, as on the Dashboard.
+
+At the bottom: Edit Client and Delete Client, or, for a name that was never saved, Save as Client. Deleting a client only removes them from your saved list; their invoices stay.
+
+Deleting an invoice here moves it to the Trash for 30 days. It can be restored from [Settings, Trash bin](/docs/backup.html#trash). For an invoice already given to a client, [cancel it](/docs/dashboard.html#cancel) instead, so its number stays in your records.
+
+## Ageing: who is slow to pay
+
+When a client owes money, a strip shows it split by how late it is: **Current** (up to 30 days), **31-60 days**, **61-90 days** and **90+ days**. Lateness is counted from the due date, or from the invoice date when there is none.
+
+## Statement and ageing PDFs
+
+- **Statement PDF**: their whole account, from your business to theirs. It has a summary of invoices, total billed, paid and outstanding, then every invoice, credit note and payment with a running balance marked Dr (they owe you) or Cr (you owe them), and a closing balance. Send it when a bill is disputed.
+- **Aging PDF**: only what is outstanding, invoice by invoice, with how many days old each is, and totals for each group. Amounts over 60 days are in red. Useful for collection calls.
+
+## Importing clients from a spreadsheet
+
+Import CSV adds clients from a CSV file, one per row. Save your spreadsheet as CSV first. The first row must name the columns:
+
+| Column heading | Holds |
+
+| name (or client , client name ) | Required. Rows without a name are skipped. |
+
+| address , state , gstin , email , phone | Optional |
+
+```
+name,address,state,gstin,email,phone
+Sharma Traders,12 MG Road,Punjab,03AAAAA0000A1Z5,accounts@sharma.example,9876543210
+```
+
+Clients you already have (same name) are skipped, so importing the same file twice is safe. Other columns, such as city or PIN, are ignored.
+
+---
+
+# Products and stock
+
+URL: /docs/products.html
+
+Save what you sell once, then pick it on every invoice. Stock goes down as you sell and up as you buy.
+
+## The product list
+
+Products in the sidebar opens your catalogue. The table shows name, HSN/SAC, rate, GST %, unit and stock. Point at a name to see its description. Search by name or HSN.
+
+## Adding a product or service
+
+| Field | What to know |
+
+| Product / Service Name | Required |
+
+| HSN / SAC Code | HSN for goods, SAC for services |
+
+| Purchase Price | What you pay the supplier. Filled in on new purchase bills. |
+
+| Selling Price | What you charge. Filled in on new invoices, and shown as the rate in the list. |
+
+| GST % | Type the rate, such as 18 |
+
+| Unit | Pcs to start, or any unit from the list, including your own [custom units](/docs/invoices.html#items) |
+
+| Stock Quantity | How many you have now |
+
+| Description | For your own reference |
+
+Deleting a product does not change invoices that used it.
+
+## Changing many products at once
+
+Bulk edit turns the list into a grid you can type in: name, HSN/SAC, purchase price, selling price, GST %, unit and stock. Changed rows are highlighted. Save changes saves them all in one go; Cancel drops them. Search first to edit only some products.
+
+A product needs a name, and GST % must be 0 to 100; if a row breaks a rule, nothing is saved and you are told which product to fix.
+
+Print / PDF, Excel and CSV above the list save the products shown, with prices, GST and stock.
+
+## How stock is counted
+
+- **Selling**: saving a Tax Invoice, Bill of Supply, Composition bill or Delivery Challan takes the quantity out, for rows picked from your products. Change the quantity later and save, and only the difference moves.
+- **Returns**: a Credit Note puts the quantity back.
+- **Quotations and proformas** move no stock. The invoice you convert them into does.
+- **Buying**: saving a [purchase bill](/docs/purchases.html#stock) adds the quantity in, and adds any new item to your products.
+- **Cancelling** an invoice puts its stock back; un-cancelling takes it out again.
+
+**Out of Stock** shows in red at zero or below. Purchases and deletions never take stock below zero; selling more than you have does, so you notice.
+
+## Low-stock alerts
+
+A product at or below your threshold shows its stock in amber here, is listed on the Dashboard, and adds to the notification bell. The threshold is 5 to start; change it, or turn alerts off, in [Settings](/docs/settings.html#stock). It is one threshold for every product.
+
+## Importing products from a spreadsheet
+
+Import CSV loads a price list. The first row must name the columns:
+
+| Column heading | Holds |
+
+| name (or product , product name ) | Required |
+
+| hsn (or hsn code , sac ) | HSN or SAC code |
+
+| rate (or price ) | Selling price |
+
+| gst% (or tax% , taxpercent , tax ) | GST rate, such as 18. Note: no space before the %. |
+
+| unit | Nos if left out |
+
+| stock (or quantity ) | Opening stock |
+
+| description | Optional |
+
+```
+name,hsn,rate,gst%,unit,stock
+A4 Paper Ream,4802,280,12,Nos,50
+Website Maintenance,998314,5000,18,Month,0
+```
+
+Products you already have (same name) are skipped, so importing the same file twice is safe.
+
+---
+
+# Payment receipts
+
+URL: /docs/receipts.html
+
+Receipts for money you have received, whether against an invoice or not, ready to print.
+
+## The receipts list
+
+Receipts lists every receipt, newest first: date, receipt number, client, the invoice it was against, amount and mode. Search by client or receipt number. Each row can be printed, edited or deleted.
+
+Recording a payment on the [Dashboard](/docs/dashboard.html#payments) makes its own receipt, which you print from the payment history there.
+
+## Making a receipt
+
+- **Start it**Click New Receipt.
+- **Pick the invoice, if there is one****Quick Select, Unpaid Invoices** lists up to 50 unpaid sales invoices. Picking one fills in the client, the amount still owed and the invoice number.
+- **Fill in the rest**Date, **Received From** (required), **Amount** (required), **Payment Mode**, **Reference / Transaction No**, **Against Invoice** and a note.
+- **Save**Save Receipt gives it the next receipt number.
+
+When **Against Invoice** exactly matches one of your invoice numbers, the payment is also recorded on that invoice, and its status becomes Partial or Paid. If it does not match any invoice, the receipt is saved on its own and you are told so.
+
+## Receipt numbers
+
+Receipts have their own series, starting RCP, and follow your [invoice number format](/docs/settings.html#invoice-numbers): separator, financial year and digits. If you set a brand prefix, it is used for receipts too. The next number is given when you save, unless you typed your own, which is kept.
+
+## Printing
+
+The print button opens the receipt in a new window and your print dialog. It shows your business name, address and GSTIN, **PAYMENT RECEIPT**, the receipt number, date, who paid, how, the reference and invoice, the amount in figures and words, any note, and lines for **Received By** and **Authorized Signatory**. If nothing happens, allow pop-ups for the app in your browser.
+
+## Deleting a receipt
+
+Deleting a receipt removes only the receipt. A payment it recorded on an invoice stays there; delete that from the invoice's payment history on the Dashboard if it was a mistake.
+
+---
+
+# Recurring invoices
+
+URL: /docs/recurring.html
+
+Invoices that repeat on a schedule, such as a monthly retainer, rent or an annual maintenance contract.
+
+## Two ways to set one up
+
+- **From an invoice** (recommended): make the first invoice as usual, and under Customize tick [Make this a recurring invoice](/docs/invoice-options.html#recurring). This keeps everything on the invoice, including taxes, terms and options, and lets you set **Every N** and an end date or number of invoices.
+- **From the Recurring screen**: New Template with a client, frequency, next date, when to stop, type and simple item lines.
+
+## The New Template form
+
+| Quick Select Client | Fills in the client's name, GSTIN, state and address |
+
+| Client Name | Required |
+
+| Client GSTIN | Optional |
+
+| Frequency | Weekly, Monthly, Quarterly or Yearly |
+
+| Every | 1 to 12. Monthly with 3 means every three months. |
+
+| Next Due Date | The 1st of next month, to start |
+
+| Stop | **Never (until I stop it)**, **On a specific date**, or **After N invoices** |
+
+| Invoice Type | Any of the six types |
+
+| Line Items | Description, Qty, Rate and GST%. At least one item with a rate is needed. |
+
+## The template list
+
+Each template shows the client, how often (such as "Every 3 months"), type, amount, next due date and whether it is **Active** or **Paused**. Its buttons: ▶ Generate Now, Pause or Activate, Edit, and Delete. Editing keeps everything the form does not show, such as terms and options from the original invoice. Deleting a template stops future invoices; invoices already made stay.
+
+When templates are due, a banner lists them, with a button for each to create its invoice now.
+
+## How invoices are created automatically
+
+A few seconds after the app starts, and then once a day while it is running, every active template whose date has come creates its invoice, with a fresh number and that day's date. Its next date then moves on by the schedule, and it stops at its end condition.
+
+The notification bell tells you how many were created. They appear on the Dashboard, ready to check and send.
+
+If the app was closed for a while, one invoice is created each time it catches up, so a missed month is not skipped.
+
+## Generate Now
+
+▶ creates the invoice straight away, even if the template is paused or not yet due, exactly as the automatic run would: same tax, a fresh number, today's date. Its next date moves on by the schedule and it counts towards "After N invoices". Once a template has reached its end, it says so instead. Open the new invoice from the Dashboard to check it before sending.
+
+---
+
+# Purchase bills
+
+URL: /docs/purchases.html
+
+Record every supplier bill, so the GST you paid comes back as input tax credit and your stock stays right. Includes reading a bill from a photo.
+
+## The purchase list
+
+At the top, **Total Purchases**, **GST (ITC Eligible)** and **Entries** add up what is shown. Search by supplier, invoice number or GSTIN, and pick a financial year (one of the last five) or All years.
+
+The table shows date, supplier, GSTIN, invoice number, taxable value, tax, total, status and actions, with totals at the bottom. Each row has:
+
+- the eye, to view the bill without downloading anything;
+- the pencil, to edit it;
+- the bin, to delete it.
+
+The view has Download PDF.
+
+## Adding a purchase bill
+
+Add Purchase opens the form:
+
+| Field | What to know |
+
+| Date | Today to start |
+
+| Payment Status | Unpaid, Paid or Partial |
+
+| Supplier Name | Required. Suppliers you have used before are suggested; picking one fills in their GSTIN, address and whether they are in another state. |
+
+| Supplier GSTIN | 15 characters |
+
+| Supplier Address | Optional. Printed on the purchase bill PDF. |
+
+| Invoice Number | Required. The supplier's invoice number. |
+
+| Note | Optional |
+
+| Inter-state purchase | See Suppliers in another state |
+
+Each item row has **Name**, **HSN**, **Qty**, **Rate**, **Tax %** (0, 0.1, 0.25, 3, 5, 12, 18 or 28, or Other… for any rate) and **Cess %**. Typing a name suggests your products and items from earlier bills, and fills in the HSN, rate and tax you used before. Clicking Qty, Rate or Cess selects what is in it, so typing replaces it.
+
+A bill needs a supplier name, an invoice number, and at least one item with a quantity and rate.
+
+## Round-off
+
+If the supplier rounded their total to the rupee, tick **Apply round-off** so yours matches, for example ₹1,234.56 becomes ₹1,235. It is off to start, since most bills already match the line items.
+
+## Suppliers in another state
+
+If the supplier charged IGST because they are in a different state, the bill is **Inter-state purchase**, and the credit goes to IGST in GSTR-3B rather than CGST and SGST. The box ticks itself when you type the supplier's full GSTIN: its first two digits are their state code, compared with your business's. You can still change it for the rare exception.
+
+## Paying suppliers
+
+Change a bill's status straight from the coloured **Status** dropdown in the list: **Unpaid** in amber, **Paid** in green, **Partial** in purple.
+
+## What saving does to your products
+
+Each item on the bill is matched to your products by name:
+
+- **A product you already have**: its stock goes up by the quantity, and its purchase price is updated. When you edit a bill, only the difference is added, and a row you remove is taken back out.
+- **A new item**: it is added to your products, with the rate as both purchase and selling price, and the quantity as its stock. Check its selling price afterwards.
+- **Deleting a bill** takes its quantities back out of stock.
+
+## Reading a bill from a photo
+
+- **Open it**Click Import from image (OCR).
+- **Choose the picture**Click or drag a photo or scan of the bill: PNG, JPG or WebP, up to 8 MB. PDFs are not accepted; take a screenshot of the page instead.
+- **Read it**Click Extract fields. It takes a few seconds, with a percentage showing progress.
+- **Check everything**The supplier, GSTIN, invoice number, date and grand total are filled in, with the line items it could read: name, HSN, quantity, rate and GST rate. Items that match your saved products take your stored HSN and GST rate. Fix anything wrong, add or remove rows.
+- **Use it**Use these values opens the purchase form with it all filled in. Check it once more and save.
+
+Everything is read on your computer, in English, with no internet needed and nothing uploaded. Sharp, straight, well-lit photos read best. If no items are found but a total is, one line with the total is added, for you to split into the real items.
+
+The purchase form does not take the tax breakdown or grand total from the photo: it works them out from the items, so check they match the bill. Tick **Inter-state purchase** yourself if the bill shows IGST.
+
+## For your accountant
+
+Print / PDF, Excel and CSV above the list give the purchase register for the current search and year, oldest first, with a total row: date, supplier, GSTIN, invoice number, taxable amount, tax, cess, inter-state, round-off, total, status and note.
+
+## Importing purchase bills from CSV
+
+- **Open it**Click CSV import / export at the top of Purchases.
+- **Start from the template**Template downloads a CSV with the right columns and an example. Fill it in with Excel or Google Sheets and save it as CSV. Export all as CSV gives what you already have, in the same columns.
+- **Choose the file**Choose CSV file shows what will happen **before** anything is saved: how many are ready, which already exist and are skipped, and every row with a problem (a bad date, a missing rate). Rows with problems are not imported; fix the file and choose it again.
+- **Import**Click Import. A message says how many were imported and skipped.
+
+One row per item. Rows with the same supplier and invoice number make one bill. Columns: Invoice Number, Invoice Date, Supplier Name, Supplier GSTIN, Supplier Address, Item Name, HSN/SAC, Quantity, Rate, GST %, Cess %, Inter-state, Payment Status (Unpaid, Partial or Paid) and Note.
+
+A bill already entered (same supplier and number, matched by GSTIN or by name) is skipped. If **Inter-state** is blank, it is worked out from the supplier's GSTIN. Quantities are added to product stock, as when you type a bill in.
+
+## "Not assigned to a business"
+
+If you have more than one business, bills saved before you started keeping them separate show under all of them, with a banner. Assign to moves them all to the business now selected. Only do this if they belong to it. The same banner appears on Expenses, Recurring and Receipts.
+
+---
+
+# Expenses
+
+URL: /docs/expenses.html
+
+Costs that are not stock, such as rent, electricity, software or travel, for your profit and loss and for the GST credit on them.
+
+## The expense list
+
+**Total Expenses**, **GST Paid (ITC)** and **Entries** add up what is shown. Search by description, vendor or bill number, and filter by category and financial year. The table shows date, description, category, vendor, amount, GST and payment mode, with totals at the bottom.
+
+## Adding an expense
+
+| Field | What to know |
+
+| Date | Today to start |
+
+| Category | See the list below. Other to start. |
+
+| Description | Required, such as "AWS Hosting - March" |
+
+| Amount (incl. GST) | Required. The full amount you paid. |
+
+| GST % (for ITC) | The GST rate on the bill. The GST inside the amount is worked out and shown underneath. |
+
+| Vendor Name, Vendor GSTIN | Needed to claim the credit |
+
+| Invoice / Bill No | Optional |
+
+| Payment Mode | Bank Transfer, UPI, Cash, Cheque, Card or Other |
+
+| Inter-state expense | Tick when the vendor charged IGST, as with cloud and software firms billing from another state |
+
+| Note | Optional |
+
+## Categories
+
+Office Rent, Utilities, Internet & Phone, Software & Tools, Travel, Meals & Entertainment, Office Supplies, Salary & Wages, Professional Fees, Insurance, Marketing & Ads, Raw Materials, Shipping & Courier, Repairs & Maintenance, Bank Charges, GST Paid, Asset Purchase, Personal / Drawings, and Other.
+
+The [Income Tax](/docs/income-tax.html) screen leaves out **Personal / Drawings** and **Asset Purchase** when working out business income, since they are not business expenses for tax. The [profit and loss report](/docs/reports.html) includes every category.
+
+## How the GST credit is used
+
+The GST on each expense is added to your input tax credit in [GSTR-3B](/docs/gst-returns.html#gstr-3b): to IGST if the expense is inter-state, otherwise split between CGST and SGST. Only claim credit you are entitled to: food, personal spending and bills without the vendor's GSTIN usually do not qualify. Check against GSTR-2B.
+
+## For your accountant
+
+The expense statement: Print / PDF, Excel and CSV above the list save the rows shown, oldest first, with a total: date, description, category, amount, GST amount, GST %, vendor, vendor GSTIN, invoice number, payment mode, inter-state and note. Choose the year and a category, or search, first: for example, all Rent for the year.
+
+---
+
+# GST returns
+
+URL: /docs/gst-returns.html
+
+GSTR-1 and GSTR-3B built from the invoices, purchases and expenses you have already entered, checked against GSTR-2B, and ready to upload to the GST portal.
+
+**The app prepares, you file**
+The app works out the figures and makes the files. It does not log in to the GST portal. Filing is always done by you, or your CA, on gst.gov.in.
+
+## Choosing the period
+
+At the top, pick **Monthly**, **Quarterly (QRMP)** or **Full Year**:
+
+- **Monthly**: a month and year. This month to start.
+- **Quarterly**: Q1 (Apr-Jun), Q2 (Jul-Sep), Q3 (Oct-Dec) or Q4 (Jan-Mar), and a year. The year is the calendar year of those months, so the Jan-Mar 2027 quarter is Q4 with 2027.
+- **Full Year**: a financial year, such as FY 2026-27.
+
+Everything on the screen follows the period and the business selected in the sidebar.
+
+## What is included
+
+- **GSTR-1 and GSTR-3B** use tax invoices and credit notes only.
+- Proforma estimates, bills of supply, composition bills and delivery challans are left out. So are cancelled invoices.
+- The **Documents issued** table lists every kind of document you numbered, as the portal asks.
+- Input tax credit comes from your [purchase bills](/docs/purchases.html) and [expenses](/docs/expenses.html) with GST.
+
+## Filed status, portal link and warnings
+
+- **R1 Filed / R1 Pending** and **3B Filed / 3B Pending**: green when filed, red when not. Click to switch, if you marked one by mistake. The status is kept in this browser, for each business and period.
+- GST Portal opens gst.gov.in.
+- A **red box** lists problems to fix first, such as a client GSTIN in the wrong format, your own GSTIN missing, or export invoices that need adding on the portal by hand.
+- If the period has no invoices and no expenses, a banner reminds you to file a NIL return.
+- The strip shows **Invoices**, **Taxable** value, **Tax** and **Net Payable** for the period.
+
+## GSTR-1: your sales
+
+The GSTR-1 tab lays your sales out in the portal's tables:
+
+| Table | What is in it |
+
+| B2B Sales (4A) | Invoices to GST-registered clients, one row each: GSTIN, client, number, date, place of supply code, Inter or Intra, taxable value, CGST, SGST, IGST and total |
+
+| Credit/Debit Notes (9B) | Credit notes, to registered clients or marked Unregistered |
+
+| B2C Sales (7) | Sales to unregistered buyers, added up the way the portal's Table 7 takes them: one row for each supply type (intra-state or inter-state), place of supply (such as 10-Bihar) and tax rate. Inter-state B2C invoices above ₹1 lakh (₹2.5 lakh for invoices before 1 August 2024) are B2C Large (Table 5); they are listed under it, invoice by invoice. An inter-state sale whose place of supply is missing or is your own state is flagged in red: open the invoice and set the buyer's state. |
+
+| Document Summary (13) | Invoices, credit notes and delivery challans issued, one row for each number series, with the first and last number, the total and how many were cancelled. Quotations and proformas are not reported. |
+
+| HSN Summary (12) | Quantity, taxable value and tax for each HSN code. Items with no HSN show as N/A. |
+
+| Document Summary (13) | For each document type, the first and last number, how many were issued and how many of those were cancelled |
+
+| Summary Totals | B2B and B2C together, less credit notes |
+
+Exports to clients abroad are not in the GSTR-1 file. The red box lists them: add them in Table 6A on the portal with the shipping bill details.
+
+## GSTR-1 downloads
+
+| JSON Export | The file you upload to the portal: GSTR1_ GSTIN _ MMYYYY .json . See Checks before the file is made . |
+
+| B2B | GSTR1_B2B_Invoices.csv |
+
+| B2C | GSTR1_B2C_Small.csv , and GSTR1_B2C_Large.csv if there are any |
+
+| HSN | GSTR1_HSN_Summary.csv , with the unit code (UQC) for each unit |
+
+| CDNR | GSTR1_CDNR.csv for credit notes to registered clients, GSTR1_CDNUR.csv for unregistered |
+
+| Docs | GSTR1_Doc_Summary.csv |
+
+| Mark Filed | Marks GSTR-1 filed for this period |
+
+The CSV files are for checking and for your CA. The JSON is what the portal takes.
+
+## Checks before the file is made
+
+The portal rejects some mistakes outright, so the app checks for them first.
+
+**These stop the download until fixed:**
+
+- An invoice number longer than 16 characters, or with anything other than letters, digits, - or /.
+- An item with a GST rate the portal does not accept. The app accepts 0, 0.1, 0.25, 1, 1.5, 3, 5, 6, 7.5, 12, 18, 28 and 40%.
+
+**These download with a warning:**
+
+- Items with no HSN code. They are left out of the HSN table.
+- HSN codes shorter than 4 digits, or 6 if you ticked turnover above ₹5 crore in [Settings](/docs/settings.html#gstr-details).
+- Custom units, which are sent as OTH (others).
+
+Your turnover figures for the JSON are set in [Settings, GSTR filing details](/docs/settings.html#gstr-details). They are optional.
+
+## Uploading GSTR-1 to the portal
+
+- **Download the JSON**JSON Export on the GSTR-1 tab, for the right month.
+- **Open the return**Log in at gst.gov.in, go to **Returns Dashboard**, pick the period, and open GSTR-1.
+- **Upload it**Choose **Prepare Offline**, upload the JSON, and wait for it to be processed.
+- **Add what the file cannot hold**Exports, in Table 6A.
+- **Check and file**Compare the portal's summary with the app's totals, then file with DSC or EVC.
+- **Mark it filed**Back in the app, click Mark Filed.
+
+## GSTR-3B: tax to pay
+
+| Table | What it shows |
+
+| 3.1 Outward supplies | (a) taxable sales, (b) zero-rated exports with their IGST, (c) nil |
+
+| 3.2 Inter-state to unregistered | Your inter-state sales to unregistered buyers, by state |
+
+| 4 Eligible ITC | Credit from purchases and expenses, by IGST, CGST and SGST |
+
+| 6 Tax payment | Output tax, the credit used against it, and the **Net Tax Payable** for each tax, plus any credit carried forward |
+
+Credit is used in the order the law sets: IGST credit first (against IGST, then CGST, then SGST), then CGST credit (against CGST, then IGST) and SGST credit (against SGST, then IGST). CGST credit never pays SGST, nor SGST credit CGST. So credit you hold in CGST and SGST can pay a tax that is all IGST.
+
+The **Net GST Payable** box shows the amount to pay through the Electronic Cash Ledger, or "ITC covers your liability".
+
+3B CSV and 3B JSON download it. The portal now fills most of GSTR-3B from your GSTR-1, so use the app's figures to check what it shows before you pay and file.
+
+**Check the credit against GSTR-2B**
+The credit here is everything you entered. Only what appears in your GSTR-2B can usually be claimed. Use the next tab to check.
+
+## Checking your credit against GSTR-2B
+
+- **Download GSTR-2B**On the portal: **Returns**, **GSTR-2B**, **Download JSON**.
+- **Import it**On the **GSTR-2B Reconciliation** tab, click Import 2B JSON and choose the file.
+- **Read the results**Each entry is matched to your purchase bills by the supplier's GSTIN and invoice number.
+
+| **✓ Matched** | In both, and the amounts agree to within ₹1 |
+
+| **⚠ Amount mismatch** | In both, but the amounts differ |
+
+| **⚠ Books only** | In your purchases but not in GSTR-2B. The supplier may not have filed yet. |
+
+| **⚠ 2B only** | In GSTR-2B but not entered in the app |
+
+Click a count to show only those rows. Export reconciliation CSV saves the result. Chase suppliers before claiming credit that is not in GSTR-2B.
+
+The imported file is not kept: import it again after leaving the screen. Only B2B invoices in GSTR-2B are compared.
+
+## TDS and TCS report
+
+The **TDS / TCS Report** tab adds up the period's invoices that have [TDS or TCS](/docs/invoices.html#tds-tcs):
+
+- **TDS Receivable**: tax your clients should have deducted, which you claim against your own income tax. By quarter and section.
+- **TCS Collected**: tax you collected, which must be deposited and reported in Form 27EQ.
+
+Export TDS CSV and Export TCS CSV list every invoice with quarter, section, rate, client, GSTIN, PAN, taxable value and amount. They are for your CA to prepare Form 26Q and 27EQ from; they are not the forms themselves.
+
+## The Filing Guide tab
+
+Step-by-step portal instructions inside the app, with due dates, late fees and interest:
+
+- **Regular Filing**: GSTR-1 in 9 steps, then GSTR-3B in 7, with tips.
+- **NIL Return**: when a NIL return is due, and how to file it, including by SMS.
+- **Common Errors & Fixes**: portal errors and what to do, and the GST rules worth remembering.
+
+Tick each step's circle as you go. The ticks are not saved.
+
+## NIL returns
+
+If a period has no sales and no expenses, the app says so. A NIL return is still due, on time. The Filing Guide's **NIL Return** tab shows how, including by SMS to 14409.
+
+---
+
+# Reports
+
+URL: /docs/reports.html
+
+Profit and loss, who owes you and for how long, party outstanding by month, your best clients, your best-selling products, and closing stock with its value. Every report prints and downloads as Excel or CSV.
+
+## What the reports include
+
+The sales tabs cover the business selected in the sidebar and count only real sales, as the Dashboard does: tax invoices, bills of supply and composition bills count; credit notes are subtracted; proforma estimates, delivery challans and cancelled invoices are left out. Purchase bills are not part of these reports; they are in [Income Tax, ITR Summary](/docs/income-tax.html#itr-summary).
+
+## Printing and downloading a report
+
+Every report table has three buttons:
+
+| Print / PDF | Opens the table alone on its own page. Choose your printer, or **Save as PDF**. |
+
+| Excel | Downloads an .xlsx file. Amounts are numbers, so Excel can total and sort them. |
+
+| CSV | The same table as CSV, for any spreadsheet or your CA's software. |
+
+They export what the screen shows: the period, currency and filters you chose. The Expense statement and Purchase register have the same buttons on their own screens.
+
+## Profit & Loss
+
+Choose **Fiscal Year** or **Month / Year**. If you bill in more than one currency, a **Currency** choice appears, since different currencies are never added together.
+
+| **Revenue (ex. tax)** | Sales without GST |
+
+| **Expenses (ex. GST)** | Expenses without their GST |
+
+| **Net Profit** or **Net Loss** | The difference. Green for profit, red for loss. |
+
+| **Margin** | Profit as a percentage of revenue |
+
+The **Profit & Loss Statement** sets it out: total revenue, less GST collected; total expenses, less GST on expenses; and the result. The **Monthly Breakdown** shows revenue, expenses and profit or loss for each month with activity.
+
+The same period choice appears on the Client Analytics and Product Performance tabs. Losses show with a minus sign.
+
+## Outstanding & Aging
+
+Every unpaid or part-paid invoice, whatever its date, grouped by how late it is: **Current (0-30 days)**, **31-60**, **61-90** and **90+ days**, counted from the due date.
+
+The table lists client, invoice, date, due date, amount, paid, outstanding and days overdue, latest first, with the worst in red. **Filter by client name…** narrows the table and the totals together.
+
+## Party Outstanding
+
+The same money owed, laid out the way Tally does it: one row per party, one column per month, a **Total** for each party on the right and for each month at the bottom. Each unpaid amount sits in the month of its invoice.
+
+- Choose **Financial year (Apr-Mar)**, the default, or **Calendar year (Jan-Dec)**, and the year.
+- Bills from before that year that are still unpaid appear in an **Earlier** column, so nothing owed drops out of the total.
+- Print / PDF opens the table on its own page, landscape; choose your printer or Save as PDF. Excel and CSV download it.
+
+Only sales count; estimates, challans and cancelled invoices are left out. With invoices in more than one currency, pick the currency.
+
+## Client Analytics
+
+- **Top clients by revenue**: the ten who bought the most, with invoice counts.
+- **Highest outstanding**: the ten who owe the most, and what share of their billing is unpaid.
+- **All clients breakdown**: invoices, revenue, paid, outstanding and last invoice date for everyone.
+
+Revenue here includes GST.
+
+## Product Performance
+
+- **Top revenue producers**: the ten items that brought in the most.
+- **Most units sold**: the ten sold in the largest quantity.
+- **All products**: HSN, quantity sold, revenue, average rate, number of sales and when last sold.
+
+Revenue here is after line discounts and without tax. Credit notes are subtracted. Delivery charges are not a product and are left out.
+
+## Stock
+
+Closing stock of every product at the end of a month, and what it is worth. Choose the month; the current month shows today's stock.
+
+- **Closing qty** is worked back from today's stock, using the dates of your invoices and purchase bills.
+- **Rate** is the purchase price. A product with no purchase price is valued at its selling price, marked with *.
+- **Value** is quantity × rate, with the **Total stock value** at the bottom. Negative stock shows in red and is not added in.
+
+Stock you typed in by hand on the Products screen has no date, so it counts as if it changed today. Products are shared by all your businesses, so this report covers every business.
+
+---
+
+# Income tax helper
+
+URL: /docs/income-tax.html
+
+Estimate your income tax under the old and new regimes, presumptive taxation, advance tax, bank statement import, and an ITR-4 summary to file from.
+
+**An estimate for one year**
+The tax rules built in are for **FY 2025-26** (AY 2026-27). When today is in a later year, a banner says so, and invoices from the later year are not counted: enter that income yourself. Treat every figure as an estimate and have your CA confirm it before filing.
+
+## The five tabs
+
+| Regime Calculator | Old and new regimes side by side, and which costs less |
+
+| Presumptive | Income under sections 44AD, 44ADA and 44AE |
+
+| Advance Tax | Instalments, and interest for paying late |
+
+| Bank Statement Import | Read a bank CSV and sort each transaction |
+
+| ITR Summary | The year in one place, and the ITR-4 summary PDF |
+
+What you type on the first three tabs is remembered in this browser.
+
+## Regime Calculator
+
+First tell it your **age** (under 60, 60 to 79, or 80 or older), whether your **parents are 60 or older**, and whether you are a **government employee**. These decide the old-regime slabs and the limits for 80D, 80DDB and 80CCD(2).
+
+Then enter your income, in rupees, for the year:
+
+- **Gross Salary**, as in box 1 of Form 16. The standard deduction is applied for you.
+- **Business / Professional Income**: filled in from your rupee sales, less purchases and business expenses, all without GST, if you leave it at zero. Change it if your books say otherwise.
+- **House Property** (rent less municipal tax and the 30% deduction; home-loan interest goes under 24(b) below), **Other Sources** such as bank interest, and **capital gains** on listed shares: short-term at 20%, long-term at 12.5% above ₹1.25 lakh.
+- **Deductions**, which only reduce old-regime tax: 80C, 80CCD(1B), 80D, 80TTA, 80TTB, 80E, 80G, 80GG, 80DDB, 80U and home-loan interest under 24(b). Each shows its limit.
+- **80CCD(2)**, employer NPS, allowed under both regimes.
+
+The right side shows each regime: gross income, deductions, taxable income, slab tax, capital-gains tax, rebate under 87A, surcharge, 4% cess and **Total Tax**. The cheaper one is marked **Recommended**, with how much it saves. To use the old regime you must file Form 10-IEA before the due date. Reset clears everything.
+
+## Presumptive income
+
+Choose the section that fits you:
+
+| **44AD** | Trading, retail and manufacturing. Enter digital and cash turnover: 6% of digital and 8% of cash counts as income. The limit is ₹3 crore if cash is no more than 5% of turnover, otherwise ₹2 crore. |
+
+| **44ADA** | Professionals such as CAs, doctors, lawyers and consultants. 50% of receipts counts as income, up to ₹75 lakh of receipts (₹50 lakh if cash is over 5%). |
+
+| **44AE** | Owners of up to 10 goods vehicles. ₹1,000 per tonne per month for heavy vehicles, ₹7,500 per month for others. |
+
+If your real profit is higher, enter it: you cannot declare less than the presumptive figure. Warnings appear if you are over a limit. Use ₹… as Business Income copies the result into the calculator.
+
+## Advance tax
+
+Based on the recommended regime's tax, less **TDS already deducted**. If what is left is under ₹10,000, no advance tax is due.
+
+Otherwise the schedule shows how much is due by 15 June (15%), 15 September (45%), 15 December (75%) and 15 March (100%). Tick **Presumptive** to pay it all by 15 March instead. Add the payments you made with + Add payment, and the interest for paying late or short, under sections 234B and 234C, is worked out.
+
+## Bank statement import
+
+- **Download a CSV**From net-banking or your bank's app, save the statement for the year as CSV. Excel files must be saved as CSV first; PDFs are not accepted.
+- **Drop it in**SBI, HDFC, ICICI, Axis, Kotak, PNB and Yes Bank formats are recognised, and most others work too. It is read on your computer; nothing is uploaded.
+- **Check the categories**Each transaction is sorted by its description, such as salary, interest, rent received, investments, insurance, GST or business expense. Change any that are wrong. Mark your sales receipts as **Business receipts** yourself.
+- **Push to the calculator**Push to Calculator adds business receipts, interest, rent (less 30%), 80C and 80D to the calculator. Each statement can be pushed once; import it again to push a fresh copy.
+
+The imported statement is not kept after you leave the screen.
+
+## ITR Summary and the ITR-4 PDF
+
+The year's figures from the app: sales, trading purchases and business expenses (all without GST, and without drawings and asset purchases) and net business income, then salary, rent, other income and capital gains from the calculator, and the tax under each regime.
+
+Download ITR-4 Summary makes a PDF with each ITR-4 (Sugam) field worked out, from income to deductions to tax and advance tax, to copy into incometax.gov.in or hand to your CA. ITR-4 is only for some taxpayers: if you have capital gains, or income above the limits, you need a different form.
+
+---
+
+# Settings
+
+URL: /docs/settings.html
+
+Every section of Settings, in the order it appears: your business, bank accounts, invoice numbers, logo and stamp, more than one business, terms, features, stock alerts, region, app lock, backups, Google Drive, import and export, and updates.
+
+## Saving your changes
+
+The section buttons stay at the top of Settings as you scroll: each jumps straight to its section, and the one you are reading is highlighted. At the bottom, one bar saves the whole page. It shows **✓ All changes saved**, or, in amber, which sections have unsaved changes, with Discard to undo them all and Save all changes to save them all in one click.
+
+Not everything waits for a Save. Save all changes covers every section in the last two columns:
+
+| Saves by itself as you change it | Has its own Save button | Needs Save Profile |
+
+| Payment accounts, Modules, Region, App lock | Invoice number format, Low-stock alerts, Terms templates | Company details, PAN, logo, signature, stamp, GSTR filing details, Google Drive fields |
+
+The row of buttons under the title jumps to each section.
+
+## Company details
+
+The header of every invoice.
+
+| Field | What to know |
+
+| Business Name | Required |
+
+| Country | India to start. The list follows your Region . |
+
+| Address, City, PIN Code | |
+
+| State | The one to get right: it decides whether GST is split into CGST and SGST or charged as IGST |
+
+| GSTIN | Warns if the format looks wrong. The label changes for other countries, such as VAT or TRN. |
+
+| Email, Phone | |
+
+## GSTR filing details
+
+Indian businesses only, and only used in the [GSTR-1 and GSTR-3B files](/docs/gst-returns.html#json-checks). All optional.
+
+- **Aggregate turnover (AATO) is above ₹5 crore**: tick it if so. HSN codes then need 6 digits instead of 4.
+- **Previous FY aggregate turnover** and **Current FY turnover so far**, in rupees. You can also change these on the portal while filing.
+
+## Bank accounts and UPI
+
+Add as many bank and UPI accounts as you like with + Add account. Each account has:
+
+| Field | What to know |
+
+| Label | Your name for it, such as "HDFC Current - 1234" |
+
+| Account Holder Name | Leave blank to use your business name |
+
+| Bank Name, Account Number | |
+
+| Account Type | Optional: Savings, Current, Cash Credit, Overdraft, NRE or NRO |
+
+| IFSC Code | Or the local bank code outside India |
+
+| SWIFT / BIC | Optional, for payments from abroad |
+
+| UPI ID | Optional. With one, rupee invoices using this account carry a QR code the client can scan to pay the exact amount. |
+
+| Internal notes | Never printed |
+
+| Set as default | The ⭐ account is used on new invoices |
+
+In the list, each account has buttons to make it the default (⭐), move it up or down, switch it off or on, edit and delete it. Switched-off accounts are not offered on new invoices. Deleting one never changes invoices already made with it: they keep the bank details they were saved with.
+
+Pick a different account for one invoice under [Customize](/docs/invoice-options.html#tds-tcs-account).
+
+**PAN Number**, below the accounts, prints in the bank details block. It needs Save Profile.
+
+If you set up bank details in an older version, a banner offers Import & continue to turn them into your first account.
+
+## Invoice number format
+
+The preview at the top shows exactly how the next number will look.
+
+| Branded Sequential | PREFIX/2026-27/0001 , with the financial year. The default. |
+
+| Simple Sequential | PREFIX/0001 |
+
+| Random | PREFIX/A3X9K2 |
+
+**Start numbering from** lets tax invoices carry on from your paper bill book: enter 1001 and the next tax invoice is .../1001, then 1002 and so on. When you save, the app shows the new next number and asks you to confirm, because numbers never go back down. If you have already gone past it, numbering simply continues; a number already used is never given again. Quotations, challans, credit notes, other types and receipts keep their own count. The preview at the top shows the real next tax invoice number.
+
+**16 characters at most.** GST allows invoice and credit note numbers of up to 16 characters (letters, digits, - and /), and GSTR-1 refuses longer ones. If a prefix, year and number together would be longer, Settings says so in red and will not save; use a shorter prefix, the short year, or fewer digits.
+
+**More than one business?** Each can number on its own. With the business selected in the sidebar, choose Own numbering for this business, give it a prefix of its own (such as its initials, KS) and, if you like, a start number, then Save Number Format. Its invoices then run KS/26-27/0502, 0503... whatever the other businesses do (it starts with the short year, so its credit notes, KS-CN/26-27/0001, fit the 16 characters). Its receipts follow its numbering too, and it keeps its numbering when you change its name or add its GSTIN. The prefix must differ from every other business's, because two invoices can never share a number. Shared numbering puts a business back on the shared series; invoices it already made keep their numbers.
+
+**Shared numbering** is used by every business that has no numbering of its own, so changing it changes all of them. Settings names those businesses ("Shared by Firm 1, Firm 2…"), and saving a change asks first: **Change numbering for all 2 businesses?**
+
+Under ⚙ Customize prefix, separator & padding:
+
+- **Brand Prefix**: up to 10 capital letters and digits, such as ACME. Tax invoices print it alone (ACME/2026-27/0001); every other document adds its type (ACME-QUO/..., ACME-DC/..., ACME-CN/...), because each type keeps its own count. Leave it empty to use each type's own prefix: INV, QUO, EST, BOS, COMP, CN and DC.
+- **Separator**: /, - or #.
+- **Include Financial Year**: yes (2026-27), short (26-27) or no.
+- **Number Padding**: 3 to 6 digits, such as 0001.
+
+Click Save Number Format. Each document type keeps its own count. A type can also have its own prefix in [Print Settings](/docs/print-settings.html#prefixes).
+
+## Logo, signature and stamp
+
+Upload each one separately. Any image up to 5 MB works; large images are made smaller for you. A signature or stamp on a transparent PNG looks best. Each has a size slider: logo 24 to 80 pixels high, signature 30 to 110, stamp 30 to 120.
+
+Click Save Profile to keep them. The signature and stamp print side by side above the signatory's name, and on a long invoice they always move to the next page together rather than being split.
+
+A photo from an iPhone in HEIC format may not open; share it as JPEG first.
+
+## More than one business
+
+If you run more than one business, each gets its own profile with its own GSTIN, bank accounts, logo and signature, and its **own books**. Invoices, totals, purchases, expenses, receipts, recurring invoices, reports and GST returns all follow the business selected at the top of the sidebar.
+
+- + Add New Profile saves the business on screen to the list, then clears the form for the new one. Fill it in and click Save Profile.
+- Save as Profile saves the form into the list, or updates the entry with the same name.
+- Switch on a card changes business. The current one is saved first.
+- Deleting a profile only removes it from the list. Its invoices stay.
+
+Your client list is shared by all businesses. Records made before you had several businesses show under all of them until you [assign them](/docs/purchases.html#unassigned).
+
+## Terms and conditions templates
+
+Keep the terms you use as templates, then pick one on each invoice.
+
+- **Quick Start**: one click adds a ready-made set for Services, Goods, Manufacturing and Trading, Export, or Freelancer.
+- + New Template: give it a name and paste your terms.
+
+Deleting a template does not change invoices that used it.
+
+## Print and PDF settings
+
+The app-wide look of every invoice has its own page: [Print and PDF settings](/docs/print-settings.html).
+
+## Turning features off
+
+Untick anything you do not use, and it disappears from the sidebar and forms. Your data is kept, and ticking it again brings it all back.
+
+| Group | Features |
+
+| Sales & Invoicing | Invoices (always on), Recurring invoices, Payment receipts |
+
+| Directory | Clients (always on), Products & Services |
+
+| Purchases & Expenses | Expense tracker, Purchase bills, GSTR-2B reconciliation |
+
+| GST & Tax (India) | GSTR-1 / GSTR-3B, E-Way Bill, TDS / TCS on invoices (**off** to start), Income Tax Helper |
+
+| Reports | Dashboard (always on), Reports |
+
+| Integrations | Google Drive backup, UPI QR code on invoices |
+
+🇮🇳 marks features that only apply in India. They are hidden when Region is International. Reset to default puts every feature back as it was on install.
+
+## Low-stock alerts
+
+**Show low-stock alerts** is on to start. Set the threshold with a chip, 0, 3, 5 (recommended) or 10, or type a number, then click Save. With alerts off, stock is still counted; you are just not warned.
+
+## Region
+
+| 🇮🇳 India only | GST, rupees first, GSTR-1 and 3B, e-way bill, UPI QR |
+
+| 🌍 International | VAT and other tax names, several currencies, no India-only features |
+
+| 🌐 Both / Auto | All countries, chosen per invoice. The default. |
+
+It saves as soon as you click, and changes the country lists and which features you see. Your data is not touched.
+
+Region, Print settings and your other display choices are also kept in the app's data folder, so they come back even if the browser clears its saved data.
+
+## App lock (PIN)
+
+For a computer other people also use. Turn on PIN lock, choose 6 or 8 digits, type the PIN twice and click Save PIN. From then on the app asks for it each time it is opened. It is off to start.
+
+- Lock now locks the app straight away, when you step away. So do Lock on the Dashboard, Lock app in the sidebar and Ctrl + Shift + L anywhere. Anything you were typing is still there after you unlock.
+- Change PIN and Turn off need the current PIN.
+- After five wrong tries in a row, wait 30 seconds before the next.
+
+It locks the screen only; it does not encrypt your files. Keep your backups safe as before. Backup files never contain the PIN, and restoring a backup keeps the PIN you have now.
+
+**Forgot the PIN?** Open the Free-GST-Billing folder (where you start the app), make a new text file there named RESET-PIN, and reload the app. The PIN is removed and the file deleted. Your invoices are not touched.
+
+## Daily backups and the trash bin
+
+Settings lists the automatic daily backups, with Backup now, Restore and Delete, and the trash bin for deleted invoices. See [Automatic daily backups](/docs/backup.html#automatic-backups) and [Trash](/docs/backup.html#trash).
+
+## Google Drive
+
+**The easy way**: install [Google Drive for Desktop](https://www.google.com/drive/download/), sign in, and move the app's Saved Invoices folder into your Drive, or set it to sync. Every PDF you download is then in your Drive, on any device. No setup in the app is needed.
+
+**Direct upload**, under **Advanced**, is for people comfortable with Google Cloud: it needs a Google OAuth Client ID of your own. Enter it and a folder name, click Save Profile, then Connect Google Drive. After that, Save & Download uploads each invoice PDF, and a backup can be saved to Drive when exporting.
+
+## Import and export (Data Management)
+
+Export Backup… and Import Backup… move your data in and out as one file. See [Export everything to one file](/docs/backup.html#export-import).
+
+## Updates
+
+Check for Updates shows your version and the latest. If there is a newer one, Update Now backs up your data and installs it; reload the page when it finishes. See [Updating](/docs/backup.html#update).
+
+---
+
+# Print and PDF settings
+
+URL: /docs/print-settings.html
+
+The app-wide defaults for how every invoice looks on paper and in a PDF: business-type presets, designs, thermal receipts, copies, watermarks, fonts, colours, languages and formats. Each invoice can still override the basics from its own Customize panel.
+
+## How these settings save
+
+Open Settings and go to the **Print & PDF** section. There is no Save button: every change is kept the moment you make it, and the **Live preview** on the right updates as you type. The preview uses a sample invoice with your business name, so you can see the effect without touching a real invoice.
+
+Three buttons sit at the top:
+
+| Run setup wizard | Shows the first-run wizard again the next time the app is reloaded. |
+
+| Reset defaults | Puts **every** print setting back to how it was on a fresh install, straight away and without asking. That includes your saved templates, number prefixes, signature image and letterhead. Save a template first if you might want your setup back. |
+
+| Test Print | Sends a small 80 mm test print of the preview to your default printer. Use the **Thermal (80mm)** preview tab first; in Split view it reports that the preview is not ready. |
+
+## Business type
+
+Picking the kind of business you run sets 15 or so settings in one go, and hides options that do not apply to you. You are asked to confirm first, and every setting stays editable afterwards.
+
+| Business type | Set up for | Main settings it applies |
+
+| Retail Shop / Kirana | A counter with a thermal printer | Bold capitals, prints straight after saving, "Qty × Rate" lines, no HSN, "Thank you! Visit again!", cut mark and 2 feed lines |
+
+| Freelancer / Consultant | Professional A4 PDFs | Minimalist design, HSN, amount in words, page numbers and header on long invoices |
+
+| Restaurant / Cafe / Bar | 80 mm receipts with a big UPI QR | Bold, prints on save, no HSN or amount in words, large UPI QR, 3 feed lines, "Thanks for dining with us!" |
+
+| Wholesale / Trading | GST copies of goods invoices | Classic design, three copies (ORIGINAL, DUPLICATE, TRIPLICATE), HSN, amount in words, darker print |
+
+| Manufacturing | Detailed A4 invoices | Corporate design, HSN, amount in words, page numbers and header, invoice QR, three copies |
+
+| Service / Repair Shop | Simple single-copy bills | Classic design, no HSN, amount in words, signature shown |
+
+While a business type is chosen, options it does not need are hidden, and a note says so. Show all options in that note clears the business type so you can see everything.
+
+## Visual style
+
+Eight ready-made designs set the colours and type for both PDFs and thermal receipts in one click. Each card shows a small preview in its own colours; the one in use is marked **ACTIVE**.
+
+| Design | Suits | Look |
+
+| Aurora | Freelancers, tech | Cool slate with electric blue |
+
+| Editorial | Law, consulting | Charcoal on warm ivory, capitals |
+
+| Executive | Enterprise, B2B | Deep navy with soft champagne |
+
+| Whisper | Designers, studios | Off-white, one hairline, nothing else |
+
+| Sunset | Retail, cafes, salons | Warm terracotta on cream, with a tagline |
+
+| Monoline | Developers, agencies | Monospace, dense rows, 90% size |
+
+| Nordic | SaaS, studios | Teal on frosted white |
+
+| Bold Retail | Fashion, sports | Black with a red accent, capitals |
+
+**A design applies at once**
+Unlike business types, a design is applied without asking. A few designs also change one or two other settings (Monoline shrinks the text to 90% and hides the "Qty × Rate" line; Sunset turns the tagline on), and those stay as they are when you pick another design.
+
+## Thermal receipts
+
+These four groups only affect 58 mm and 80 mm receipt printers. They are hidden when your business type prints A4 or A5 PDFs.
+
+### Typography
+
+| Setting | Options | Default |
+
+| Font family | Monospace (Courier), or sans-serif | Monospace |
+
+| Font size | Small, Medium, Large, Extra Large | Medium |
+
+| Font weight | Normal, Bold, Ultra bold. Thermal heads print bold much darker, so bold is recommended. | Bold |
+
+| ALL CAPS mode | Every line in capitals, like big supermarket receipts | Off |
+
+### Layout
+
+| Line spacing | Compact (saves paper), Normal, Comfortable | Normal |
+
+| Header alignment | Centre, or left | Centre |
+
+| Thermal ink darkness | Standard, Dark, Extra-dark. Darkens the logo and QR code for faded printers. | Standard |
+
+| Force ALL CAPS in header | Business name always in capitals | On |
+
+### Content
+
+Each of these can be turned off: business logo, HSN code per item, the "Qty × Rate" line under each item, amount in words, bank details, and the UPI QR code. The QR comes in Small, Medium (the default) or Large. With both HSN and "Qty × Rate" off, items print as a compact single line.
+
+### Footer
+
+| Custom footer message | Printed above the cut line. Leave blank for none. | "Thank you for your business!" |
+
+| Show cut mark | Prints "✂ cut here", for printers without an automatic cutter | On |
+
+| Feed lines after cut | None, 1, 2, 3, 4 or 6 blank lines so the paper tears cleanly | 2 |
+
+| Show tagline | A line of your choice under the business name | Off |
+
+For setting a printer up from scratch, see [Thermal receipt printing](/docs/thermal-printing.html).
+
+## Auto-print on save
+
+With this on, Save & Download also sends the invoice straight to your default printer, with no extra click. Made for shop counters. Off by default.
+
+## Watermark
+
+A large, faint diagonal word across every page of the PDF. Turn on **Show watermark**, then choose either a ready-made word (PAID, DUPLICATE, DRAFT, OVERDUE, COPY, ORIGINAL, CANCELLED or REPRINT; DUPLICATE is selected by default) or your own text. **Opacity** ranges from very faint (5%) to very strong (40%); medium (15%) is the default.
+
+If you choose your own text and leave the box empty, no watermark prints. Watermarks are never printed on thermal receipts. Cancelled invoices get their own CANCELLED mark whatever this setting says.
+
+## Multiple copies (GST rule 48)
+
+GST rules expect three copies of an invoice for goods (for the buyer, the transporter and yourself) and two for services. Turn on **Print multiple copies with labels** and choose 2 or 3 (3 is the default). The PDF then holds every page once for each copy, labelled in a small box at the top right:
+
+- ORIGINAL FOR RECIPIENT
+- DUPLICATE FOR TRANSPORTER
+- TRIPLICATE FOR SUPPLIER
+
+## Invoices longer than one page
+
+| Page numbers | Prints "Page 2 of 3" at the bottom right of the second page onwards. The first page is not numbered. | On |
+
+| Business name header on pages 2+ | Repeats your business name, with a line under it, at the top of every page after the first | On |
+
+Both only appear when an invoice runs to more than one page. Page breaks always fall between rows, and never through the signature, stamp or an image.
+
+## Print margins
+
+Top, bottom, left and right, in millimetres, from 0 to 100 (all 0 to start). Use them for pre-printed letterhead, to move the invoice clear of a printed logo, or to leave room for binding.
+
+## Invoice QR and number
+
+- **Invoice number as QR**: an 18 mm QR code at the bottom right of the last page, captioned "Verify invoice". It holds the invoice number, or, if you give a **verification URL** such as https://mycompany.com/verify/{invoice_number}, that address with the number filled in.
+- **Invoice number as barcode text**: prints the invoice number large, in a typewriter font, at the bottom left of the last page, for filing. It is text, not a scannable barcode.
+
+## Feedback QR
+
+A QR code at the bottom left of the PDF that opens any web address you give it, such as your Google review page or a WhatsApp chat. It only prints once an address is entered. Its caption, "Rate us · Give feedback" unless you change it, prints under the code.
+
+## Default signature
+
+A signature image (PNG, JPG, WebP or SVG, up to 2 MB) and signatory name used when a business has none of its own. With the name left blank, the business name is used. A signature and stamp uploaded in [Settings](/docs/settings.html#branding) for a business take priority.
+
+## Terms on a separate page
+
+**Print T&C on a separate page** moves long terms and notes to a page of their own, instead of squeezing them under the totals. Off by default.
+
+## PDF font, size and darkness
+
+| PDF font | Helvetica (clean, the default), Times New Roman (formal), or Courier (typewriter style). Thermal receipts have their own font setting. |
+
+| Overall size | A slider from 80% to 140%. Smaller fits more on a page; larger is easier to read. The on-screen preview always shows 100%; download a PDF to see the result. |
+
+| Force darker text | Darkens grey labels and addresses so they do not fade on paper. On by default. |
+
+| Compact upper header | Tightens the space above the items table so more fits on the first page. Off by default. |
+
+| Row density | Compact, Normal or Comfortable spacing in tables and sections. |
+
+| Print quality | Draft (about half the file size, fine for email), Standard, or HD (sharpest, largest). HD is the default. |
+
+## Thermal printer compatibility
+
+- **Buffer-safe mode**: for cheap or old receipt printers that jam on large print jobs. Prints in black and white at lower quality. Off by default.
+- **Thermal print method**: **Direct**, the default, sends sharp text straight to the printer. If your printer or browser mishandles it, choose **Via PDF**.
+
+## Number prefix for each document type
+
+Each document type numbers separately, with a built-in prefix: INV for tax invoices, EST for estimates, BOS for bills of supply, COMP for composition, CN for credit notes and DC for delivery challans. Type your own to replace one: letters, numbers, hyphens and underscores only, up to 8 characters. A new prefix starts its own count.
+
+## Reprint badge
+
+Once an invoice has been printed before, this prints a red "REPRINT · Copy #2" (and so on) at the top right of each page, so a copy cannot pass as the original. Off by default. The app counts every print either way.
+
+## Second currency
+
+For rupee invoices to clients abroad, shows the total in a second currency too: US dollars, euros, pounds, dirhams, Singapore or Australian dollars, or yen. You set the rate (83 rupees to the dollar to start); there is no live exchange rate. It can go on its own line or in brackets after the rupee amount.
+
+## Letterhead
+
+Upload your printed letterhead as a picture (PNG, JPG or WebP, A4, up to 3 MB) and invoices print on top of it. **Hide invoice header block**, on by default, drops the app's own header so your details are not printed twice. The switch does nothing until an image is uploaded.
+
+## PDF layout template
+
+Modern (a coloured header, the default), Classic (conservative), Minimal (lots of white space), Corporate, Minimalist, Boxed grid and Tally style. Corporate and Minimalist are variations of Classic and Minimal. A design chosen under Visual style sets this for you.
+
+## Your own colours
+
+Turn on **Use custom colours** to set six colours with a picker or a hex code. Reset colours to defaults undoes them.
+
+| Primary text | Client name, item names, totals |
+
+| Muted text | Labels, addresses, dates and numbers |
+
+| Accent colour | Section titles and the table header |
+
+| Accent text | Text on the accent colour, usually white |
+
+| Header background | Behind the business name and invoice title |
+
+| Divider lines | Lines between sections and table rows |
+
+## Section labels and language
+
+Print the section labels in English, Hindi, Tamil, Marathi or Bengali. You can also type your own wording for six labels: BILL TO, PLACE OF SUPPLY, BANK DETAILS, AMOUNT IN WORDS, TERMS & CONDITIONS and NOTES. Your own wording wins over the language.
+
+## Dates, numbers and currency
+
+| Date format | 02 Apr 2026 (the default), 02-Apr-2026, 02/04/2026, 04/02/2026 (US), 2026-04-02, or ISO 8601 |
+
+| Number grouping | 1,00,000.00 (Indian, the default), 100,000.00 (Western), 100.000,00 (European) |
+
+| Decimal places | 0, 2 (the default), 3 or 4 |
+
+| Currency symbol | Before the number (₹100, the default) or after it |
+
+## Round off invoice totals
+
+Under **Totals**. When on, new invoices round the grand total to the nearest rupee and print the difference as a **Round-off** line. It is on for new installs. You can still turn it off for one invoice in [Customize](/docs/invoice-options.html#show-hide), under Totals. Changing it never alters invoices you have already saved.
+
+## Extra GST rates
+
+The built-in rates are 0, 5, 12, 18 and 28%. Add your own, such as 3% for jewellery or 0.25% for diamonds, as numbers separated by commas, and they appear in the rate list on every invoice.
+
+## Saved templates
+
+Save your whole print setup under a name, such as "Retail v1", with Save current as template. Load brings one back after asking, and replaces your current settings, so save the current setup first if you want to keep it.
+
+## The live preview
+
+Three tabs: **PDF (A4)**, **Thermal (80mm)**, and **Split view** with both side by side. It shows a sample invoice to TEST/PRINT/0001 with three items, using your business name, so terms and notes are not shown.
+
+---
+
+# Backups, updates and moving PC
+
+URL: /docs/backup.html
+
+Your data is plain files on your own computer. Here is how it is backed up, how to keep a copy somewhere safe, update the app, and move to a new computer.
+
+## Where your data is
+
+Everything is in the _system\data folder inside the app's folder. The installer hides _system to keep things tidy; in File Explorer, turn on **View, Show, Hidden items** to see it. Open Data Folder in the [Control Panel](/docs/control-panel.html) opens it for you.
+
+Downloaded PDFs are also kept in the app's Saved Invoices folder, one folder per client.
+
+## Automatic daily backups
+
+Every day the app copies all your data into a dated backup, and keeps the last 30 days. They are listed in **Settings, Backup Management**:
+
+- Backup now makes one straight away.
+- Restore puts all your data back as it was on that day. It saves what you have now first, so you can go back if it looks wrong. Reload the page afterwards.
+- Delete removes one backup to free space.
+
+**These are on the same computer**
+Daily backups protect you from mistakes, not from a broken hard disk or a lost laptop. Keep a copy somewhere else too.
+
+## Keeping a copy somewhere else
+
+**Every day, automatically, on another drive.** In **Settings, Backup Management**, type a folder such as D:\FreeGSTBill (another drive, a USB disk or a synced folder) under **Also keep a copy of every daily backup in this folder**, and click Save folder. The app checks it can write there, then copies each daily backup into FreeGSTBill Backups\date inside it, keeping 30 days. If a copy fails (a USB disk not plugged in), Settings says so. Stop copying turns it off.
+
+If the computer fails: install the app again, set the same folder, and its backups appear in the list with Restore.
+
+Or by hand:
+
+- **One click**: Create Backup in the [Control Panel](/docs/control-panel.html), or Back up my data in the launcher under More options, saves a ZIP in Documents\FreeGSTBill Backups. Copy it to a pen drive or cloud storage.
+- **One file you choose**: see Export everything to one file.
+- **Google Drive**: see [Google Drive](/docs/settings.html#google-drive).
+
+## Export everything to one file
+
+In **Settings, Data Management**, Export Backup… lets you tick what to include; everything is ticked to start:
+
+active business profile, all business profiles, invoices, clients, products, expenses, purchase bills, recurring invoices, receipts, terms templates, app settings, and local preferences such as custom units and theme.
+
+Download Backup saves freegstbill-backup-date.json. Tick **Also save a copy to my Google Drive** if you have connected Drive.
+
+Import Backup… reads a backup file and shows what is in it, with a count for each part, before anything changes. Tick the parts to restore and click Restore selected. Records in the file replace the matching records in the app; anything you did not tick is left alone. Export your current data first, just in case.
+
+## Trash
+
+Invoices deleted from a client's account on the [Clients](/docs/clients.html#ledger) screen go to the trash for 30 days. In **Settings, Backup Management**, Restore brings one back, and Delete forever removes it and its PDF for good.
+
+## Moving to a new computer
+
+- **On the old computer**Click Export for Move in the [Control Panel](/docs/control-panel.html), or Move to another PC in the launcher under More options. It saves your data and settings as one ZIP on your Desktop. Copy it to a pen drive or cloud storage.
+- **On the new computer**[Install the app](/docs/install.html) as usual.
+- **Bring your data in**In the new Control Panel, click Choose Backup ZIP under **Restore Backup** and pick the file.
+
+You can use an exported backup file instead: export on the old computer, and import it in Settings on the new one.
+
+**One computer at a time**
+Do not run the same data on two computers at once, for example through a shared OneDrive or Dropbox folder. Two copies writing the same files can damage them.
+
+## Updating
+
+Any of these installs the newest version:
+
+- The Update to v… button that appears in the sidebar when a new version is out. It shows what changed, with Update Now, Remind me later and Skip this version.
+- Update Now in **Settings, App Updates**.
+- Update Now in the [Control Panel](/docs/control-panel.html).
+- In the launcher, More options, then Update to the latest version.
+
+Every update first saves a backup of your data in Documents\FreeGSTBill Backups, then replaces the app. It never touches your data folder or your saved PDFs. It takes about a minute; reload the page when it finishes.
+
+To update by hand instead: download the ZIP, stop the app, extract the ZIP over your app folder replacing the files, and open the launcher again.
+
+If you extract a new ZIP into a different folder by mistake, its launcher does not install a second copy. It shows **Already installed on this computer**, with the folder, version and number of invoices, and offers Update the installed copy and Open the installed copy. The update uses the files in the folder you extracted, so it needs no download and works without internet; your invoices, saved PDFs and trash stay as they are. The new folder can then be deleted.
+
+Updating also removes files that older versions left behind, such as launchers under their old names, once their replacements are in place. Your data, backups and Node.js are never touched.
+
+---
+
+# Control Panel
+
+URL: /docs/control-panel.html
+
+Update, back up, restore, move to another PC, open your folders, and stop the app, from inside the app.
+
+## What it is
+
+Control Panel in the sidebar does the launcher's jobs without leaving the app. At the top it shows your system, Node.js version, the port the app runs on, and how much space your data takes.
+
+## The buttons
+
+| Card | Button | What it does |
+
+| Update Software | Update Now | Downloads the latest version. Your data is backed up first and never touched. |
+
+| Backup Data | Create Backup | Saves your data as a dated ZIP in Documents\FreeGSTBill Backups . |
+
+| Restore Backup | Choose Backup ZIP | Pick a backup ZIP to restore. What you have now is saved first, as a safety net. |
+
+| Move to Another PC | Export for Move | Saves your data and settings as one ZIP on your Desktop. See [Moving to a new computer](/docs/backup.html#move-pc). |
+
+| Open Data Folder | Open | Opens the folder with your bills, clients, products and settings. |
+
+| Open Backups Folder | Open | Opens Documents\FreeGSTBill Backups . |
+
+| Stop Server | Stop Server | Stops the app. Open it again from the launcher or shortcut. |
+
+After each action a panel shows whether it worked, with the details underneath if something went wrong.
+
+## "Update and backup scripts not found"
+
+The Control Panel runs scripts that come with the downloaded ZIP, in the _system folder. This message appears when they are missing, for example when the app was started from source code or copied without them. Install from the [downloaded ZIP](/docs/install.html#download) to get them, or use [Export Backup](/docs/backup.html#export-import) in Settings for your data.
+
+Versions 1.10.44 to 1.10.71 showed this message, then called "Launcher scripts not detected", on every installed copy by mistake. Update to 1.10.72 or later using the launcher's **Update to the latest version**.
+
+On Linux and macOS only Update and Backup have scripts, so Restore, Move and Stop show **Not available here**.
+
+---
+
+# Getting around the app
+
+URL: /docs/shortcuts.html
+
+The sidebar, switching business, notifications, quick search with Ctrl + K, keyboard shortcuts and dark mode.
+
+## The sidebar
+
+From top to bottom:
+
+- **Your business**, with a pencil to edit it. If you have more than one, click the name to switch.
+- **The screens**: Dashboard, New Invoice, Clients, Products, Expenses, Purchases, Recurring, Receipts, Reports, GST Returns, Income Tax, and **User Guide**, which opens this documentation in your browser (it needs internet). Features you [turn off](/docs/settings.html#modules) disappear from here.
+- **Update to v…**, when a new version is out.
+- **Notifications**, **Dark Mode** or **Light Mode**, **Support & About**, **Control Panel** and **Settings**.
+- At the bottom, **App Ready** when all is well.
+
+At the end of the Dashboard, below the invoices, a small line shows the app's version, an attribution to OM RAJ and Support. It is never printed.
+
+The ☰ button beside the app name shrinks the sidebar to a slim strip of icons and gives the page more room; it is highlighted while the menu hides itself. Point at the strip to open it. Click ☰ again to keep the menu open.
+
+When a [PIN](/docs/settings.html#lock) is set, **Lock app** in the sidebar locks the app.
+
+On a narrow screen, the sidebar folds away behind the ☰ menu button.
+
+## Support & About
+
+Who makes the app, and how to help it grow. Free ways come first: star it on GitHub, tell another business, report a bug or ask for a feature. If you want to give money, scan the UPI QR with any UPI app, for any amount. The page also lists what OM RAJ builds for businesses: custom software and web apps, changes to this app, setup and data migration, support plans, AI integration and automation, and mobile apps.
+
+The app stays free whatever you choose. Nothing is locked, and nothing is ever printed on your invoices. Once you have made 10 invoices, the Dashboard shows a small [support card](/docs/dashboard.html#support-card) once a day; Not today hides it until tomorrow and Hide for 30 days for a month.
+
+Scanning the QR fills in the payment note "Free GST Billing support - your business name", so OM RAJ can thank you; untick **Include my business name** to leave it out. The page also shows how much users have given so far and what it is going towards.
+
+Once a month at most, a one-line note at the top of the app asks for a star on GitHub. ✕ hides it for 30 days; Star on GitHub or Already starred hides it for good. It never appears while you are making an invoice.
+
+## Switching business
+
+With more than one business saved, click its name at the top of the sidebar and choose another. Every screen changes to that business's invoices, purchases, expenses, receipts, recurring invoices, reports and returns. **Manage profiles…** opens [Settings](/docs/settings.html#multiple-businesses).
+
+## Notifications
+
+The bell shows a count of things that need you. Clicking it lists them, and clicking one takes you there:
+
+- 🔁 recurring invoices created today
+- ⚠ overdue invoices
+- ⏰ invoices due in the next 3 days
+- 📋 GST, TDS, TCS, advance tax and ITR dates in the next 10 days
+- 📦 products low on stock
+
+Mark all as read clears the list. Anything new brings it back. The bell counts all your businesses together.
+
+## Quick search: Ctrl + K
+
+Press Ctrl + K anywhere, even while typing, and start typing. You can:
+
+- go to any screen, or start a new invoice;
+- open an invoice by its number or client;
+- find a client by name or GSTIN, or a product by name or HSN, which opens their list;
+- jump to Settings, switch dark mode, or see what is new in an update.
+
+Use ↑ ↓ and Enter. Esc closes it.
+
+## Keyboard shortcuts
+
+| Ctrl + K | Quick search |
+
+| Ctrl + N | New invoice |
+
+| Ctrl + Shift + L | Lock the app (when a PIN is set) |
+
+| Ctrl + / | Show all shortcuts |
+
+| Esc | Close a dialog |
+
+| Enter | Confirm a dialog |
+
+On the invoice screen there are more: see [Keyboard shortcuts on this screen](/docs/invoices.html#keyboard). On a Mac, use ⌘ instead of Ctrl.
+
+## Dark mode
+
+Dark Mode in the sidebar switches the app to dark colours, and Light Mode switches back. Invoices and PDFs always print in their normal colours.
+
+## Opening it like a desktop app
+
+In Chrome and Edge, the app may offer Install App. It then opens in its own window with its own icon, like any other program, and right-clicking the icon jumps straight to New Invoice or GST Returns. It is the same app and the same data.
+
+## "Needs a Quick Start"
+
+If the app's engine is not running, the page says **Free GST Billing Software Needs a Quick Start**. Your data is safe. Double-click **Free GST Billing** on your Desktop and click Open App; the page carries on by itself once it is running.
+
+---
+
+# Troubleshooting and questions
+
+URL: /docs/troubleshooting.html
+
+The problems people run into most, what causes each one, and how to fix it.
+
+## The launcher says files are missing, or to extract the ZIP
+
+The launcher was opened from inside the ZIP, or the ZIP was only partly extracted. Close it, right-click the ZIP, choose Extract All…, and open the launcher from the extracted folder. Keep the launcher and the _system folder together. See [Extract the ZIP before opening anything](/docs/install.html#extract-first).
+
+## The Mac will not open the launcher
+
+- **"could not be executed because you do not have appropriate access privileges"**: open **Terminal** (Applications → Utilities), type chmod +x with a space after it, drag **Free GST Billing - MAC** into the Terminal window, press Enter, and open the file again. Downloads from v1.10.82 do not need this.
+- **"cannot be opened because Apple cannot check it for malicious software"** or **"unidentified developer"**: the app is not signed by Apple. Hold Control, click **Free GST Billing - MAC**, choose **Open**, then **Open** again. Only the first time. Or use **System Settings → Privacy & Security → Open Anyway**.
+- **"Node.js is not installed"** or **too old**: install Node.js LTS from [nodejs.org](https://nodejs.org) (or brew install node@20), then open the launcher again.
+
+## Windows blocked the launcher
+
+Click More info, then Run anyway. If it still will not open, right-click the launcher, choose Properties and tick Unblock. See ["Windows protected your PC"](/docs/install.html#windows-protected).
+
+## The install stopped with an error
+
+- **"Could not download Node.js"** or **"could not install the app's dependencies"**: the first install needs the internet. Check the connection, or a work proxy or firewall, and click Install again. It carries on where it stopped.
+- **"Node.js was downloaded but will not run"**: antivirus probably removed it. Add the app's folder to your antivirus exclusions, or install Node.js yourself from [nodejs.org](https://nodejs.org), then click Install again.
+- **"The Node.js on this PC (v6...) is too old"**, npm ERR!, or a file named npm-debug.log in the _system folder: the PC has an old Node.js. From v1.10.81 the app sets up a current one in its own folder by itself. On an older version: install Node.js LTS from [nodejs.org](https://nodejs.org), delete the _system
+ode_modules folder (the _system folder is hidden: in File Explorer, **View → Show → Hidden items**), and click Install again. Never delete the data folder.
+
+- **"Free GST Billing is already installed on this computer, in: ..."**: you extracted a new ZIP into a new folder. Your invoices are in the folder it names. Open that copy from your Desktop shortcut and use More options → Update to the latest version; the new folder can be deleted.
+- **"The app cannot write to its own folder"**: it is inside C:Program Files, on a read-only drive, or blocked by antivirus. Move the Free-GST-Billing folder to Documents or D: and open it from there.
+- **"Drive ... is almost full"**: the install needs about 400 MB free. Empty the Recycle Bin or delete old downloads, then try again.
+- **"Windows can install Node.js LTS for this PC ... Install Node.js LTS now?"**: the app could not download Node.js itself, so it offers Windows' own installer. Type **Y** to accept (Windows may ask for permission), or anything else to install it yourself from the page it opens.
+
+## "Still starting..." or "The server has not answered in 90 seconds"
+
+The first start after an install or update is slow, because antivirus checks every new file. Wait a minute, then open http://localhost:47371 in your browser. If it still does not open, close the black window and click Open App again; from v1.10.81 it also repairs an install that an update left half done. If the window shows an error above that line, the entries under The install stopped with an error say what to do.
+
+## "Cannot connect", a blank page, or "Needs a Quick Start"
+
+The app is not running. Open the **Free GST Billing** shortcut and click Open App; it starts the app if needed and opens the right address. You never need to type the address yourself; if its usual port is busy, the app picks another and the shortcut follows it.
+
+## The invoice has the wrong tax split
+
+- Check your own **state** in [Settings](/docs/settings.html#company-details).
+- Check the **client's state**, or their GSTIN, which fills the state in.
+- If goods go to a different state from the client's address, set **Place of Supply** on the invoice.
+- For a client abroad, set their **country**: it is then an export, charged as IGST. For an SEZ unit, tick **SEZ** on the client.
+
+See [How GST is worked out](/docs/invoices.html#gst).
+
+## No GST is charged at all
+
+The **Tax % column** is probably turned off under Customize. Turning it off removes GST from the invoice, and your choice carries over to new invoices. Tick it again. Bills of supply and delivery challans never charge GST.
+
+## Something is missing from the PDF
+
+- **Logo, signature or stamp**: check it is uploaded and saved in [Settings](/docs/settings.html#branding), and ticked under Customize.
+- **UPI QR code**: needs a UPI ID on the account, a rupee invoice, and **UPI QR** ticked under Customize.
+- **Bank details or PAN**: tick **Bank details** under Customize; the account needs a bank name.
+- **Anything on a receipt printer**: receipts leave some things out on purpose. See [What a receipt leaves out](/docs/thermal-printing.html#not-on-receipts).
+
+## GSTR-1 export says "blocked"
+
+An invoice number is too long or has characters the portal refuses, or an item has a GST rate the portal does not accept. The message names the first one. See [Checks before the file is made](/docs/gst-returns.html#json-checks).
+
+## An update went wrong
+
+Your data folder is never changed by an update, and a backup was saved in Documents\FreeGSTBill Backups before it started. Run the update again, which fixes most problems. If it still fails, download the ZIP and extract it over the app folder by hand.
+
+## It says VAT instead of GST, or the other way round
+
+Change [Region](/docs/settings.html#region) in Settings, and check your country in Company Details. Tax names follow the seller's country.
+
+## Reading a bill photo failed
+
+Use a sharp, straight, well-lit JPG or PNG under 8 MB, cropped to the bill. If it still fails, reload the page with Ctrl + F5 and try again, or enter the bill by hand.
+
+## Can I use it on my phone or another computer?
+
+The app runs on the computer it is installed on, and only that computer can open it. It has no user accounts, so it is deliberately not shared over your network, where anyone connected could read your books. (The optional [PIN lock](/docs/settings.html#lock) locks the screen on this computer only.) To work on another computer, [move your data](/docs/backup.html#move-pc) there.
+
+## Does it need the internet?
+
+Only to install and to update. Invoices, reports, GST returns and even reading bills from photos all work offline. Google Drive upload uses the internet too.
+
+## Is my data sent anywhere?
+
+No. There is no account, no tracking and no server of ours. Your data stays in the app's folder unless you choose Google Drive, which copies files into your own Drive.
+
+## Reporting a problem
+
+Use the [Report a problem](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues/new?template=bug_report.yml) form on GitHub. It asks for the version (**Settings, App Updates**), your computer, what you did and what you saw, and a screenshot (hide your GSTIN and bank details). If the app does not start, add what node -v and npm -v show in Command Prompt.
+
+Problems are fixed in the [Saturday update](/docs/support.html#weekly), and anything urgent, such as the app not opening, straight away. For a new feature use [Ask for a feature](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues/new?template=feature_request.yml).
+
+---
+
+# What the app does not do
+
+URL: /docs/limitations.html
+
+So you can plan around them: the things this app leaves to the government portals, your CA, or other tools.
+
+## E-invoicing (IRN and signed QR)
+
+The app does not connect to the Invoice Registration Portal, so it cannot get an IRN or the signed QR code. If your turnover makes e-invoicing compulsory for you, generate the IRN on the IRP and keep it with the invoice.
+
+## Filing returns for you
+
+It makes the GSTR-1 and GSTR-3B files and figures. It does not log in to the GST portal or file anything. You, or your CA, upload and file on gst.gov.in.
+
+## Generating e-way bills
+
+It makes the file for the e-way bill portal. The e-way bill number itself is generated on the portal.
+
+## Things not in the GSTR-1 file
+
+- **Exports** (Table 6A) must be added on the portal with the shipping bill details.
+- **Nil-rated, exempt and non-GST supplies** (Table 8), such as bills of supply, are not included.
+- **Debit notes** are not supported as a document type.
+- **Advances** received before invoicing are not tracked.
+
+## Full accounting
+
+There is no double-entry ledger, balance sheet, trial balance, cash or bank book, bank reconciliation or journal entries yet. It covers invoicing, receivables, purchases, expenses, stock and GST. For the rest, give your CA the Excel or CSV exports.
+
+## Several people, or several computers
+
+There are no user accounts or roles (an optional [PIN](/docs/settings.html#lock) can lock the screen), and the app only opens on the computer it runs on. One computer holds the books; see [moving to a new computer](/docs/backup.html#move-pc).
+
+## Income tax
+
+The income tax helper estimates tax for FY 2025-26, for someone under 60. It does not file your return or produce the ITR file the portal takes. See [Income tax helper](/docs/income-tax.html).
+
+## Stock
+
+Stock is one count per product. There are no batches, expiry dates, serial numbers or warehouses. Stock is valued at purchase price in [Reports, Stock](/docs/reports.html#stock).
+
+---
+
+# Glossary
+
+URL: /docs/glossary.html
+
+The GST and tax terms used in the app and in these pages, in plain words.
+
+## Terms A to Z
+
+| Term | Meaning |
+
+| AATO | Annual aggregate turnover: your total sales in a year across all your GSTINs on one PAN. |
+
+| B2B / B2C | Sales to a GST-registered business / to someone unregistered, such as a consumer. |
+
+| B2C Large | An inter-state sale to an unregistered buyer above ₹1 lakh (₹2.5 lakh before 1 August 2024), reported invoice by invoice in GSTR-1. |
+
+| Bill of supply | A bill without GST, for exempt goods or services, or from a composition dealer. |
+
+| CGST, SGST, UTGST, IGST | Central, State and Union Territory GST are charged together on a sale within one state or territory. Integrated GST is charged on a sale between states, or to an SEZ or abroad. |
+
+| Cess | Compensation cess, an extra charge on some goods such as tobacco, cars and coal. |
+
+| Composition scheme | A simpler scheme for small businesses, who pay tax at a flat rate and cannot charge GST to customers. |
+
+| Credit note | A document that reduces a sale already invoiced, for a return, discount or correction. |
+
+| Delivery challan | A document for moving goods without a sale. |
+
+| E-way bill | A permit generated on the NIC portal for moving goods, generally worth more than ₹50,000. |
+
+| GSTIN | Your 15-character GST number. The first two digits are the state code, the next ten are the PAN, and the last is a check character. |
+
+| GSTR-1 | The return listing your sales, filed monthly or quarterly. |
+
+| GSTR-2B | The portal's statement of what your suppliers reported selling to you. It sets how much credit you can usually claim. |
+
+| GSTR-3B | The summary return where you pay the tax due after credit. |
+
+| HSN / SAC | Codes that classify goods (HSN) and services (SAC). They decide the GST rate and go into your returns. |
+
+| ITC | Input tax credit: the GST you paid on purchases, which you subtract from the GST you owe. |
+
+| LUT | Letter of Undertaking, which lets you export without paying IGST. |
+
+| NIL return | A return filed for a period with no activity. Still compulsory. |
+
+| Place of supply | Where the supply is treated as happening. It decides CGST and SGST versus IGST. |
+
+| Proforma invoice | A quote or estimate. Not a tax invoice, and not a sale. |
+
+| QRMP | Quarterly return, monthly payment: a scheme letting small businesses file GSTR-1 and 3B quarterly. |
+
+| Reverse charge | When the buyer, not the seller, pays the GST to the government. |
+
+| SEZ | Special Economic Zone. Supplies to a unit there are charged IGST, or none under LUT. |
+
+| TCS | Tax collected at source: tax the seller collects from the buyer and deposits. |
+
+| TDS | Tax deducted at source: tax the buyer deducts from the payment and deposits for the seller. |
+
+| UQC | Unit quantity code, the standard unit names used in GST returns, such as NOS, KGS or OTH. |
+
+---
+
+# Support & About
+
+URL: /docs/support.html
+
+Who makes Free GST Billing, how you can help it grow, and what OM RAJ builds for businesses.
+
+## Free, and it stays free
+
+Free GST Billing is built and maintained by [@omraj](https://github.com/OmRaj6666) in India. No ads, no account, no locked features, and your invoices never leave your computer. The full source code is on [GitHub](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-) under the MIT licence.
+
+If it saves you time every month, you can help keep the fixes and new features coming.
+
+## Support with UPI
+
+Scan with GPay, PhonePe, Paytm or any UPI app. Any amount helps.
+
+UPI ID
+
+9279126895@ptsbi
+
+On your phone, tap an amount to open your UPI app:
+₹101 ₹251 ₹501 Any amount
+
+The payment note says "Free GST Billing support". Paying from the app's Support & About page adds your business name to it, so OM RAJ can thank you.
+
+## Supporters
+
+## Help without paying
+
+These matter just as much.
+
+- **[Star it on GitHub](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-)**: helps other businesses find it.
+- **[Tell another business](https://wa.me/?text=I%20make%20my%20GST%20invoices%20with%20Free%20GST%20Billing%20Software.%20It's%20free%2C%20works%20offline%20and%20keeps%20data%20on%20your%20own%20computer%3A%20https%3A%2F%2Fgithub.com%2FOmRaj6666%2FGST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-)**: send it to a friend on WhatsApp.
+- **[Report a bug or ask for a feature](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues/new/choose)**: many features started as a request.
+
+## A new update every Saturday
+
+Every Saturday we release one update with that week's fixes and new features. The app tells you when it is ready: click **Update** in the sidebar, and your invoices and settings are kept. Anything urgent, such as the app not opening, is fixed straight away.
+
+- **[Report a problem](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues/new?template=bug_report.yml)**: say which version, which computer, and what you did. That lets us fix it the same week.
+- **[Ask for a feature](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues/new?template=feature_request.yml)**: we read every request each week, and the ones most people ask for come first. Add a 👍 to an [open request](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues) to vote for it.
+
+You get a reply on GitHub when it ships. What each update changed is in the app under **Support & About → What's new**, in the [full changelog](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/blob/main/CHANGELOG.md), and on [GitHub Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases).
+
+## Work with OM RAJ
+
+The developer behind this app builds software for businesses too.
+
+**Custom software & web apps**Websites, web apps and business tools built for how you work.
+
+**Customising this app**Your own invoice layout, reports or features in Free GST Billing.
+
+**Setup & data migration**Installation, moving your data from Tally or Excel, and training.
+
+**Support plans for businesses**Priority help and updates on a yearly plan.
+
+**AI integration**Add AI to your product: assistants, document reading, smart search.
+
+**AI automation**Automate the repetitive work in the software you already use.
+
+**Mobile apps**Android and iPhone apps for your business or customers.
+
+Email omraj6666@gmail.com.
+
+## In the app
+
+The same page is in the app: **Support & About**, near the bottom of the sidebar. See [Getting around](/docs/shortcuts.html#support) for the thank-you card and the GitHub star note.

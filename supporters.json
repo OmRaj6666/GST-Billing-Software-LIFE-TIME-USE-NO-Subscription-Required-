@@ -1,0 +1,14 @@
+{
+  "_how": "Edit this file on GitHub when support payments come in. The app's Support & About page and the docs site read it. totalReceived: rupees received so far. supporters: how many people. goal: optional target and what it pays for. thanks: names to thank, only with their permission. updated: YYYY-MM-DD.",
+  "currency": "INR",
+  "totalReceived": 101,
+  "supporters": 1,
+  "goal": {
+    "amount": 50000,
+    "label": "Bank & cash book, cash flow and balance sheet"
+  },
+  "thanks": [
+    "Kuldeep Suthar"
+  ],
+  "updated": "2026-10-29"
+}

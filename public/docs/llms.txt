@@ -1,0 +1,56 @@
+# Free GST Billing Software
+
+> Free, open-source GST billing and invoicing software for small businesses in India, also usable in 20 currencies. It runs on the user's own Windows, macOS or Linux computer and opens in the web browser; there is no account, no subscription and no cloud. Version 1.10.81, made by OM RAJ.
+
+It makes GST tax invoices, bills of supply, proforma estimates, credit notes and delivery challans; works out CGST, SGST, UTGST and IGST; tracks payments, clients, products and stock, purchases and expenses; and prepares GSTR-1 and GSTR-3B JSON for the GST portal. It does not file returns itself and does not generate e-invoice IRNs.
+
+- Download (always the latest version): https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest/download/Free-GST-Billing.zip
+- Source code and issues: https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-
+- Everything in one file: /docs/llms-full.txt
+
+## Start here
+
+- [Free GST Billing documentation](/docs/): Make GST invoices, keep track of who owes you, and prepare your GST returns. On your own computer, with no account and no monthly fee.
+- [Install](/docs/install.html): Download one ZIP, extract it, open the launcher for your computer and click Install. On Windows it sets up everything it needs by itself.
+- [The first-run setup](/docs/first-run.html): The screens you see the first time the app opens: a four-step welcome for your business details, then a three-step setup for how your invoices look. Both can be skipped and changed later.
+- [Your first invoice](/docs/first-invoice.html): From a blank app to a GST tax invoice you can send, in about five minutes.
+
+## Invoicing
+
+- [Making an invoice](/docs/invoices.html): Every part of the New Invoice screen, from top to bottom: the toolbar, the document type, the client, the items, terms, extra pages, and what happens when you save, print or share.
+- [Customize: what prints and how](/docs/invoice-options.html): The Customize panel on the invoice screen: title, currency, style, colour, every show-or-hide option, paper size and thermal settings, and exactly what each part of the printed invoice shows.
+- [Thermal receipt printing](/docs/thermal-printing.html): Printing bills on a 58 mm or 80 mm receipt printer at a shop counter, from setting it up to what the receipt shows.
+- [Dashboard](/docs/dashboard.html): Your invoices at a glance: what you have sold, what you are owed, what is overdue, and every action you can take on an invoice.
+
+## Clients, stock and payments
+
+- [Clients](/docs/clients.html): Everyone you bill, what each one owes, their account statement, and how quickly they pay.
+- [Products and stock](/docs/products.html): Save what you sell once, then pick it on every invoice. Stock goes down as you sell and up as you buy.
+- [Payment receipts](/docs/receipts.html): Receipts for money you have received, whether against an invoice or not, ready to print.
+- [Recurring invoices](/docs/recurring.html): Invoices that repeat on a schedule, such as a monthly retainer, rent or an annual maintenance contract.
+
+## Buying
+
+- [Purchase bills](/docs/purchases.html): Record every supplier bill, so the GST you paid comes back as input tax credit and your stock stays right. Includes reading a bill from a photo.
+- [Expenses](/docs/expenses.html): Costs that are not stock, such as rent, electricity, software or travel, for your profit and loss and for the GST credit on them.
+
+## Tax and reports
+
+- [GST returns](/docs/gst-returns.html): GSTR-1 and GSTR-3B built from the invoices, purchases and expenses you have already entered, checked against GSTR-2B, and ready to upload to the GST portal.
+- [Reports](/docs/reports.html): Profit and loss, who owes you and for how long, party outstanding by month, your best clients, your best-selling products, and closing stock with its value. Every report prints and downloads as Excel…
+- [Income tax helper](/docs/income-tax.html): Estimate your income tax under the old and new regimes, presumptive taxation, advance tax, bank statement import, and an ITR-4 summary to file from.
+
+## Setting up
+
+- [Settings](/docs/settings.html): Every section of Settings, in the order it appears: your business, bank accounts, invoice numbers, logo and stamp, more than one business, terms, features, stock alerts, region, app lock, backups,…
+- [Print and PDF settings](/docs/print-settings.html): The app-wide defaults for how every invoice looks on paper and in a PDF: business-type presets, designs, thermal receipts, copies, watermarks, fonts, colours, languages and formats. Each invoice can…
+- [Backups, updates and moving PC](/docs/backup.html): Your data is plain files on your own computer. Here is how it is backed up, how to keep a copy somewhere safe, update the app, and move to a new computer.
+- [Control Panel](/docs/control-panel.html): Update, back up, restore, move to another PC, open your folders, and stop the app, from inside the app.
+
+## Help
+
+- [Getting around the app](/docs/shortcuts.html): The sidebar, switching business, notifications, quick search with Ctrl + K, keyboard shortcuts and dark mode.
+- [Troubleshooting and questions](/docs/troubleshooting.html): The problems people run into most, what causes each one, and how to fix it.
+- [What the app does not do](/docs/limitations.html): So you can plan around them: the things this app leaves to the government portals, your CA, or other tools.
+- [Glossary](/docs/glossary.html): The GST and tax terms used in the app and in these pages, in plain words.
+- [Support & About](/docs/support.html): Who makes Free GST Billing, how you can help it grow, and what OM RAJ builds for businesses.

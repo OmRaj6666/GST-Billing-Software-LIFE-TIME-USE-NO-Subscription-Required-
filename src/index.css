@@ -1,0 +1,3542 @@
+/* v1.10.2 — Removed render-blocking `@import url(https://fonts.googleapis.com/...)`.
+   Two problems it caused:
+   1. First-ever offline load (fresh install, never online) blocked the
+      whole stylesheet parser waiting for the network → unstyled fallback,
+      layout shift.
+   2. Duplicate fetch: this @import requested Inter 300/400/500/600/700/800
+      while `<link>` in src/index.html requested 400/500/600/700 — two
+      separate network round trips for overlapping weights.
+   The `<link>` in the HTML remains (it's preload-friendly and the SW
+   caches it after first visit). Weights we actually use in components
+   are covered. Fallback stack is the system font (Segoe UI, San
+   Francisco, Roboto) so pre-cache users get clean typography
+   immediately. */
+
+:root {
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: rgba(37, 99, 235, 0.08);
+  /* v1.10.40 — RGB channels of --primary for rgba() composition.
+     html2canvas (which rasterizes the invoice for the PDF) does NOT
+     support color-mix(in oklab, …) — reported as "Attempting to parse
+     an unsupported color function oklab" on Save & Download. So all
+     dynamic tints that used to be color-mix now use rgba(var(--primary-rgb), α). */
+  --primary-rgb: 37, 99, 235;
+  --primary-darker: #1e3a8a;
+  --bg: #f0f2f5;
+  --bg-primary: #f0f2f5;
+  --bg-secondary: #f8fafc;       /* card / inset surface — light grey on light, dark slate on dark */
+  --bg-tertiary: #f1f5f9;        /* hover / selected inset */
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --text: #111827;
+  --text-primary: #111827;       /* alias used by newer components */
+  --text-secondary: #6b7280;
+  --text-muted: #9ca3af;
+  --border: rgba(229, 231, 235, 0.8);
+  --border-color: #e2e8f0;       /* solid border alias for inline styles */
+  --note-bg: #fefce8;            /* yellow callout */
+  --note-border: #fde68a;
+  --note-text: #78350f;
+  --info-bg: #ecfdf5;             /* green privacy-notice / info card */
+  --info-border: #bbf7d0;
+  --info-text: #065f46;
+  --warn-bg: #fffbeb;
+  --warn-border: #fde68a;
+  --warn-text: #92400e;
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
+  --success: #059669;
+  --success-light: rgba(5, 150, 105, 0.08);
+  --danger: #dc2626;
+  --danger-light: rgba(220, 38, 38, 0.08);
+  --purple: #7c3aed;
+  --purple-light: rgba(124, 58, 237, 0.08);
+  --radius: 10px;
+  --radius-lg: 14px;
+}
+
+/* Dark Mode */
+[data-theme="dark"] {
+  --primary: #3b82f6;
+  --primary-hover: #2563eb;
+  --primary-light: rgba(59, 130, 246, 0.12);
+  --primary-rgb: 59, 130, 246;
+  --primary-darker: #1e3a8a;
+  --bg: #0f172a;
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;       /* card / inset surface in dark mode */
+  --bg-tertiary: #334155;
+  --card-bg: rgba(30, 41, 59, 0.92);
+  --text: #f1f5f9;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --border: rgba(51, 65, 85, 0.8);
+  --border-color: #334155;
+  --note-bg: rgba(202, 138, 4, 0.12);
+  --note-border: rgba(202, 138, 4, 0.4);
+  --note-text: #fde68a;
+  --info-bg: rgba(16, 185, 129, 0.12);
+  --info-border: rgba(16, 185, 129, 0.4);
+  --info-text: #6ee7b7;
+  --warn-bg: rgba(217, 119, 6, 0.12);
+  --warn-border: rgba(217, 119, 6, 0.4);
+  --warn-text: #fcd34d;
+  --glass-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+  --success: #34d399;
+  --success-light: rgba(52, 211, 153, 0.12);
+  --danger: #f87171;
+  --danger-light: rgba(248, 113, 113, 0.12);
+  --purple: #a78bfa;
+  --purple-light: rgba(167, 139, 250, 0.12);
+}
+[data-theme="dark"] .form-input { background-color: #1e293b; border-color: #334155; color: #f1f5f9; }
+[data-theme="dark"] .form-input::placeholder { color: #64748b; }
+[data-theme="dark"] .form-input:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(59,130,246,0.2); }
+[data-theme="dark"] select.form-input { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2394a3b8' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E"); }
+[data-theme="dark"] .btn-secondary { background: #1e293b; color: #f1f5f9; border-color: #334155; }
+[data-theme="dark"] .btn-secondary:hover:not(:disabled) { background: #334155; border-color: #475569; }
+[data-theme="dark"] .modal-content { background: #1e293b; }
+[data-theme="dark"] .data-table th { background: rgba(30,41,59,0.55); color: #94a3b8; }
+[data-theme="dark"] .data-table td { border-bottom-color: rgba(148,163,184,0.08); }
+[data-theme="dark"] .data-table tr:hover td { background: rgba(51,65,85,0.35); }
+[data-theme="dark"] .data-table tr:hover td:first-child { box-shadow: inset 3px 0 0 #60a5fa; }
+.row-overdue td { background: #fef2f2; }
+[data-theme="dark"] .row-overdue td { background: rgba(220,38,38,0.12) !important; color: #f1f5f9; }
+.row-warning td { background: #fffbeb; }
+[data-theme="dark"] .row-warning td { background: rgba(217,119,6,0.1) !important; color: #f1f5f9; }
+[data-theme="dark"] .search-input, [data-theme="dark"] .filter-select, [data-theme="dark"] .filter-date { background-color: #1e293b; border-color: #334155; color: #f1f5f9; }
+[data-theme="dark"] .template-editor, [data-theme="dark"] .template-card { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .quick-templates-section { background: rgba(59,130,246,0.08); border-color: #334155; }
+[data-theme="dark"] .quick-template-btn { background: #0f172a; border-color: #3b82f6; color: #60a5fa; }
+[data-theme="dark"] .quick-template-btn:hover { background: #3b82f6; color: white; }
+[data-theme="dark"] .client-card-header:hover, [data-theme="dark"] .payment-history, [data-theme="dark"] .upload-preview { background: #1e293b; }
+[data-theme="dark"] .payment-row, [data-theme="dark"] .upload-area { border-color: #334155; }
+[data-theme="dark"] .type-badge { background: #334155; color: #94a3b8; }
+[data-theme="dark"] .product-suggestions, [data-theme="dark"] .client-picker, [data-theme="dark"] .client-suggestions { background: #1e293b; border-color: #334155; }
+[data-theme="dark"] .product-suggestion-item, [data-theme="dark"] .client-picker-item, [data-theme="dark"] .client-suggestion-item { border-color: #334155; }
+[data-theme="dark"] .product-suggestion-item:hover { background: #334155; }
+[data-theme="dark"] .client-picker-item, [data-theme="dark"] .client-suggestion-item { background: #0f172a; }
+[data-theme="dark"] .client-picker-item:hover, [data-theme="dark"] .client-suggestion-item:hover { background: rgba(59,130,246,0.12); }
+[data-theme="dark"] .client-suggestion-save { border-color: #3b82f6; color: #60a5fa; }
+[data-theme="dark"] .client-suggestion-save:hover { background: rgba(59,130,246,0.12); }
+[data-theme="dark"] .btn-client-edit { background: rgba(59,130,246,0.12); border-color: #3b82f6; color: #60a5fa; }
+[data-theme="dark"] .btn-client-edit:hover { background: #3b82f6; color: white; }
+[data-theme="dark"] .client-suggestion-edit { background: #0f172a; border-color: #334155; color: #64748b; }
+[data-theme="dark"] .client-suggestion-edit:hover { background: rgba(59,130,246,0.12); color: #60a5fa; }
+[data-theme="dark"] .extra-section-editor { background: rgba(59,130,246,0.08); border-color: #334155; }
+[data-theme="dark"] .client-actions-bar { background: #1e293b; border-color: #334155; }
+/* Force invoice preview to always be light (PDF output) */
+[data-theme="dark"] .invoice-preview-container,
+[data-theme="dark"] .invoice-preview-container * {
+  color-scheme: light;
+}
+[data-theme="dark"] .invoice-preview-container {
+  background: white !important;
+  color: #1a1a2e !important;
+}
+[data-theme="dark"] .inv-header,
+[data-theme="dark"] .inv-title,
+[data-theme="dark"] .inv-business-name { color: #0f172a !important; }
+[data-theme="dark"] .inv-meta-label { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-meta-value { color: #1e293b !important; }
+[data-theme="dark"] .inv-business-details,
+[data-theme="dark"] .inv-business-details p { color: #64748b !important; }
+[data-theme="dark"] .inv-business-details strong { color: #334155 !important; }
+[data-theme="dark"] .inv-parties { background: #f8fafc !important; border-color: #e2e8f0 !important; }
+[data-theme="dark"] .inv-section-label { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-party-name { color: #0f172a !important; }
+[data-theme="dark"] .inv-party-details,
+[data-theme="dark"] .inv-party-details p { color: #64748b !important; }
+[data-theme="dark"] .inv-party-details strong { color: #334155 !important; }
+[data-theme="dark"] .inv-th { color: #64748b !important; border-color: #e2e8f0 !important; }
+[data-theme="dark"] .inv-td { color: #1a1a2e !important; border-color: #f1f5f9 !important; }
+[data-theme="dark"] .inv-td-name { color: #1e293b !important; }
+[data-theme="dark"] .inv-td-muted { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-td-amount { color: #0f172a !important; }
+[data-theme="dark"] .inv-total-row:not(.inv-total-modern) { color: #64748b !important; }
+[data-theme="dark"] .inv-total-row:not(.inv-total-modern) span:last-child { color: #1e293b !important; }
+[data-theme="dark"] .inv-total-final:not(.inv-total-modern) span:first-child { color: #0f172a !important; }
+[data-theme="dark"] .inv-total-final:not(.inv-total-modern) span:last-child { color: #1e40af !important; }
+[data-theme="dark"] .inv-total-final:not(.inv-total-modern) { border-color: #1e293b !important; }
+[data-theme="dark"] .inv-total-modern,
+[data-theme="dark"] .inv-total-modern span,
+[data-theme="dark"] .inv-total-modern span:first-child,
+[data-theme="dark"] .inv-total-modern span:last-child { color: #fff !important; border-color: transparent !important; }
+[data-theme="dark"] .inv-words-text { color: #334155 !important; }
+[data-theme="dark"] .inv-footer { border-color: #e2e8f0 !important; }
+[data-theme="dark"] .inv-footer-details,
+[data-theme="dark"] .inv-footer-details p { color: #64748b !important; }
+[data-theme="dark"] .inv-detail-label { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-terms { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-sig-label { color: #94a3b8 !important; }
+[data-theme="dark"] .inv-sig-line { border-color: #1e293b !important; }
+[data-theme="dark"] .inv-sig-name { color: #0f172a !important; }
+[data-theme="dark"] .inv-tax-badge { background: rgba(37,99,235,0.08) !important; color: #2563eb !important; }
+[data-theme="dark"] .inv-tax-badge-green { background: rgba(5,150,105,0.08) !important; color: #059669 !important; }
+[data-theme="dark"] .inv-gst-pill { background: #eff6ff !important; color: #3b82f6 !important; }
+[data-theme="dark"] .inv-tr-even td { background: #fafbfc !important; }
+[data-theme="dark"] .inv-extra-page { background: #fff !important; border-color: #e2e8f0 !important; }
+[data-theme="dark"] .inv-extra-page-header { border-color: #e2e8f0 !important; }
+[data-theme="dark"] .inv-extra-ref { color: #64748b !important; }
+[data-theme="dark"] .inv-extra-page-num { color: #94a3b8 !important; background: #f1f5f9 !important; }
+[data-theme="dark"] .inv-extra-content { color: #334155 !important; }
+
+/* Preview pane label */
+.preview-pane-label {
+  text-align: center;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 600;
+  color: var(--text-muted);
+  margin-bottom: 0.5rem;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+}
+
+/* ========= Layout ========= */
+.app-layout {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+  position: relative;
+}
+
+/* PWA Install Banner */
+.pwa-install-banner {
+  position: fixed;
+  top: 0;
+  left: 260px;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.65rem 1.25rem;
+  background: linear-gradient(135deg, #1e40af, #3b82f6);
+  color: white;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.pwa-install-banner span { flex: 1; }
+.pwa-install-btn {
+  background: white;
+  color: #1e40af;
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.pwa-install-btn:hover { background: #e0e7ff; }
+.pwa-dismiss-btn {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  padding: 0.25rem;
+  display: flex;
+  align-items: center;
+}
+.pwa-dismiss-btn:hover { color: white; }
+
+@media (max-width: 768px) {
+  .pwa-install-banner { left: 0; }
+}
+
+/* Server Status Indicator */
+.server-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 0.75rem;
+  margin-top: 0.5rem;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #94a3b8;
+  background: rgba(255,255,255,0.03);
+}
+.server-status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.server-status-online .server-status-dot {
+  background: #22c55e;
+  box-shadow: 0 0 6px #22c55e;
+}
+.server-status-online { color: #86efac; }
+.server-status-offline .server-status-dot {
+  background: #ef4444;
+  box-shadow: 0 0 6px #ef4444;
+  animation: pulse-red 1.5s ease-in-out infinite;
+}
+.server-status-offline { color: #fca5a5; }
+.server-status-checking .server-status-dot {
+  background: #f59e0b;
+  animation: pulse-red 1s ease-in-out infinite;
+}
+.server-status-checking { color: #fcd34d; }
+@keyframes pulse-red {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Server Down Overlay */
+.server-down-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0f172a;
+  color: #e2e8f0;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.server-down-modal {
+  max-width: 480px;
+  width: 90%;
+  text-align: center;
+  padding: 2.5rem 2rem;
+  background: #1e293b;
+  border-radius: 16px;
+  border: 1px solid #334155;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.4);
+}
+.server-down-modal h2 {
+  margin: 1rem 0 0.5rem;
+  font-size: 1.5rem;
+  color: #f8fafc;
+}
+.server-down-modal p {
+  color: #94a3b8;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+}
+.server-start-btn {
+  display: inline-block;
+  padding: 0.85rem 2.5rem;
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+  color: white;
+  font-size: 1.05rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  text-decoration: none;
+  margin-bottom: 1.5rem;
+  transition: transform 0.15s, box-shadow 0.15s;
+  box-shadow: 0 4px 15px rgba(37,99,235,0.3);
+}
+.server-start-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+  color: white;
+}
+.server-down-safe {
+  color: #86efac !important;
+  font-size: 0.82rem !important;
+  margin: 1rem 0 0.5rem !important;
+  padding: 0.6rem 1rem;
+  background: rgba(34,197,94,0.08);
+  border-radius: 8px;
+  border: 1px solid rgba(34,197,94,0.15);
+}
+.server-down-hint {
+  color: #64748b !important;
+  font-size: 0.8rem !important;
+  margin-bottom: 0.5rem !important;
+}
+.server-down-steps {
+  text-align: left;
+  background: #0f172a;
+  padding: 1.25rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+}
+.server-down-steps h3 {
+  margin: 0 0 0.75rem;
+  font-size: 0.95rem;
+  color: #e2e8f0;
+}
+.server-down-steps ol {
+  margin: 0;
+  padding-left: 1.25rem;
+}
+.server-down-steps li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: #94a3b8;
+  line-height: 1.5;
+}
+.server-down-steps li strong {
+  color: #e2e8f0;
+}
+.server-down-waiting {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  color: #64748b;
+  font-size: 0.85rem;
+  padding-top: 0.5rem;
+}
+.server-down-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid #334155;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  flex-shrink: 0;
+}
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.sidebar {
+  width: 260px;
+  background: #0f172a;
+  color: white;
+  padding: 1.75rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  /* v1.10.46 — Reported in issue #20: "no scroll option in menu bar".
+     On 1366×768 laptops the sidebar has 14+ nav items (Dashboard, New
+     Invoice, Clients, Products, Expenses, Purchases, Recurring,
+     Receipts, Reports, GST Returns, Income Tax, User Guide, Dark Mode,
+     Control Panel, Settings) which exceeds the viewport height. Prior
+     CSS had no overflow rule so bottom items got clipped invisibly.
+     Now: sidebar scrolls internally, brand stays at top. */
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+/* v1.10.78 (#92) - a scrollbar you can grab (was "thin", a hairline): 10px in
+   Chrome/Edge via ::-webkit-scrollbar below. Firefox has no such selector, so
+   it gets the standard properties; set for Chrome they would switch its
+   ::-webkit-scrollbar styling off. */
+@supports not selector(::-webkit-scrollbar) {
+  .sidebar { scrollbar-width: auto; scrollbar-color: rgba(255,255,255,0.22) transparent; }
+  html:not([data-theme="dark"]) .sidebar { scrollbar-color: rgba(15, 23, 42, 0.22) transparent; }
+}
+
+/* v1.10.77 (#84) - sidebar auto-hide (desktop only; phones already slide it
+   away). A 64px strip of icons, opening over the page on hover or keyboard
+   focus. */
+.sidebar-autohide-toggle {
+  margin-left: auto; flex-shrink: 0; width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: transparent; border: 1px solid transparent; color: rgba(255,255,255,0.6);
+}
+.sidebar-autohide-toggle:hover { background: rgba(255,255,255,0.08); color: #fff; }
+.sidebar-autohide-toggle.on { background: rgba(37, 99, 235, 0.18); border-color: rgba(37, 99, 235, 0.45); color: #93c5fd; }
+.sidebar-autohide-toggle:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+
+/* Support & About stands out in the sidebar: a rose pill, solid when open. */
+.nav-btn.nav-btn-support {
+  background: rgba(225, 29, 72, 0.14); border: 1px solid rgba(225, 29, 72, 0.35); color: #fda4af;
+}
+.nav-btn.nav-btn-support:hover { background: rgba(225, 29, 72, 0.24); color: #fff; }
+.nav-btn.nav-btn-support > svg { color: #fb7185; }
+.nav-btn.nav-btn-support-active,
+.nav-btn.nav-btn-support-active:hover { background: #e11d48; border-color: #e11d48; color: #fff; box-shadow: 0 4px 12px rgba(225, 29, 72, 0.35); }
+.nav-btn.nav-btn-support-active > svg { color: #fff; fill: #fff; }
+@media (min-width: 769px) {
+  .app-layout.sidebar-autohide > .sidebar {
+    position: fixed; left: 0; top: 0; bottom: 0; z-index: 900;
+    width: 64px; padding-left: 0.5rem; padding-right: 0.5rem;
+    transition: width 0.18s ease, box-shadow 0.18s ease;
+  }
+  .app-layout.sidebar-autohide > .sidebar:hover { width: 260px; box-shadow: 8px 0 30px rgba(15, 23, 42, 0.25); }
+  /* Keyboard focus opens it too. Not :focus-within: a clicked menu item keeps
+     focus, so the menu stayed open over the page after every click. Own rule,
+     so a browser without :has() still gets the hover rule above. */
+  .app-layout.sidebar-autohide > .sidebar:has(:focus-visible) { width: 260px; box-shadow: 8px 0 30px rgba(15, 23, 42, 0.25); }
+  .app-layout.sidebar-autohide > .sidebar .nav-btn { white-space: nowrap; overflow: hidden; }
+  .app-layout.sidebar-autohide > .main-content { margin-left: 64px; }
+  .app-layout.sidebar-autohide .settings-savebar { left: 64px; }
+
+  /* v1.10.78 (#92) - the closed rail is slim and clean: the logo and centred
+     icons only, nothing cut in half. The name, the Auto-hide checkbox and the
+     business switcher come back when it opens. */
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) {
+    scrollbar-width: none;
+  }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible))::-webkit-scrollbar { width: 0; }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .sidebar-brand { justify-content: center; gap: 0; }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .sidebar-brand > :not(.sidebar-logo),
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .sidebar-autohide-toggle,
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .profile-switcher { display: none; }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .nav-btn {
+    justify-content: center; gap: 0; padding-left: 0; padding-right: 0; font-size: 0;
+  }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .nav-btn > svg { flex-shrink: 0; }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .nav-btn > span:not(.nav-badge) { display: none; }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .nav-badge {
+    top: 6px !important; right: 10px !important; min-width: 0 !important; width: 8px; height: 8px !important; padding: 0 !important; font-size: 0 !important;
+  }
+  .app-layout.sidebar-autohide > .sidebar:not(:hover):not(:has(:focus-visible)) .server-status { justify-content: center; font-size: 0; gap: 0; padding-left: 0; padding-right: 0; }
+}
+@media (max-width: 768px) { .sidebar-autohide-toggle { display: none; } }
+
+/* v1.10.77 (#84) - Dashboard low-stock ticker. Two copies of the list scroll
+   left by half their width, so the loop is seamless. */
+.low-stock-ticker { display: flex; align-items: center; gap: 0.75rem; overflow: hidden; }
+.low-stock-ticker-label { display: inline-flex; align-items: center; gap: 0.35rem; flex-shrink: 0; font-size: 0.85rem; font-weight: 700; color: #d97706; }
+.low-stock-ticker-window { flex: 1; min-width: 0; overflow: hidden; }
+.low-stock-ticker-window.is-scrolling { -webkit-mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); mask-image: linear-gradient(90deg, transparent, #000 24px, #000 calc(100% - 24px), transparent); }
+.low-stock-ticker-track { display: inline-flex; gap: 0.5rem; white-space: nowrap; }
+.is-scrolling > .low-stock-ticker-track { animation: low-stock-scroll linear infinite; }
+.low-stock-ticker:hover .low-stock-ticker-track, .low-stock-ticker:focus-within .low-stock-ticker-track { animation-play-state: paused; }
+@keyframes low-stock-scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+.low-stock-chip { padding: 0.3rem 0.7rem; border-radius: 6px; font: inherit; font-size: 0.8rem; cursor: pointer; background: #fffbeb; border: 1px solid #fde68a; color: #d97706; flex-shrink: 0; }
+.low-stock-chip.low-stock-out { background: #fef2f2; border-color: #fecaca; color: #dc2626; }
+@media (prefers-reduced-motion: reduce) {
+  .is-scrolling > .low-stock-ticker-track { animation: none; }
+  .low-stock-ticker-window, .low-stock-ticker-window.is-scrolling { overflow-x: auto; -webkit-mask-image: none; mask-image: none; }
+  .low-stock-ticker-track > [aria-hidden="true"] { display: none; }
+}
+
+/* v1.10.66 (#59) — phones get a hide/show menu. Below 768px the fixed 260px
+   sidebar took most of the screen and squeezed every page into a sliver, so it
+   now slides in from the left behind a menu button in a slim top bar and closes
+   again once a page is picked. The desktop layout is unchanged. */
+.mobile-topbar,
+.sidebar-backdrop { display: none; }
+@media (max-width: 768px) {
+  .mobile-topbar {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 52px;
+    /* Below .modal-overlay (1000): an open dialog must cover the menu button,
+       or picking a page from it would throw away what was typed. */
+    z-index: 900;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0 0.75rem;
+    background: #0f172a;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  }
+  .mobile-topbar-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    cursor: pointer;
+  }
+  .mobile-topbar-title { font-weight: 700; font-size: 1rem; white-space: nowrap; }
+  .mobile-topbar-business {
+    margin-left: auto;
+    min-width: 0;
+    font-size: 0.8rem;
+    opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1200;
+    width: min(280px, 85vw);
+    transform: translateX(-100%);
+    transition: transform 0.2s ease;
+    box-shadow: 4px 0 24px rgba(0,0,0,0.35);
+  }
+  .sidebar.sidebar-open { transform: none; }
+  .sidebar-backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 1150;
+    background: rgba(15,23,42,0.55);
+  }
+  /* Two classes so this outranks the base .main-content padding further down. */
+  .app-layout > .main-content { padding: calc(52px + 1rem) 1rem 1.5rem; }
+  .app-layout .settings-savebar { left: 0; } /* the sidebar is off-screen on phones */
+  .app-layout .settings-bar { top: -1rem; } /* just under the fixed mobile header; two classes to outrank the base rule below */
+  .pwa-install-banner { top: 52px; }
+}
+.sidebar::-webkit-scrollbar { width: 10px; }
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgba(255,255,255,0.22);
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.sidebar::-webkit-scrollbar-thumb:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.sidebar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  padding: 0 0.5rem;
+}
+
+.sidebar-logo {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sidebar-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin: 0;
+  color: white;
+  letter-spacing: -0.02em;
+}
+
+.sidebar-subtitle {
+  font-size: 0.7rem;
+  color: #64748b;
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 500;
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+}
+
+/* Business profile switcher */
+.profile-switcher {
+  margin: 0.5rem 0.75rem 0.25rem;
+}
+.profile-switcher-row {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.profile-switcher-edit {
+  flex-shrink: 0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 6px;
+  padding: 0.35rem;
+  color: #94a3b8;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s, color 0.15s;
+}
+.profile-switcher-edit:hover { background: rgba(255,255,255,0.12); color: #60a5fa; }
+.profile-switcher-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex: 1;
+  min-width: 0;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 0.4rem 0.6rem;
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s;
+}
+.profile-switcher-btn:hover { background: rgba(255,255,255,0.1); }
+.profile-switcher-name {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.profile-switcher-menu {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #1e293b;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: 200;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+}
+.profile-switcher-item {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 0.5rem 0.75rem;
+  color: #cbd5e1;
+  font-size: 0.8rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s;
+}
+.profile-switcher-item:hover { background: rgba(255,255,255,0.08); }
+.profile-switcher-item.active { color: #60a5fa; font-weight: 600; }
+.profile-switcher-manage {
+  border-top: 1px solid rgba(255,255,255,0.08);
+  color: #64748b;
+  font-size: 0.75rem;
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.7rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: #94a3b8;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  text-align: left;
+  font-family: inherit;
+}
+
+.nav-btn:hover {
+  background: rgba(255,255,255,0.06);
+  color: #e2e8f0;
+}
+
+.nav-btn-active {
+  background: var(--primary) !important;
+  color: white !important;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.35);
+}
+
+.nav-btn-bottom {
+  margin-top: auto;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 2rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Sticky bars stop at the scroll area's padding, leaving a strip above them
+   that content scrolls through. Pull the Settings bar up by that padding. */
+.settings-bar { top: -2rem; }
+/* Settings "Save all changes" bar: docked along the bottom of the screen,
+   from the sidebar to the right edge. The page gets room so its last
+   section is never hidden under it. */
+.settings-savebar { position: fixed; left: 260px; right: 0; bottom: 0; }
+.settings-container { padding-bottom: 4.5rem; }
+
+/* ========= Glass Panels ========= */
+.glass-panel {
+  background: var(--card-bg);
+  /* v1.10.77 (#84) - no backdrop blur: the card is 92% opaque, so the blur was
+     barely visible, but blurring every card on every scroll frame made long
+     screens scroll slowly. */
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+}
+
+/* ========= Page Headers ========= */
+/* v1.10.37 — All page headers get the treatment introduced in the
+   Settings redesign: soft primary-accent gradient card, rounded 12px
+   corners, subtle border. Reported: "I like the heading you gave into
+   Settings — I want you to do in all the pages, that looks better."
+   By upgrading the shared class instead of each file, every page
+   (Dashboard, Clients, Inventory, GST Returns, Income Tax, Reports,
+   Purchase Bills, Recurring Invoices, Expenses, Receipts, User Guide,
+   Settings) inherits the same visual identity automatically. Right-
+   side action slot is preserved via the existing justify-content:
+   space-between + align-items: center. */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  padding: 1.1rem 1.35rem;
+  background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.12), var(--card-bg));
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 1.5rem;
+}
+
+.page-title {
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 0.2rem;
+  line-height: 1.15;
+}
+
+.page-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  margin: 0;
+}
+/* Fallback for dark mode — some browsers render color-mix() with
+   `oklab` slightly differently; the fallback ensures the gradient
+   still reads correctly. */
+[data-theme="dark"] .page-header {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.14), var(--card-bg));
+}
+/* v1.10.77 (#84) - compact header (Dashboard): a plain title row. */
+.page-header.page-header-compact,
+[data-theme="dark"] .page-header.page-header-compact { padding: 0; background: none; border: 0; border-radius: 0; }
+
+.section-title {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 1.25rem;
+  letter-spacing: -0.01em;
+}
+
+.update-available-box {
+  margin-top: 1rem;
+  padding: 0.85rem 1rem;
+  background: rgba(34,197,94,0.08);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 8px;
+  font-size: 0.88rem;
+  color: var(--text);
+}
+.update-available-box p { margin: 0.25rem 0; }
+.spin { animation: spin 1s linear infinite; }
+
+/* ========= Forms ========= */
+.form-group { margin-bottom: 1rem; }
+.form-group.full-width { grid-column: span 2; }
+
+.form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.65rem 0.9rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: white;
+  font-family: inherit;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+  color: var(--text);
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* v1.10.34 — Private-note textarea gets a warm-ivory tint in light
+   mode (visually separates it from regular fields), a muted warm tint
+   in dark mode. Prior inline `background:'#fffef5'` looked yellow-on-
+   dark and unreadable in dark mode. */
+.note-textarea {
+  background: #fffef5;
+}
+[data-theme="dark"] .note-textarea {
+  background: rgba(217, 119, 6, 0.08);
+}
+
+select.form-input {
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%236b7280' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  padding-right: 2rem;
+}
+
+textarea.form-input { resize: vertical; min-height: 60px; }
+
+/* ========= Buttons ========= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.25rem;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  border: none;
+  gap: 0.5rem;
+  font-family: inherit;
+  text-decoration: none; /* a link styled as a button (<a class="btn">) */
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--primary-hover));
+  color: white;
+  box-shadow: 0 2px 8px rgba(var(--primary-rgb), 0.28);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--primary-hover), var(--primary-darker));
+  box-shadow: 0 4px 14px rgba(var(--primary-rgb), 0.38);
+  transform: translateY(-1.5px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: translateY(0.5px);
+  box-shadow: 0 1px 4px rgba(var(--primary-rgb), 0.2);
+}
+
+.btn-secondary {
+  background: var(--card-bg);
+  color: var(--text);
+  border: 1px solid var(--border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: var(--bg-tertiary);
+  border-color: rgba(var(--primary-rgb), 0.3);
+  transform: translateY(-1px);
+}
+
+/* v1.10.33 — Icon buttons: slightly larger tap target (28→30px),
+   subtle background transition, and a lift on hover so the row's
+   actions feel interactive rather than static. */
+.icon-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease, transform 0.12s ease, box-shadow 0.15s ease;
+}
+.icon-btn:hover { transform: translateY(-1px); }
+.icon-btn:active { transform: translateY(0); }
+.icon-btn:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+.icon-btn-blue {
+  background: var(--primary-light);
+  color: var(--primary);
+}
+.icon-btn-blue:hover { background: rgba(37, 99, 235, 0.18); box-shadow: 0 2px 6px rgba(37,99,235,0.15); }
+
+.icon-btn-red {
+  background: var(--danger-light);
+  color: var(--danger);
+}
+.icon-btn-red:hover { background: rgba(220, 38, 38, 0.18); box-shadow: 0 2px 6px rgba(220,38,38,0.15); }
+
+/* ========= Dashboard ========= */
+/* v1.10.33 — Bumped from 1000px. The invoice table has 8 columns
+   including a 7-8 icon Actions column (~250px) — 1000px squeezed
+   the last icon(s) off-screen on wide monitors. 1400px gives room
+   for every column at natural width while still preventing infinite
+   stretch on ultra-wide displays. */
+.dashboard-container { max-width: 1400px; margin: 0 auto; width: 100%; }
+/* v1.10.37 — Widened 800 → 1100px. Reported: "settings page could
+   be widened so nav pills fit on one line". 11-chip jump-nav needs
+   ~950px to render without horizontal scroll, so 1100 gives comfortable
+   margin. Existing form grids inside were already `grid-cols-2` and
+   scale naturally. */
+.settings-container { max-width: 1100px; margin: 0 auto; width: 100%; }
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--glass-shadow);
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.stat-icon-blue { background: var(--primary-light); color: var(--primary); }
+.stat-icon-green { background: var(--success-light); color: var(--success); }
+.stat-icon-purple { background: var(--purple-light); color: var(--purple); }
+
+.stat-label {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  margin-bottom: 0.25rem;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.stat-value-green { color: var(--success); }
+.stat-value-purple { color: var(--purple); }
+
+/* ========= Table ========= */
+.table-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.table-header h3 { margin: 0; font-size: 1rem; }
+
+/* v1.10.33 — Scroll container gets a fade at the right edge so
+   users know there's more table off-screen on narrow viewports. */
+.table-scroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  /* v1.10.33 — Bumped from 900px to 1100px. The 8-column + 8-icon
+     action row needs 1050-1100px to render without ellipsis pressure
+     on Amount / Client. */
+  min-width: 1100px;
+  /* Financial columns look right when digits align; tabular-nums
+     guarantees monospace-style digit widths without a mono font. */
+  font-variant-numeric: tabular-nums;
+}
+
+.data-table th {
+  text-align: left;
+  padding: 0.7rem 0.6rem;   /* v1.10.33 — was 0.5rem/0.5rem, felt cramped */
+  font-size: 0.68rem;        /* +0.03rem — 0.65rem was borderline unreadable */
+  text-transform: uppercase;
+  letter-spacing: 0.06em;    /* wider tracking → premium feel */
+  color: var(--text-secondary);
+  font-weight: 600;
+  border-bottom: 1px solid var(--border);
+  background: rgba(249, 250, 251, 0.6);
+  white-space: nowrap;
+}
+
+.data-table td {
+  padding: 0.75rem 0.6rem;   /* v1.10.33 — was 0.5rem, needed breathing room */
+  border-bottom: 1px solid rgba(148, 163, 184, 0.15);  /* softer than --border */
+  vertical-align: middle;
+  font-size: 0.82rem;        /* +0.04rem — 0.78rem read as micro */
+  white-space: nowrap;
+}
+
+.data-table td.td-client {
+  white-space: normal;
+  max-width: 200px;          /* v1.10.33 — was 160px, ellipsis triggered too early */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.data-table tr:last-child td { border-bottom: none; }
+/* v1.10.33 — Row hover: subtle background + a hair-line primary
+   accent on the left edge. Makes the row feel selectable without
+   changing layout. */
+.data-table tbody tr {
+  transition: background 0.12s ease, box-shadow 0.12s ease;
+}
+.data-table tr:hover td {
+  background: rgba(249, 250, 251, 0.7);
+}
+.data-table tr:hover td:first-child {
+  box-shadow: inset 3px 0 0 var(--primary);
+}
+
+/* v1.10.33 — Actions column: keep it flush right so the last icon
+   never hits the scroll edge, and give it a tiny left padding so
+   Delete doesn't kiss the Email button on narrow rows. */
+.data-table th:last-child,
+.data-table td:last-child { text-align: right; padding-right: 0.85rem; }
+
+.invoice-badge {
+  display: inline-block;
+  padding: 0.2rem 0.5rem;
+  background: var(--primary-light);
+  color: var(--primary);
+  border-radius: 6px;         /* was 5px — matches --radius-sm rhythm */
+  font-size: 0.74rem;
+  font-weight: 600;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+/* v1.10.33 — Currency chip on non-INR amounts. Was an inline-style
+   pill; extracted so dark mode + hover states can carry through. */
+.currency-chip {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.05rem 0.4rem;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--primary);
+  background: var(--primary-light);
+  border-radius: 999px;
+  vertical-align: middle;
+}
+[data-theme="dark"] .currency-chip { background: rgba(59,130,246,0.18); color: #93c5fd; }
+
+.table-actions {
+  display: flex;
+  gap: 0.3rem;                /* v1.10.33 — was 0.25rem; tighter set felt cluttered */
+  flex-wrap: nowrap;
+  justify-content: center;   /* v1.10.79 (#94): centred under a centred Actions heading on every screen */
+}
+
+/* v1.10.33 — Muted em-dash placeholder for empty numeric cells
+   (Paid, Due Date, etc.). Wraps `-` looks weak against real values;
+   an em-dash in --text-muted reads as "no data" instead of "typo". */
+.data-table td .cell-empty {
+  color: var(--text-muted);
+  opacity: 0.55;
+  font-weight: 400;
+}
+
+.empty-state {
+  padding: 4rem 2rem;
+  text-align: center;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.empty-state svg { opacity: 0.25; }
+
+/* ========= Invoice Generator ========= */
+.generator-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 100%;
+  min-height: 0;
+}
+
+/* v1.10.65 — requested (#58 item 2, @sangwanmail-eng): "to access show
+   preview and hide preview button once you are at the bottom of the page,
+   you have to scroll all page."
+
+   Moving that one button was not the fix. The whole toolbar — Save, Save &
+   Download, Print, WhatsApp, E-Way Bill — sat at the top of a long form and
+   scrolled away, so ANY of those actions meant scrolling back up. Pinning
+   the bar fixes the complaint for all of them at once.
+
+   The background is opaque on purpose: the invoice rows scroll underneath,
+   and a translucent bar would let text show through the buttons. */
+.generator-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: var(--bg);
+  padding: 0.6rem 0.25rem;
+  border-bottom: 1px solid var(--border);
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.split-view {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  gap: 2rem;
+}
+/* v1.10.37 — Mobile breakpoint. Reported: "editor + preview both
+   shrink to ~180px on 375px phone — line-item rows need 700px min".
+   At ≤ 900px, stack vertically and hide the preview pane by default
+   (Focus mode toggle can re-show it). Line items keep the .line-item-row
+   layout which is already flex-wrappable, so each row gracefully
+   breaks into multiple lines on narrow viewports. */
+@media (max-width: 900px) {
+  .split-view {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .preview-pane {
+    display: none;
+  }
+  .split-view-focus .preview-pane {
+    /* When user explicitly toggles focus OFF (preview-collapsed=false)
+       on mobile, we still respect that and show the preview below the
+       editor. */
+    display: flex;
+  }
+  .editor-pane {
+    padding-right: 0;
+  }
+}
+/* v1.10.22 — focus mode: preview pane is display:none, editor takes the
+   full width and its max-width relaxes so line-item rows have room to
+   breathe (Description + HSN + Qty + Unit + Rate + Discount + Tax + Cess). */
+.split-view-focus .editor-pane {
+  max-width: none;
+  padding-right: 0;
+}
+
+.editor-pane {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.preview-pane {
+  flex: 1;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  /* v1.10.48 — `safe center` centres the preview while it fits, but falls
+     back to start-alignment the moment it overflows. Plain `center` in a
+     scroll container pushes the leading edge into negative scroll space
+     where it can never be reached — that is what clipped the left side of
+     the invoice on narrow panes. The unprefixed `center` above stays as a
+     fallback for engines that do not know the `safe` keyword. */
+  align-items: center;
+  align-items: safe center;
+}
+
+/* v1.10.48 — Reserves natural × zoom so the layout box matches the painted
+   size; `transform` alone never shrinks layout. Sized inline from the
+   measured preview. */
+.preview-scaler-frame {
+  flex: none;
+}
+
+.preview-scaler {
+  transform: scale(0.82);
+  transform-origin: top left;
+}
+
+[data-theme="dark"] .invoice-preview-container {
+  box-shadow: 0 8px 40px rgba(0,0,0,0.35), 0 0 0 1px rgba(255,255,255,0.06);
+}
+
+/* Invoice Options Panel */
+.invoice-options {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border);
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.option-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+  transition: background 0.15s;
+  user-select: none;
+}
+
+.option-toggle:hover {
+  background: rgba(0,0,0,0.04);
+}
+
+.option-toggle input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--primary);
+  cursor: pointer;
+}
+
+.option-toggle span {
+  font-weight: 500;
+}
+
+/* Modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  backdrop-filter: blur(4px);
+}
+
+.modal-content {
+  background: white;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 560px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+}
+
+/* Payment History */
+.payment-history {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 0.75rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.payment-row {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  font-size: 0.8rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.payment-row:last-child { border-bottom: none; }
+
+/* Client Cards */
+.client-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 1.5rem;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.client-card-header:hover { background: #f8fafc; }
+
+.client-card-info {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.client-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, var(--primary), #3b82f6);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+.client-card-name {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  margin: 0;
+}
+
+.client-card-meta {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  margin: 0.15rem 0 0;
+}
+
+.client-card-stats {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.client-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.client-stat-label {
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.client-stat-value {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--text);
+}
+
+.client-invoices {
+  border-top: 1px solid var(--border);
+}
+
+.client-actions-bar {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.75rem 1.5rem;
+  border-top: 1px solid var(--border);
+  background: #fafbfc;
+}
+
+.client-actions-bar .icon-btn {
+  font-size: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+/* Icon button green */
+.icon-btn-green {
+  color: #059669;
+}
+.icon-btn-green:hover {
+  background: #ecfdf5;
+}
+
+.line-item-row {
+  display: flex;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+/* v1.10.23 — reported: "INCREASE THE FIELD AREAS IT WILL PROPERLY VISIBLE
+   FOR ENTRY". The discount %/₹ dropdown added in v1.10.22 squeezed the
+   discount input to ~40px on narrow viewports. Now every field has a
+   min-width so nothing gets crushed; the row wraps to two lines on
+   small screens instead. Focus mode (v1.10.22) still gives the row the
+   full width, so on wide screens everything stays inline. */
+.line-item-field { display: flex; flex-direction: column; min-width: 72px; }
+.line-item-field input.form-input,
+.line-item-field select.form-input {
+  min-width: 0;
+  padding: 0.4rem 0.55rem;
+  font-size: 0.85rem;
+}
+.line-item-field .form-label { margin-bottom: 0.3rem; font-size: 0.7rem; }
+.line-item-delete { justify-content: flex-end; padding-bottom: 0.35rem; min-width: 0; }
+
+/* Product auto-search dropdown */
+.product-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: #fff;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  z-index: 50;
+  max-height: 180px;
+  overflow-y: auto;
+}
+.product-suggestion-item {
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.82rem;
+  border-bottom: 1px solid var(--border);
+}
+.product-suggestion-item:last-child { border-bottom: none; }
+.product-suggestion-item:hover { background: #f0f4ff; }
+.product-suggestion-name { font-weight: 500; color: var(--text); }
+.product-suggestion-meta { font-size: 0.72rem; color: var(--text-secondary); }
+
+/* ========= Print media: strip everything except the invoice preview =========
+   v1.10.29 — reported: "thermal print me kuch error ho raha hai" with a
+   screenshot showing the browser's print preview printing the WHOLE app
+   (sidebar, menu, toolbar, editor pane) instead of just the invoice.
+   Root cause: directPrint() for thermal calls window.print() which prints
+   the visible viewport. Without an @media print rule, browsers include
+   everything.
+   Fix: hide the entire page in print media, unhide only #invoice-preview,
+   position it at 0,0 with no margins, kill any preview-scaler transform
+   that would shrink it. Works for thermal (window.print) and for anyone
+   who hits Ctrl+P on the app in general. */
+/* v1.10.29 — scoped with :has() so Ctrl+P on Dashboard / Clients / Reports
+   (any view without #invoice-preview in the DOM) still gets the browser's
+   default print behaviour instead of a blank page. :has() is supported in
+   every Chromium 105+, Safari 15.4+, Firefox 121+ browser — safe for our
+   PWA target. */
+@media print {
+  body:has(#invoice-preview) * { visibility: hidden !important; }
+  body:has(#invoice-preview) #invoice-preview,
+  body:has(#invoice-preview) #invoice-preview * { visibility: visible !important; }
+  body:has(#invoice-preview) #invoice-preview {
+    position: absolute !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+    background: #fff !important;
+  }
+  body:has(#invoice-preview) .preview-scaler {
+    transform: none !important;
+  }
+  /* v1.10.48 — The scaler now sits inside a frame carrying an inline
+     width/height of natural × zoom. #invoice-preview is absolutely
+     positioned here so the frame cannot clip it, but the frame would
+     still reserve a stale scaled box on the printed page. Release it
+     alongside the transform above. */
+  body:has(#invoice-preview) .preview-scaler-frame {
+    width: auto !important;
+    height: auto !important;
+  }
+  @page {
+    margin: 0;
+    size: auto;
+  }
+}
+
+/* ========= Professional Invoice Preview ========= */
+.invoice-preview-container {
+  background: white;
+  min-height: 297mm;
+  width: 210mm;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: #1a1a2e;
+  position: relative;
+  border: 1px solid #e5e7eb;
+  border-radius: 4px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+  padding: 0;
+  overflow: hidden;
+}
+
+/* Paper-size variants (v1.8.1). Width + min-height are set inline from
+   getPaperSize() so PDF captures at the right physical dimensions. These
+   rules add layout adjustments for the compact formats. */
+
+/* ============================================================
+   v1.9.2 — PDF style system, PROPERLY targeting the actual DOM classes.
+   v1.9.1 had CSS targeting classes that didn't exist (.invoice-header-*)
+   — the templates rendered indistinguishably. Now uses the real classes:
+   .inv-header, .inv-title, .inv-meta-label, .inv-section-label,
+   .inv-business-name, .inv-party-name, .inv-tax-badge, .inv-table.
+   ============================================================ */
+
+/* ---- Corporate — formal navy header, uppercase labels ---- */
+.template-corporate .inv-header {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%) !important;
+  color: #f1f5f9 !important;
+  padding: 24px 32px 20px !important;
+}
+.template-corporate .inv-header * { color: #f1f5f9 !important; }
+.template-corporate .inv-title,
+.template-corporate .inv-business-name { color: #ffffff !important; letter-spacing: 0.02em; }
+.template-corporate .inv-meta-label { color: #93c5fd !important; }
+.template-corporate .inv-meta-value { color: #f1f5f9 !important; }
+.template-corporate .inv-section-label {
+  color: #1e40af !important;
+  border-bottom: 2px solid #1e40af !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.06em !important;
+  font-weight: 700 !important;
+}
+.template-corporate .inv-table thead th {
+  background: #1e40af !important;
+  color: #ffffff !important;
+  letter-spacing: 0.05em !important;
+  text-transform: uppercase !important;
+}
+.template-corporate .inv-tax-badge {
+  background: #1e40af !important;
+  color: #fff !important;
+}
+
+/* ---- Minimalist — grayscale + Inter + whitespace ---- */
+.template-minimalist { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important; }
+.template-minimalist * {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+.template-minimalist .inv-header {
+  background: transparent !important;
+  color: #0f172a !important;
+  padding: 36px 44px 20px !important;
+  border-bottom: 1px solid #cbd5e1 !important;
+}
+.template-minimalist .inv-title {
+  color: #0f172a !important;
+  font-weight: 300 !important;
+  letter-spacing: -0.01em !important;
+}
+.template-minimalist .inv-business-name {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+}
+.template-minimalist .inv-meta-label { color: #64748b !important; text-transform: uppercase; font-size: 0.72em; letter-spacing: 0.08em; }
+.template-minimalist .inv-meta-value { color: #0f172a !important; }
+.template-minimalist .inv-section-label {
+  color: #64748b !important;
+  border-bottom: 1px solid #e2e8f0 !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.75em !important;
+}
+.template-minimalist .inv-table thead th {
+  background: transparent !important;
+  color: #64748b !important;
+  border-bottom: 1px solid #94a3b8 !important;
+  font-weight: 500 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-size: 0.75em !important;
+}
+.template-minimalist .inv-tax-badge {
+  background: transparent !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+}
+
+/* ============================================================
+   v1.9.2 — PRINTING MODE. html2canvas onclone adds .printing-mode
+   to the clone. All light grays get forced darker so paper printers
+   render them clearly. Fixes user complaint that A4/A5 PDFs had
+   very-light text that faded on print.
+   ============================================================ */
+.printing-mode .text-muted,
+.printing-mode .inv-meta-label,
+.printing-mode .inv-party-details p,
+.printing-mode .inv-sig-label {
+  color: #1e293b !important;  /* was #64748b / #94a3b8 */
+}
+.printing-mode .inv-section-label {
+  color: #0f172a !important;
+  border-color: #334155 !important;
+}
+.printing-mode .inv-business-details,
+.printing-mode .inv-business-details p,
+.printing-mode .inv-business-details strong,
+.printing-mode .inv-party-name,
+.printing-mode .inv-party-details,
+.printing-mode .inv-party-details p,
+.printing-mode .inv-party-details strong,
+.printing-mode .inv-meta-value,
+.printing-mode .inv-business-name,
+.printing-mode .inv-title {
+  color: #0f172a !important;
+}
+/* v1.10.14 — the base .inv-business-details p rule at #64748b (light grey)
+   used to beat the container-level printing-mode override because CSS's
+   directly-applied color wins over an inherited color even when the
+   parent has !important. Now every p / strong inside the header parties
+   block is targeted individually so no light-grey text survives print. */
+/* Anything currently at very-light grey gets a floor value of #334155 */
+.printing-mode [style*="color: #94a3b8"],
+.printing-mode [style*="color:#94a3b8"],
+.printing-mode [style*="color: #cbd5e1"],
+.printing-mode [style*="color:#cbd5e1"],
+.printing-mode [style*="color: #64748b"],
+.printing-mode [style*="color:#64748b"] {
+  color: #1e293b !important;
+}
+/* Tables — force border colours darker on print */
+.printing-mode .inv-table th,
+.printing-mode .inv-table td,
+.printing-mode .inv-table tr {
+  border-color: #334155 !important;
+}
+/* v1.10.3 — Keep table rows whole across the html2canvas capture. When
+   a multi-page invoice's tall image gets stamped at negative Y offsets,
+   rows near the page seam get cut mid-content. `page-break-inside:
+   avoid` on <tr> nudges html2canvas' layout so rows push to the next
+   virtual page instead. Also repeat <thead> on each page via
+   table-header-group so users can read column labels on page 2+. */
+.printing-mode .inv-table tr,
+.printing-mode .inv-table tbody tr,
+.printing-mode .inv-table td {
+  page-break-inside: avoid !important;
+  break-inside: avoid !important;
+}
+.printing-mode .inv-table thead {
+  display: table-header-group !important;
+}
+/* v1.9.11 — HSN codes, business address, GSTIN line, party details:
+   these were faded on PDF paper output per reference photos user shared. */
+.printing-mode .inv-td-muted,
+.printing-mode .inv-td-hsn,
+.printing-mode .inv-business-address,
+.printing-mode .inv-business-gstin,
+.printing-mode .inv-party-address,
+.printing-mode .inv-item-hsn {
+  color: #1e293b !important;
+}
+.printing-mode .inv-terms,
+.printing-mode .inv-notes,
+.printing-mode .inv-footer-note {
+  color: #334155 !important;
+}
+
+/* v1.10.11 — Compact upper-header mode. When users flip
+   `headerCompact: true` in Print Settings, the invoice header + parties
+   + place-of-supply blocks shrink so more line items fit on page 1
+   before pagination kicks in. Padding is reduced ~40%, section labels
+   drop to smaller text, address blocks tighten line-height. Preserves
+   the visual hierarchy of every template — just removes wasted space. */
+.invoice-preview-container[data-header-compact="1"] .inv-header {
+  padding-top: 12px !important;
+  padding-bottom: 8px !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-parties {
+  padding-top: 0.5rem !important;
+  padding-bottom: 0.5rem !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-party-details p,
+.invoice-preview-container[data-header-compact="1"] .inv-business-details p {
+  margin: 0 !important;
+  line-height: 1.32 !important;
+  font-size: 0.78em !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-section-label {
+  margin-bottom: 2px !important;
+  font-size: 0.7em !important;
+  padding-bottom: 1px !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-title {
+  margin-bottom: 4px !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-business-name {
+  margin-bottom: 2px !important;
+}
+/* v1.10.14 — Amazon-style compact meta: put Invoice # / Date / Due Date
+   on ONE row instead of a column, three (label, value) pairs inline.
+   Saves ~30mm vertical space in the header block. */
+.invoice-preview-container[data-header-compact="1"] .inv-meta {
+  gap: 0.75rem !important;
+  flex-direction: row !important;
+  flex-wrap: wrap !important;
+  align-items: baseline !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-meta-row {
+  padding: 1px 0 !important;
+  gap: 0.35rem !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-meta-label {
+  min-width: 0 !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-parties + .inv-table,
+.invoice-preview-container[data-header-compact="1"] .inv-parties + table.inv-table {
+  margin-top: 0 !important;
+}
+
+/* v1.10.13 — Reported: even with compact + 80% scale the shipping
+   address pushed content to page 2. Now when compact is on AND a
+   ship-to block exists, the parties row switches to a tighter
+   3-col grid, address blocks lose paragraph margins entirely, and
+   business-details wraps to 2 rows instead of 6. Also drops the
+   header's logo max-height when compact so the top block is truly
+   compact. */
+.invoice-preview-container[data-header-compact="1"] .inv-header img {
+  max-height: 40px !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-parties {
+  display: grid !important;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 0.75rem !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-party {
+  min-width: 0;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-party-name {
+  font-size: 0.92em !important;
+  margin-bottom: 2px !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-business-details p,
+.invoice-preview-container[data-header-compact="1"] .inv-business-details,
+.invoice-preview-container[data-header-compact="1"] .inv-party-details p,
+.invoice-preview-container[data-header-compact="1"] .inv-party-details {
+  font-size: 0.72em !important;
+}
+/* Business-details block (Company address / phone / email / GSTIN)
+   under the invoice header — when compact, collapse the tight column
+   into two lines by inlining pairs of items. Not perfect, but shaves
+   ~20mm of vertical space on typical A4 renders. */
+.invoice-preview-container[data-header-compact="1"] .inv-business-details {
+  display: block !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-business-details p {
+  display: inline !important;
+  margin-right: 0.6em !important;
+}
+.invoice-preview-container[data-header-compact="1"] .inv-business-details p::after {
+  content: " · ";
+  color: var(--pdf-muted-text, #64748b);
+}
+.invoice-preview-container[data-header-compact="1"] .inv-business-details p:last-child::after {
+  content: "";
+}
+
+/* v1.10.10 — Higher-specificity print-mode overrides for the Minimalist
+   and Modern templates. Prior code's `.printing-mode .inv-*` rules were
+   OUTGUNNED by `.template-minimalist .inv-meta-label { color: #64748b
+   !important }` (both !important, but template-* has higher specificity
+   because it's specified via chained-class selectors on the container).
+   Now the compound `.printing-mode.template-minimalist .inv-*` selector
+   wins, forcing muted text darker on paper output regardless of template.
+   User reported: "in minimal template invoice customization address and
+   contact details color still light color". */
+.printing-mode.template-minimalist .inv-meta-label,
+.printing-mode.template-minimalist .inv-section-label,
+.printing-mode.template-minimalist .inv-table thead th,
+.printing-mode.template-minimalist .inv-business-details,
+.printing-mode.template-minimalist .inv-business-details p,
+.printing-mode.template-minimalist .inv-party-details,
+.printing-mode.template-minimalist .inv-party-details p {
+  color: #1e293b !important;
+}
+.printing-mode.template-minimalist .inv-business-details strong,
+.printing-mode.template-minimalist .inv-party-details strong {
+  color: #0f172a !important;
+}
+/* Also cover the Modern template's meta-label which suffers the same
+   fate (a rare but reported issue on cool-toned printers). */
+.printing-mode.template-modern .inv-meta-label {
+  color: #1e293b !important;
+}
+
+/* v1.9.8 — Print Settings split layout. Sticky preview on the right;
+   collapses to stacked on narrow screens so mobile users don't get a
+   tiny preview crushed to 100px wide. */
+@media (max-width: 900px) {
+  .print-settings-layout {
+    grid-template-columns: 1fr !important;
+  }
+  .print-settings-preview-pane {
+    position: relative !important;
+    top: auto !important;
+    max-height: 600px !important;
+  }
+}
+/* v1.9.9 — prevent horizontal text overflow inside setting cards. Long
+   hint paragraphs and label lines were clipping at the right edge when
+   the grid squeezed cards narrow. */
+.print-settings-body { min-width: 0; }
+.print-settings-body * { overflow-wrap: anywhere; word-break: normal; }
+.print-settings-body label,
+.print-settings-body select,
+.print-settings-body input { max-width: 100%; box-sizing: border-box; }
+.print-settings-preview-pane { overflow: hidden; }
+
+/* v1.9.13 — PDF preview now consumes Typography settings the same way
+   the thermal render does. Font family / size / weight / all-caps used
+   to be thermal-only, so changes from the Typography section didn't
+   visibly do anything in the PDF preview and users reported the preview
+   as broken. Data attributes on the invoice container drive these. */
+.invoice-preview-container[data-pdf-font="mono"],
+.invoice-preview-container[data-pdf-font="mono"] * {
+  font-family: 'Courier New', 'Consolas', monospace !important;
+}
+.invoice-preview-container[data-pdf-font="sans"],
+.invoice-preview-container[data-pdf-font="sans"] * {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif !important;
+}
+.invoice-preview-container[data-pdf-font-size="small"]  { font-size: 87%; }
+.invoice-preview-container[data-pdf-font-size="medium"] { font-size: 100%; }
+.invoice-preview-container[data-pdf-font-size="large"]  { font-size: 112%; }
+.invoice-preview-container[data-pdf-font-size="xlarge"] { font-size: 122%; }
+.invoice-preview-container[data-pdf-font-weight="normal"] { font-weight: 400; }
+.invoice-preview-container[data-pdf-font-weight="bold"]   { font-weight: 600; }
+.invoice-preview-container[data-pdf-font-weight="ultra"]  { font-weight: 800; }
+.invoice-preview-container[data-pdf-font-weight="ultra"] .inv-title,
+.invoice-preview-container[data-pdf-font-weight="ultra"] .inv-business-name,
+.invoice-preview-container[data-pdf-font-weight="ultra"] .inv-table thead th,
+.invoice-preview-container[data-pdf-font-weight="ultra"] .inv-td-amount { font-weight: 900 !important; }
+/* ALL CAPS across the whole invoice — respects white-space on numeric cells */
+.invoice-preview-container[data-pdf-caps="1"] { text-transform: uppercase; }
+.invoice-preview-container[data-pdf-caps="1"] .inv-td-amount,
+.invoice-preview-container[data-pdf-caps="1"] .inv-td-hsn,
+.invoice-preview-container[data-pdf-caps="1"] input,
+.invoice-preview-container[data-pdf-caps="1"] .qr-code-container { text-transform: none; }
+
+/* v1.9.13 — dropdown text was clipping ("Monospace (Courier) — thermal-optimiz"
+   with the 'ed' cut off). Give selects room to breathe and let long option
+   labels wrap in the closed state via ellipsis rather than hard clip. */
+.print-settings-body select {
+  padding-right: 2rem;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
+  width: 100%;
+}
+
+/* v1.9.12 — Dark-mode fixes for the Print Settings preview pane and the
+   invoice-preview inside it. The invoice preview always renders on a
+   white canvas (invoices are printed on white paper), so its inner text
+   uses light-on-white assumptions. In app dark mode, the pane container
+   is dark but the invoice inside needs to keep its white paper feel. */
+[data-theme="dark"] .print-settings-preview-pane {
+  background: var(--card, #1e293b) !important;
+  border: 1px solid var(--border-color, #334155);
+}
+[data-theme="dark"] .print-settings-preview-pane > div:last-child {
+  background: #ffffff !important;  /* preview canvas stays white paper */
+}
+[data-theme="dark"] .print-settings-preview-pane .invoice-preview-container,
+[data-theme="dark"] .print-settings-preview-pane .invoice-preview-container * {
+  color-scheme: light;
+}
+/* Preset card contrast fix — the coloured swatch strip could look muddy
+   on the dark card background. Add a subtle inner divider. */
+[data-theme="dark"] .print-settings-body button[title] {
+  background: var(--bg-secondary, #0f172a) !important;
+}
+[data-theme="dark"] .print-settings-body button[title] span,
+[data-theme="dark"] .print-settings-body button[title] strong {
+  color: var(--text, #f1f5f9);
+}
+
+/* v1.9.4 — Accessibility improvements */
+button:focus-visible,
+select:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--primary, #1e40af) !important;
+  outline-offset: 2px !important;
+  border-radius: 4px;
+}
+/* Ensure text-muted default meets WCAG AA on white backgrounds */
+:root {
+  --text-muted-safe: #475569; /* was #94a3b8 in some places */
+}
+
+/* v1.9.3 — Row density modifier. Applied to invoice-preview-container via
+   data-row-density attribute. Cascades to table rows + section blocks. */
+.invoice-preview-container[data-row-density="compact"] .inv-table th,
+.invoice-preview-container[data-row-density="compact"] .inv-table td { padding: 4px 6px !important; line-height: 1.25 !important; }
+.invoice-preview-container[data-row-density="compact"] .inv-parties,
+.invoice-preview-container[data-row-density="compact"] .inv-section { padding: 8px 12px !important; }
+
+.invoice-preview-container[data-row-density="comfortable"] .inv-table th,
+.invoice-preview-container[data-row-density="comfortable"] .inv-table td { padding: 12px 14px !important; line-height: 1.6 !important; }
+.invoice-preview-container[data-row-density="comfortable"] .inv-parties,
+.invoice-preview-container[data-row-density="comfortable"] .inv-section { padding: 20px 24px !important; }
+
+/* v1.9.2 — user-configurable colours via CSS custom properties.
+   PrintSettings sets --pdf-primary-text etc. on the container; these
+   rules cascade them down to child elements. */
+.invoice-preview-container[data-user-colors="1"] .inv-meta-label,
+.invoice-preview-container[data-user-colors="1"] .text-muted {
+  color: var(--pdf-muted-text, #64748b) !important;
+}
+.invoice-preview-container[data-user-colors="1"] .inv-section-label {
+  color: var(--pdf-accent, #1e40af) !important;
+}
+.invoice-preview-container[data-user-colors="1"] .inv-table thead th {
+  background: var(--pdf-accent, #1e40af) !important;
+  color: var(--pdf-accent-text, #ffffff) !important;
+}
+.invoice-preview-container[data-user-colors="1"] .inv-title {
+  color: var(--pdf-primary-text, #0f172a) !important;
+}
+
+/* v1.9.12 — Template-corporate has a hardcoded dark navy gradient header.
+   User colors were forcing the title/business-name/meta text to
+   --pdf-primary-text (also dark), producing dark-on-dark invisibility.
+   Force header text to the accent-text color (white by default) when
+   the template paints a dark header. Higher specificity than the plain
+   `.invoice-preview-container[data-user-colors="1"] .inv-title` rule. */
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-title,
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-business-name,
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-meta-value,
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-business-details p,
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-header * {
+  color: #ffffff !important;
+}
+.invoice-preview-container[data-user-colors="1"].template-corporate .inv-meta-label {
+  color: #cbd5e1 !important;
+}
+/* Same treatment for template-modern which paints its own coloured header
+   block via the JSX renderModernHeader (background: accent). */
+.invoice-preview-container[data-user-colors="1"].template-modern .inv-header-modern *,
+.invoice-preview-container[data-user-colors="1"].template-modern .inv-title {
+  color: var(--pdf-accent-text, #ffffff) !important;
+}
+
+/* A4 Landscape — 297 × 210 mm. Same styles as portrait A4 but wider.
+   No special adjustments needed — the invoice-preview-container gets its
+   width set inline (297mm) from getPaperSize, and existing layout flexes. */
+.paper-a4-landscape.invoice-preview-container {
+  min-height: 210mm;
+}
+
+/* A5 Landscape — 210 × 148 mm. Same width as A4 portrait so full-width
+   layouts fit; height is halved so we drop the min-height and shrink
+   some vertical padding to keep content on ONE page. Users print two
+   invoices per A4 sheet with this. */
+.paper-a5-landscape.invoice-preview-container {
+  min-height: 148mm;
+  font-size: 11.5px;
+  line-height: 1.35;
+}
+.paper-a5-landscape h1 { font-size: 1.3rem !important; }
+.paper-a5-landscape h2 { font-size: 1.1rem !important; }
+.paper-a5-landscape table { font-size: 10.5px !important; }
+.paper-a5-landscape th, .paper-a5-landscape td { padding: 3px 4px !important; }
+.paper-a5-landscape .invoice-header-modern,
+.paper-a5-landscape .invoice-header-classic,
+.paper-a5-landscape .invoice-header-minimal { padding: 10px 20px !important; }
+.paper-a5-landscape .invoice-section,
+.paper-a5-landscape .invoice-block,
+.paper-a5-landscape .invoice-footer,
+.paper-a5-landscape .totals-block { padding: 6px 14px !important; }
+.paper-a5-landscape .invoice-logo,
+.paper-a5-landscape img[alt="logo"],
+.paper-a5-landscape img[alt="signature"] { max-height: 40px !important; }
+
+/* A5 — half a sheet. v1.8.5 AGGRESSIVE compaction so a full invoice
+   (header + client + 4-6 items + totals + terms + footer) fits on ONE
+   A5 page. Previous version still had A4-sized padding that pushed
+   content to a second page. */
+.paper-a5.invoice-preview-container {
+  min-height: 210mm;
+  font-size: 9.5px !important;
+  line-height: 1.25 !important;
+}
+.paper-a5 h1 { font-size: 1.15rem !important; margin: 0 !important; }
+.paper-a5 h2 { font-size: 0.95rem !important; margin: 0 !important; }
+.paper-a5 h3 { font-size: 0.85rem !important; margin: 0 !important; }
+.paper-a5 p { margin: 2px 0 !important; }
+.paper-a5 table { font-size: 8.5px !important; }
+.paper-a5 th, .paper-a5 td { padding: 2px 4px !important; }
+.paper-a5 tr { line-height: 1.2 !important; }
+
+/* Shrink the "0 2rem" horizontal margins that push content off A5. */
+.paper-a5 .inv-table[style*="margin: 0 2rem"],
+.paper-a5 table[style*="margin: 0 2rem"] {
+  margin: 0 6px !important;
+  width: calc(100% - 12px) !important;
+}
+/* Cut all A4 header paddings by ~65% */
+.paper-a5 .invoice-header-modern,
+.paper-a5 .invoice-header-classic,
+.paper-a5 .invoice-header-minimal { padding: 8px 12px !important; }
+/* Sections — down from 1.5rem to 6px */
+.paper-a5 .invoice-section,
+.paper-a5 .invoice-block,
+.paper-a5 .invoice-footer,
+.paper-a5 .totals-block { padding: 6px 10px !important; }
+/* Smaller logos + signatures */
+.paper-a5 .invoice-logo,
+.paper-a5 img[alt="logo"],
+.paper-a5 img[alt="signature"] { max-height: 40px !important; }
+/* Totals block emphasis */
+.paper-a5 .table-total,
+.paper-a5 .totals-block strong { font-size: 1em !important; }
+/* Terms text — usually the longest block, shrink hardest */
+.paper-a5 .terms-block,
+.paper-a5 [class*="terms"] { font-size: 7.5px !important; line-height: 1.25 !important; padding: 4px 8px !important; }
+/* Bank details block — tight */
+.paper-a5 .bank-block { padding: 4px 8px !important; font-size: 8.5px !important; }
+/* Reduce the standard invoice-block gap between sections */
+.paper-a5 > * { margin-bottom: 2px !important; }
+
+/* Thermal — 80mm / 58mm receipt printer roll. Single-column, dense,
+   monospace-ish. All decorative color panels + gradients removed since
+   thermal printers are black-and-white and drying complex fills wastes
+   ribbon / thermal paper. */
+.paper-thermal.invoice-preview-container {
+  min-height: unset;
+  font-size: 11px;
+  line-height: 1.35;
+  padding: 0;
+  border: none; box-shadow: none; border-radius: 0;
+  background: white;
+}
+.paper-thermal h1, .paper-thermal h2, .paper-thermal h3 {
+  font-size: 12px !important;
+  margin: 6px 0 !important;
+  text-align: center;
+  border-bottom: 1px dashed #000 !important;
+  padding-bottom: 2px !important;
+  background: transparent !important;
+  color: #000 !important;
+}
+.paper-thermal .invoice-header-modern,
+.paper-thermal .invoice-header-classic,
+.paper-thermal .invoice-header-minimal {
+  padding: 4px 6px !important;
+  background: transparent !important;
+  color: #000 !important;
+  gap: 4px !important;
+}
+.paper-thermal .invoice-header-modern * ,
+.paper-thermal .invoice-header-classic *,
+.paper-thermal .invoice-header-minimal * { color: #000 !important; background: transparent !important; }
+.paper-thermal .invoice-header-modern img,
+.paper-thermal .invoice-header-classic img,
+.paper-thermal .invoice-header-minimal img { max-height: 40px; }
+.paper-thermal table {
+  font-size: 10px !important;
+  width: 100%;
+  border-collapse: collapse;
+}
+.paper-thermal table th,
+.paper-thermal table td {
+  padding: 2px 4px !important;
+  border-bottom: 1px dashed #ddd !important;
+  background: transparent !important;
+  color: #000 !important;
+}
+.paper-thermal .invoice-section,
+.paper-thermal .invoice-block {
+  padding: 4px 6px !important;
+  background: transparent !important;
+}
+.paper-thermal .totals-block {
+  border-top: 1px dashed #000 !important;
+  padding-top: 4px !important;
+  background: transparent !important;
+}
+/* v1.10.12 — UPI QR now renders on 58mm thermal too. Reported: "QR
+   for payment should also add on 2 inch thermal too because this
+   feature is working in market". Previously hidden due to width
+   concerns; a 32×32mm QR fits comfortably on 48mm-printable 58mm rolls
+   as long as we cap its size. */
+/* v1.10.36 — Reverted to the pre-v1.10.33 CSS. Reported (Hinglish):
+   "qr small ho gaya hai ... phele jaisa kar dijiye just custom me
+   problem tha". The v1.10.33 max-width caps here were smaller than
+   InvoicePreview's inline widths (thermal58 got 70px cap vs the
+   inline 90px, thermal80 got 100px cap vs inline 90px), and since
+   `max-width` wins over inline width, the QR shrank on every roll.
+   The historical behaviour (no CSS cap, inline width from qrSizePx
+   drives everything) is restored — only the custom-thermal case
+   keeps a defence-in-depth cap for < 100mm rolls where the inline
+   fallback might overshoot the paper edge.
+   .thermal-qr / .thermal-logo classNames stay so a future targeted
+   fix has real selectors to hook. */
+.paper-thermal .thermal-qr,
+.paper-thermal .thermal-logo {
+  margin: 0 auto;
+  display: block;
+}
+.paper-thermal-custom .thermal-qr {
+  max-width: 60%;  /* 60% of the paper width — cheap safety net */
+}
+/* Hide multi-column grid layouts on thermal — stack everything. */
+.paper-thermal .grid,
+.paper-thermal [class*="grid-"] {
+  display: block !important;
+}
+.paper-thermal .invoice-footer {
+  padding: 4px 6px !important;
+  text-align: center;
+  font-size: 9px !important;
+  border-top: 1px dashed #000 !important;
+}
+
+/* Header */
+/* v1.10.28 — compacted base spacing (was 2rem 2.5rem 0 / margin-bottom 2rem).
+   Reported: "your format was great but some tweaks can make it compact and
+   clear". Matches the density of Vyapar / MargERP / nVertex-style templates. */
+.inv-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 1.5rem 0;
+  margin-bottom: 0.75rem;
+}
+
+.inv-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin-bottom: 0.5rem;
+}
+
+.inv-meta { display: flex; flex-direction: column; gap: 0.2rem; }
+
+.inv-meta-row {
+  display: flex;
+  gap: 0.75rem;
+  font-size: 0.825rem;
+}
+
+.inv-meta-label {
+  color: #475569;
+  min-width: 75px;
+  font-weight: 500;
+}
+
+.inv-meta-value {
+  color: #1e293b;
+  font-weight: 600;
+}
+
+/* v1.10.28 — header-right widened (45% → 48%) since header padding
+   dropped; business name a touch smaller to match the reference density. */
+.inv-header-right { text-align: right; max-width: 48%; }
+
+.inv-business-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.3rem;
+}
+
+.inv-business-details {
+  font-size: 0.8rem;
+  color: #334155;
+  line-height: 1.65;
+}
+
+/* v1.10.14 — bumped from #64748b (light grey) to #334155 (slate 700).
+   Base body / address / phone lines were too faded on paper output even
+   with the printing-mode class applied because the p-level color was
+   more specific than the container-level printing-mode override. */
+.inv-business-details p { margin: 0; color: #334155; }
+.inv-business-details strong { color: #0f172a; font-weight: 600; }
+
+/* Parties */
+/* v1.10.28 — margin 0 2.5rem 2rem → 0 1.5rem 0.75rem, padding 1.5rem → 0.85rem.
+   Tightens the billing/shipping/place-of-supply band by ~50% vertical. */
+.inv-parties {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 1.5rem 0.75rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+}
+
+.inv-section-label {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #475569;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.inv-party-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin-bottom: 0.3rem;
+}
+
+/* v1.10.14 — same #64748b → #334155 bump as .inv-business-details above. */
+.inv-party-details { font-size: 0.8rem; color: #334155; line-height: 1.65; }
+.inv-party-details p { margin: 0; color: #334155; }
+.inv-party-details strong { color: #0f172a; }
+
+.inv-party-right { text-align: right; display: flex; flex-direction: column; justify-content: center; }
+
+/* v1.10.66 (#64 item 5) — fixed, print-safe colours instead of the app theme's.
+   The badge sits on the invoice paper, which is white in every theme, so the
+   theme greens and blues were the wrong source: the light theme's green reached
+   only 3.6:1 and faded on a black-and-white printer, and the dark theme's paler
+   shades were fainter still. Both now clear 4.5:1 on their tint. */
+.inv-tax-badge {
+  display: inline-block;
+  margin-top: 0.5rem;
+  padding: 0.2rem 0.6rem;
+  background: rgba(37, 99, 235, 0.08);
+  color: #1d4ed8;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+.inv-tax-badge-green {
+  background: rgba(5, 150, 105, 0.08);
+  color: #047857;
+}
+
+/* Items Table */
+/* v1.10.28 — table now fills 100% - 2.5rem (was 3rem) and bottom margin cut
+   in half so more items fit per page and less whitespace before totals. */
+.inv-table {
+  width: calc(100% - 2.5rem);
+  margin: 0 1.25rem 0.75rem;
+  border-collapse: collapse;
+}
+
+.inv-th {
+  padding: 0.45rem 0.4rem;
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  text-align: left;
+  border-bottom: 2px solid #e2e8f0;
+  background: transparent;
+  white-space: nowrap;
+}
+
+.inv-th-center { text-align: center; }
+.inv-th-right { text-align: right; }
+
+.inv-td {
+  padding: 0.5rem 0.4rem;
+  font-size: 0.72rem;
+  border-bottom: 1px solid #f1f5f9;
+  white-space: nowrap;
+}
+
+.inv-td-name { font-weight: 600; color: #1e293b; white-space: normal; word-wrap: break-word; overflow-wrap: break-word; }
+.inv-td-center { text-align: center; }
+.inv-td-right { text-align: right; }
+/* v1.9.11 — HSN column was rendering at #94a3b8 which was almost
+   invisible on PDF paper output (user complaint with reference photo).
+   Bumped to a readable dark grey; .printing-mode drops it even darker. */
+.inv-td-muted { color: #475569; }
+.inv-td-amount { font-weight: 600; color: #0f172a; white-space: nowrap; }
+
+.inv-tr-even td { background: #fafbfc; }
+
+.inv-gst-pill {
+  display: inline-block;
+  padding: 0.1rem 0.45rem;
+  background: #eff6ff;
+  color: #3b82f6;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+}
+
+/* Totals */
+/* v1.10.28 — totals band tightened: padding 0 2.5rem → 0 1.5rem, margin
+   bottom 2.5rem → 1rem. Amount-in-words padding-right 3rem → 1.5rem so
+   totals can grow left without dead space. */
+.inv-totals-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 0 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.inv-words { flex: 1; padding-right: 1.5rem; }
+
+.inv-words-text {
+  font-size: 0.825rem;
+  font-weight: 500;
+  color: #334155;
+  font-style: italic;
+  line-height: 1.5;
+  text-transform: capitalize;
+}
+
+.inv-totals { width: 260px; }
+
+.inv-total-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.4rem 0;
+  font-size: 0.825rem;
+  color: #64748b;
+}
+
+.inv-total-row span:last-child { font-weight: 500; color: #1e293b; }
+
+/* v1.10.38 — TOTAL DUE row gains a proper visual anchor. Prior look
+   was just a top-border + slightly larger amount — subtotal / IGST /
+   TOTAL sat as three equal-weight rows and the eye had no cue where
+   to land. Now: a subtle accent-tinted background bar wraps the row,
+   the label upsizes to 1rem, the amount to 1.4rem. Modern style stays
+   as-is (already had a solid accent pill). */
+.inv-total-final {
+  margin-top: 0.5rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(var(--pdf-accent-rgb, 30, 64, 175), 0.08);
+  border-top: 2px solid var(--pdf-accent, #1e293b);
+}
+
+.inv-total-final span:first-child {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #0f172a;
+  letter-spacing: 0.01em;
+}
+
+.inv-total-final span:last-child {
+  font-weight: 800;
+  font-size: 1.4rem;
+  color: var(--pdf-accent, #1e40af);
+  letter-spacing: -0.01em;
+}
+
+.inv-total-modern {
+  border-top: none;
+  background: unset;  /* modern style provides its own solid accent pill */
+  padding: 0.6rem 0.75rem;
+}
+.inv-total-modern span:first-child,
+.inv-total-modern span:last-child { color: #fff; }
+
+/* Footer */
+/* v1.10.28 — footer padding + block spacing tightened. Bank details +
+   signature block used to eat ~50mm of vertical; now ~30mm. */
+.inv-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding: 1rem 1.5rem 1.25rem;
+  border-top: 1px solid #e2e8f0;
+  margin: 0 1.5rem;
+}
+
+.inv-footer-left { flex: 1; }
+
+/* v1.10.38 — Match Bill-To visual treatment for the footer blocks
+   (Bank Details, Terms & Conditions, Notes, Exchange Rate). Prior
+   look had Bill-To sitting inside a soft-grey border box while these
+   blocks floated as plain paragraphs — visually inconsistent. Now
+   they share the same subtle container so the page reads as a set of
+   uniform sections. Kept the padding conservative (0.7rem) so the
+   PDF doesn't inflate vertically and existing multi-page cuts still
+   land where they used to. */
+.inv-footer-block {
+  margin-bottom: 0.6rem;
+  background: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  padding: 0.7rem 0.9rem;
+}
+.inv-footer-block:last-child { margin-bottom: 0; }
+[data-theme="dark"] .inv-footer-block { background: #f8fafc !important; border-color: #e2e8f0 !important; }
+/* Minimal PDF style keeps the airy no-border look — the design's
+   whole personality is negative space, containers would fight it. */
+.template-minimal .inv-footer-block,
+.template-minimalist .inv-footer-block {
+  background: transparent;
+  border: none;
+  padding: 0.3rem 0;
+}
+
+.inv-footer-details {
+  font-size: 0.8rem;
+  color: #64748b;
+  line-height: 1.7;
+}
+
+.inv-footer-details p { margin: 0; color: #64748b; }
+
+.inv-detail-label {
+  color: #94a3b8;
+  font-weight: 500;
+  display: inline-block;
+  min-width: 55px;
+}
+
+.inv-terms {
+  font-size: 0.6rem;
+  color: #64748b;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* v1.10.57 — reported (#44 item 1, @sangwanmail-eng): "Term and condition
+   not arrange properly". Numbered terms printed as one run-on paragraph.
+
+   Cause: the global reset at the top of this file — `* { margin: 0;
+   padding: 0 }` — strips spacing from EVERY element, <p>, <ul>, <ol> and
+   <li> included. Rich terms are user HTML, so once that spacing is gone
+   the paragraphs butt together and list markers lose their indent, and a
+   tidy numbered list arrives as a wall of text.
+
+   v1.10.37 added the rules that put it back — but only under
+   `.inv-terms-formatted`, and the default mode is `compact` (see
+   printSettings.js). So every invoice except a services one rendered the
+   flattened version.
+
+   These rules sit on the base `.inv-rich` class so structure survives in
+   BOTH modes; compact keeps tighter spacing, in line with its purpose of
+   fitting more on the page. The `.inv-terms-formatted` block below
+   overrides these with roomier values and still wins on specificity. */
+.inv-terms.inv-rich p { margin: 0 0 0.35rem; }
+.inv-terms.inv-rich p:last-child { margin-bottom: 0; }
+.inv-terms.inv-rich ol,
+.inv-terms.inv-rich ul { margin: 0.25rem 0 0.35rem; padding-left: 1.1rem; }
+.inv-terms.inv-rich li { margin-bottom: 0.2rem; }
+.inv-terms.inv-rich li:last-child { margin-bottom: 0; }
+.inv-terms.inv-rich br { line-height: 1.6; }
+
+/* v1.10.37 — "Formatted" mode overrides. Reported: current "compact"
+   render was small + uppercase-inherited + hard to read on the PDF.
+   Users who want terms customers actually read pick termsFormatMode:
+   'formatted' — this class overrides to a mixed-case, readable
+   0.78rem layout with proper paragraph spacing. */
+.inv-terms.inv-terms-formatted {
+  font-size: 0.78rem;
+  line-height: 1.55;
+  color: #334155;
+  text-transform: none;         /* beat the container's allCaps cascade */
+  letter-spacing: 0;
+}
+.inv-terms.inv-terms-formatted p { margin: 0 0 0.5rem; }
+.inv-terms.inv-terms-formatted p:last-child { margin-bottom: 0; }
+.inv-terms.inv-terms-formatted ol,
+.inv-terms.inv-terms-formatted ul { margin: 0.3rem 0 0.5rem 1.35rem; padding: 0; }
+.inv-terms.inv-terms-formatted li { margin-bottom: 0.28rem; line-height: 1.5; }
+[data-theme="dark"] .inv-terms.inv-terms-formatted { color: #cbd5e1 !important; }
+
+/* Extra sections (additional pages) */
+.inv-extra-page {
+  page-break-before: always;
+  break-before: page;
+  border-top: 3px solid #e2e8f0;
+  padding: 2rem;
+  min-height: 280mm;
+  background: #fff;
+  width: 210mm;
+  box-sizing: border-box;
+}
+.inv-extra-page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid #e2e8f0;
+}
+.inv-extra-ref {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+.inv-extra-page-num {
+  font-size: 0.7rem;
+  color: #94a3b8;
+  font-weight: 500;
+  background: #f1f5f9;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+}
+.inv-extra-content {
+  font-size: 0.78rem;
+  color: #334155;
+  line-height: 1.7;
+}
+.inv-extra-content p { margin-bottom: 0.5rem; }
+.inv-extra-content ul, .inv-extra-content ol { margin: 0.5rem 0 0.5rem 1.5rem; }
+.inv-extra-content li { margin-bottom: 0.25rem; }
+.inv-extra-content table { border-collapse: collapse; width: 100%; margin: 0.5rem 0; }
+.inv-extra-content table th,
+.inv-extra-content table td { border: 1px solid #cbd5e1; padding: 0.35rem 0.5rem; font-size: 0.75rem; text-align: left; }
+.inv-extra-content table th { background: #f1f5f9; font-weight: 600; }
+.inv-extra-content h1, .inv-extra-content h2, .inv-extra-content h3,
+.inv-extra-content h4, .inv-extra-content h5 { margin: 0.75rem 0 0.35rem; color: #1e293b; }
+.inv-extra-content strong, .inv-extra-content b { font-weight: 600; }
+
+/* Rich-text Terms & Notes: same look as the extra-section content but shown inside
+   the small footer block — slightly tighter spacing. */
+.inv-rich p { margin: 0 0 0.35rem; }
+.inv-rich p:last-child { margin-bottom: 0; }
+.inv-rich ul, .inv-rich ol { margin: 0.25rem 0 0.35rem 1.25rem; padding: 0; }
+.inv-rich li { margin-bottom: 0.15rem; }
+.inv-rich h1, .inv-rich h2, .inv-rich h3, .inv-rich h4, .inv-rich h5 { margin: 0.4rem 0 0.2rem; font-size: 0.8rem; color: #1e293b; }
+.inv-rich strong, .inv-rich b { font-weight: 600; }
+.inv-rich em, .inv-rich i { font-style: italic; }
+.inv-rich u { text-decoration: underline; }
+.inv-rich a { color: var(--primary, #1e40af); }
+
+/* ================================================================
+   Reusable utility components
+   ----------------------------------------------------------------
+   These solve the "every panel re-implements its own coloured card"
+   problem and make sure dark / light mode stay consistent everywhere.
+   Use these classes instead of inline styles for any callout, status
+   chip, key-value list, or modal-checkbox row.
+   ================================================================ */
+
+/* Notice cards — info (green), warn (yellow), note (yellow softer), danger */
+.notice {
+  display: flex; align-items: flex-start; gap: 0.6rem;
+  padding: 0.85rem 1rem; border-radius: 8px;
+  font-size: 0.82rem; line-height: 1.5;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+}
+.notice-info  { background: var(--info-bg);  border-color: var(--info-border);  color: var(--info-text); }
+.notice-warn  { background: var(--warn-bg);  border-color: var(--warn-border);  color: var(--warn-text); }
+.notice-note  { background: var(--note-bg);  border-color: var(--note-border);  color: var(--note-text); }
+.notice-danger{ background: var(--danger-light); border-color: var(--danger); color: var(--danger); }
+.notice-icon { font-size: 1.4rem; line-height: 1; flex-shrink: 0; }
+.notice strong { font-weight: 600; }
+
+/* Card-like surfaces that respect dark mode */
+.surface-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 0.85rem;
+  color: var(--text-primary);
+}
+
+/* Status pill — colour passed via inline `--pill-color` so the bg/text stay
+   theme-aware without repeating the rgba() everywhere. */
+.status-pill {
+  display: inline-block; padding: 2px 8px; border-radius: 10px;
+  font-size: 0.7rem; font-weight: 600; white-space: nowrap;
+  background: color-mix(in srgb, var(--pill-color, var(--primary)) 14%, transparent);
+  color: var(--pill-color, var(--primary));
+}
+
+/* Modal checkbox-row pattern — used by Export/Import modals, options panels.
+   Replaces 5+ duplicated inline-styled <label> blocks. */
+.cbx-row {
+  display: flex; align-items: flex-start; gap: 0.55rem;
+  padding: 0.5rem 0.75rem; border-radius: 6px; cursor: pointer;
+  background: var(--bg-secondary); color: var(--text-primary);
+  border: 1px solid var(--border-color);
+}
+.cbx-row + .cbx-row { margin-top: 0.35rem; }
+.cbx-row input[type="checkbox"] { margin-top: 3px; width: 15px; height: 15px; accent-color: var(--primary); }
+.cbx-row .cbx-label { font-size: 0.85rem; font-weight: 600; line-height: 1.3; color: var(--text-primary); }
+.cbx-row .cbx-hint  { font-size: 0.72rem; color: var(--text-muted); display: block; line-height: 1.35; font-weight: 400; }
+.cbx-row.is-disabled { cursor: not-allowed; opacity: 0.5; }
+.cbx-row .cbx-meta { margin-left: auto; font-size: 0.78rem; color: var(--text-muted); white-space: nowrap; }
+.cbx-list {
+  max-height: 320px; overflow-y: auto;
+  border: 1px solid var(--border-color); border-radius: 6px;
+  padding: 0.4rem; background: var(--card-bg);
+}
+.cbx-list .cbx-row { border: 0; border-bottom: 1px dashed var(--border-color); border-radius: 0; padding: 0.4rem 0.5rem; background: transparent; }
+.cbx-list .cbx-row:last-child { border-bottom: 0; }
+
+/* Key/value list — used by FAQ, Troubleshooting, etc. */
+.kv-list { width: 100%; border-collapse: collapse; }
+.kv-list tr { border-bottom: 1px solid var(--border-color); }
+.kv-list td { padding: 0.5rem 0.75rem; vertical-align: top; }
+.kv-list td:first-child { font-weight: 600; color: var(--text-primary); width: 30%; }
+.kv-list td:last-child  { color: var(--text-secondary); }
+
+/* Section label small caps — already used as `inv-section-label`; alias here */
+.section-mini-label {
+  font-size: 0.7rem; font-weight: 700; color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.06em;
+  margin-bottom: 0.3rem;
+}
+
+/* Theme-aware code chip */
+code, .code-chip {
+  background: var(--bg-tertiary); color: var(--text-primary);
+  padding: 1px 5px; border-radius: 3px; font-size: 0.85em;
+}
+
+/* Keyboard shortcut chip — small "key cap" look for the shortcuts help modal */
+kbd {
+  background: var(--bg-tertiary); color: var(--text-primary);
+  border: 1px solid var(--border-color);
+  border-bottom-width: 2px;
+  padding: 1px 6px; border-radius: 4px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8em;
+  font-weight: 600;
+}
+
+/* Extra section editor */
+.extra-section-editor {
+  background: var(--primary-light);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+}
+.rich-editor {
+  cursor: text;
+  outline: none;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+.rich-editor:empty::before {
+  content: attr(data-placeholder);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+.rich-editor:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+.rich-editor ul, .rich-editor ol { margin-left: 1.5rem; }
+.rich-editor table { border-collapse: collapse; width: 100%; }
+.rich-editor table th, .rich-editor table td { border: 1px solid var(--border); padding: 0.35rem 0.5rem; }
+
+.inv-signature { text-align: right; min-width: 180px; }
+
+.inv-sig-label {
+  font-size: 0.75rem;
+  color: #94a3b8;
+  margin-bottom: 2.5rem;
+}
+
+.inv-sig-line {
+  border-bottom: 1.5px solid #1e293b;
+  width: 180px;
+  margin-left: auto;
+  margin-bottom: 0.4rem;
+}
+
+.inv-sig-name {
+  font-size: 0.825rem;
+  font-weight: 600;
+  color: #0f172a;
+}
+
+/* ========= Toast ========= */
+.toast-container {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.toast-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.85rem 1.25rem;
+  border-radius: 10px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  font-size: 0.875rem;
+  font-weight: 500;
+  pointer-events: auto;
+  animation: toast-slide 0.3s ease;
+  max-width: 380px;
+}
+
+.toast-message { flex: 1; }
+
+.toast-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  opacity: 0.5;
+  padding: 2px;
+  display: flex;
+  color: inherit;
+}
+
+.toast-close:hover { opacity: 1; }
+
+@keyframes toast-slide {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
+}
+
+/* ========= Utilities ========= */
+.flex { display: flex; }
+.flex-col { flex-direction: column; }
+.flex-1 { flex: 1; }
+.h-full { height: 100%; }
+.min-h-0 { min-height: 0; }
+.shrink-0 { flex-shrink: 0; }
+.justify-between { justify-content: space-between; }
+.justify-center { justify-content: center; }
+.justify-end { justify-content: flex-end; }
+.items-center { align-items: center; }
+.items-end { align-items: flex-end; }
+.gap-2 { gap: 0.5rem; }
+.gap-4 { gap: 1rem; }
+.gap-6 { gap: 1.5rem; }
+.mt-2 { margin-top: 0.5rem; }
+.mt-4 { margin-top: 1rem; }
+.mt-6 { margin-top: 1.5rem; }
+.mt-8 { margin-top: 2rem; }
+.mb-2 { margin-bottom: 0.5rem; }
+.mb-4 { margin-bottom: 1rem; }
+.mb-6 { margin-bottom: 1.5rem; }
+.mb-8 { margin-bottom: 2rem; }
+.p-4 { padding: 1rem; }
+.p-6 { padding: 1.5rem; }
+.text-muted { color: var(--text-secondary); }
+.font-medium { font-weight: 500; }
+.font-bold { font-weight: 600; }
+
+.grid { display: grid; }
+.grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+/* ========= Invoice Type Selector ========= */
+.type-selector {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.type-chip {
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: white;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+  color: var(--text-secondary);
+}
+
+.type-chip:hover { border-color: var(--primary); color: var(--primary); }
+
+.type-chip-active {
+  background: var(--primary);
+  color: white;
+  border-color: var(--primary);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.25);
+}
+
+.type-desc {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+/* ========= Filters ========= */
+.filters-bar {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-box {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.75rem 0.5rem 2.25rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-family: inherit;
+  background: white;
+  color: var(--text);
+  transition: all 0.15s;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.filter-select, .filter-date {
+  padding: 0.5rem 0.75rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-family: inherit;
+  background: white;
+  color: var(--text);
+  cursor: pointer;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  /* v1.9.15 — user reported date input clipping to "n-yyyy" on narrow
+     dashboard views. Browsers give <input type="date"> whatever width
+     they feel like; force a comfortable minimum. */
+  min-width: 130px;
+}
+.filter-date { min-width: 145px; }
+
+/* v1.10.33 — Filter focus now matches search-input's ring so the
+   filter row looks like one cohesive control group instead of a
+   grab-bag of inputs. */
+.filter-select:focus, .filter-date:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+/* v1.10.33 — Type badge: uppercase micro-caps, monospace, and a
+   subtle border so it reads as a "kind" tag rather than plain grey
+   text. */
+.type-badge {
+  font-size: 0.66rem;
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  background: #f3f4f6;
+  color: var(--text-secondary);
+  font-weight: 600;
+  white-space: nowrap;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 1px solid rgba(148,163,184,0.15);
+}
+
+/* ========= Upload Areas ========= */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 0.15s;
+}
+
+.upload-area:hover { border-color: #d1d5db; }
+
+.upload-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  width: 100%;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+.upload-btn:hover { color: var(--primary); }
+
+.upload-hint {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+.upload-preview {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: #fafbfc;
+}
+
+.upload-img {
+  max-height: 64px;
+  max-width: 100%;
+  object-fit: contain;
+}
+
+.upload-remove {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+
+/* Logo upload with size control */
+.logo-upload-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+.logo-preview-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  background: #fafbfc;
+  border-radius: 8px;
+  min-height: 60px;
+}
+[data-theme="dark"] .logo-preview-box { background: #1e293b; }
+.logo-size-control {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+.logo-slider {
+  width: 100%;
+  height: 6px;
+  appearance: none;
+  background: #e2e8f0;
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+.logo-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+}
+.logo-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--primary);
+  cursor: pointer;
+  border: none;
+}
+[data-theme="dark"] .logo-slider { background: #334155; }
+.upload-change-btn {
+  background: none;
+  border: 1px dashed var(--border);
+  border-radius: 6px;
+  padding: 0.35rem 0.75rem;
+  font-size: 0.75rem;
+  color: var(--primary);
+  cursor: pointer;
+  text-align: center;
+}
+.upload-change-btn:hover { background: #f1f5f9; border-color: var(--primary); }
+[data-theme="dark"] .upload-change-btn:hover { background: #1e293b; }
+
+/* ========= Terms Templates ========= */
+.template-editor {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1.25rem;
+  margin-bottom: 1rem;
+}
+
+.template-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.template-card {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  background: white;
+}
+
+.template-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.35rem;
+  font-size: 0.875rem;
+}
+
+.template-card-preview {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  white-space: pre-line;
+  max-height: 60px;
+  overflow: hidden;
+  line-height: 1.5;
+}
+
+/* ========= Quick Templates ========= */
+.quick-templates-section {
+  margin-bottom: 1rem;
+  padding: 1rem;
+  background: var(--primary-light);
+  border: 1px dashed var(--primary);
+  border-radius: 10px;
+}
+.quick-templates-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+.quick-template-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.35rem 0.7rem;
+  font-size: 0.78rem;
+  font-family: inherit;
+  font-weight: 500;
+  color: var(--primary);
+  background: white;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.quick-template-btn:hover {
+  background: var(--primary);
+  color: white;
+}
+
+/* ========= Status Badges ========= */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: opacity 0.15s;
+}
+
+.status-badge:hover { opacity: 0.8; }
+
+/* v1.10.33 — Status pill: rounded-full shape, slightly larger tap
+   target, and a soft focus ring so keyboard users see selection
+   without the browser's default 2px black outline. */
+.status-select {
+  appearance: auto;
+  padding: 0.3rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid;
+  cursor: pointer;
+  font-family: inherit;
+  outline: none;
+  transition: box-shadow 0.15s ease, transform 0.12s ease;
+  letter-spacing: 0.01em;
+}
+.status-select:hover { transform: translateY(-1px); }
+.status-select:focus-visible {
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.25);
+}
+
+/* ========= Stats Grid 4-col ========= */
+.stats-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+.stat-icon-amber { background: rgba(245, 158, 11, 0.08); color: #f59e0b; }
+.stat-value-amber { color: #d97706; }
+
+/* ========= Client Picker ========= */
+.client-picker {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+.client-search-input {
+  margin-bottom: 0.4rem;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.client-picker-list {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+.client-picker-empty {
+  padding: 0.75rem;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.client-picker-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.6rem 0.75rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  color: var(--text);
+}
+
+.client-picker-item:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+
+.client-picker-item strong { font-weight: 600; }
+
+.client-picker-item span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* ========= Client Name Inline Suggestions ========= */
+.client-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 50;
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 0.35rem;
+  max-height: 220px;
+  overflow-y: auto;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+.client-suggestion-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0.65rem;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.12s;
+  font-family: inherit;
+  font-size: 0.85rem;
+  text-align: left;
+  color: var(--text);
+  width: 100%;
+}
+.client-suggestion-item:hover {
+  border-color: var(--primary);
+  background: var(--primary-light);
+}
+.client-suggestion-item strong { font-weight: 600; }
+.client-suggestion-item span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+.client-suggestion-save {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.5rem 0.65rem;
+  background: transparent;
+  border: 1px dashed var(--primary);
+  border-radius: 8px;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.8rem;
+  color: var(--primary);
+  width: 100%;
+  transition: all 0.12s;
+}
+.client-suggestion-save:hover {
+  background: var(--primary-light);
+}
+.btn-client-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid var(--primary);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.btn-client-edit:hover { background: var(--primary); color: white; }
+.client-suggestion-row {
+  display: flex;
+  align-items: stretch;
+  gap: 0.25rem;
+}
+.client-suggestion-row .client-suggestion-item {
+  flex: 1;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+.client-suggestion-edit {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  flex-shrink: 0;
+  background: white;
+  border: 1px solid var(--border);
+  border-left: none;
+  border-radius: 0 8px 8px 0;
+  cursor: pointer;
+  color: var(--text-muted);
+  transition: all 0.12s;
+}
+.client-suggestion-edit:hover { background: var(--primary-light); color: var(--primary); }
+.client-suggestion-main {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
+}
+.client-suggestion-addr {
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  font-weight: 400;
+}
+
+/* ========= Field Hints ========= */
+.field-hint {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  margin-top: 0.35rem;
+  line-height: 1.4;
+}
+
+/* ========= Scrollbar ========= */
+/* v1.10.77 (#84) - 12px, easy to grab with a mouse (was 6px). The sidebar
+   has its own 10px one (v1.10.78, #92). */
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(156, 163, 175, 0.55); border-radius: 6px; border: 2px solid transparent; background-clip: padding-box; }
+::-webkit-scrollbar-thumb:hover { background: rgba(107, 114, 128, 0.75); border: 2px solid transparent; background-clip: padding-box; }
+
+/* Spin animation for auto-save loader */
+.spin { animation: spin 1s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* v1.10.67 (#66 item 10, @sangwanmail-eng) — centre the short columns.
+   Amounts stay right-aligned and names left-aligned: a column of rupee
+   figures only reads as a column when the decimal points line up. */
+.data-table th.col-center,
+.data-table td.col-center { text-align: center; }
+
+/* v1.10.67 (#66 item 8, @sangwanmail-eng) — the sidebar follows the theme.
+   It was hard-coded dark navy, so Light Mode left the app half light and
+   half dark. Scoped to "not dark", so the dark look is untouched. */
+html:not([data-theme="dark"]) .sidebar {
+  background: #ffffff;
+  color: #0f172a;
+  border-right: 1px solid var(--border);
+}
+html:not([data-theme="dark"]) .sidebar::-webkit-scrollbar-thumb { background: rgba(15, 23, 42, 0.22); background-clip: padding-box; }
+html:not([data-theme="dark"]) .sidebar::-webkit-scrollbar-thumb:hover { background: rgba(15, 23, 42, 0.38); background-clip: padding-box; }
+html:not([data-theme="dark"]) .sidebar-title { color: #0f172a; }
+html:not([data-theme="dark"]) .sidebar-subtitle { color: #64748b; }
+html:not([data-theme="dark"]) .sidebar-autohide-toggle { color: #64748b; }
+html:not([data-theme="dark"]) .sidebar-autohide-toggle:hover { background: rgba(15, 23, 42, 0.06); color: #0f172a; }
+html:not([data-theme="dark"]) .sidebar-autohide-toggle.on { background: rgba(37, 99, 235, 0.10); border-color: rgba(37, 99, 235, 0.35); color: var(--primary); }
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support { background: #fff1f2; border-color: #fecdd3; color: #be123c; }
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support:hover { background: #ffe4e6; color: #9f1239; }
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support > svg { color: #e11d48; }
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support-active,
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support-active:hover { background: #e11d48; border-color: #e11d48; color: #fff; }
+html:not([data-theme="dark"]) .nav-btn.nav-btn-support-active > svg { color: #fff; }
+html:not([data-theme="dark"]) .nav-btn { color: #475569; }
+html:not([data-theme="dark"]) .nav-btn:hover { background: rgba(15, 23, 42, 0.06); color: #0f172a; }
+html:not([data-theme="dark"]) .profile-switcher-btn,
+html:not([data-theme="dark"]) .profile-switcher-edit {
+  background: rgba(15, 23, 42, 0.04);
+  border-color: var(--border);
+  color: #334155;
+}
+html:not([data-theme="dark"]) .profile-switcher-btn:hover,
+html:not([data-theme="dark"]) .profile-switcher-edit:hover { background: rgba(15, 23, 42, 0.09); }
+html:not([data-theme="dark"]) .profile-switcher-menu { background: #ffffff; border-color: var(--border); }
+html:not([data-theme="dark"]) .profile-switcher-item { color: #334155; }
+html:not([data-theme="dark"]) .profile-switcher-item:hover { background: rgba(15, 23, 42, 0.06); }
+html:not([data-theme="dark"]) .profile-switcher-manage { border-top-color: var(--border); color: #64748b; }
+html:not([data-theme="dark"]) .server-status { background: rgba(15, 23, 42, 0.04); color: #64748b; }
+html:not([data-theme="dark"]) .mobile-topbar { background: #ffffff; color: #0f172a; box-shadow: 0 1px 4px rgba(15, 23, 42, 0.12); }
+html:not([data-theme="dark"]) .mobile-topbar-btn { background: rgba(15, 23, 42, 0.06); color: #0f172a; }
+
+/* v1.10.77 (#84) - PIN lock screen (AppLock.jsx) */
+.app-lock-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: var(--bg-primary);
+}
+.app-lock-card {
+  width: 100%;
+  max-width: 360px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+.app-lock-card h1 { font-size: 1.35rem; margin: 0.25rem 0 0; }
+.app-lock-card p { margin: 0; }
+.app-lock-input {
+  margin-top: 0.75rem;
+  text-align: center;
+  font-size: 1.5rem;
+  letter-spacing: 0.4em;
+  max-width: 260px;
+}
+.app-lock-error { min-height: 1.2em; color: var(--danger); font-size: 0.85rem; }
+.app-lock-link {
+  background: none;
+  border: 0;
+  padding: 0.25rem;
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.85rem;
+}
+.app-lock-help { font-size: 0.8rem; color: var(--text-muted); text-align: left; line-height: 1.5; }
+
+/* v1.10.81 - welcome note for new users (WelcomeCard.jsx). Dark first, as the
+   rest of this file; light below. */
+.welcome-card {
+  position: relative; margin-bottom: 1.5rem; padding: 1.5rem 1.75rem 1.35rem;
+  border-radius: 16px; border: 1px solid rgba(129, 140, 248, 0.35);
+  background: linear-gradient(135deg, rgba(37, 99, 235, 0.20) 0%, rgba(124, 58, 237, 0.16) 55%, rgba(225, 29, 72, 0.14) 100%);
+  color: #e2e8f0;
+}
+.welcome-card h2 { margin: 0 2rem 0.45rem 0; font-size: 1.45rem; font-weight: 800; letter-spacing: -0.01em; color: #fff; }
+.welcome-card-lead { margin: 0 0 0.9rem; max-width: 62ch; line-height: 1.55; color: #cbd5e1; }
+.welcome-card-points { list-style: none; margin: 0 0 1.15rem; padding: 0; display: grid; gap: 0.45rem; max-width: 70ch; }
+.welcome-card-points li { position: relative; padding-left: 1.4rem; line-height: 1.5; }
+.welcome-card-points li::before { content: '✓'; position: absolute; left: 0; top: 0; font-weight: 800; color: #4ade80; }
+.welcome-card-points strong { color: #fff; }
+.welcome-card-actions { display: flex; flex-wrap: wrap; gap: 0.6rem; align-items: center; }
+.welcome-card-btn {
+  display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.6rem 1.05rem; border-radius: 10px;
+  font: inherit; font-size: 0.9rem; font-weight: 600; text-decoration: none; cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.25); background: rgba(255, 255, 255, 0.08); color: #fff;
+}
+.welcome-card-btn:hover { background: rgba(255, 255, 255, 0.16); }
+.welcome-card-btn-primary { background: #e11d48; border-color: #e11d48; box-shadow: 0 6px 18px rgba(225, 29, 72, 0.35); }
+.welcome-card-btn-primary:hover { background: #be123c; }
+.welcome-card-btn-quiet { background: transparent; border-color: transparent; color: #cbd5e1; text-decoration: underline; text-underline-offset: 3px; }
+.welcome-card-btn-quiet:hover { background: transparent; color: #fff; }
+.welcome-card-btn:focus-visible, .welcome-card-close:focus-visible { outline: 2px solid #93c5fd; outline-offset: 2px; }
+.welcome-card-close {
+  position: absolute; top: 0.8rem; right: 0.8rem; width: 34px; height: 34px; border-radius: 8px;
+  display: flex; align-items: center; justify-content: center; cursor: pointer;
+  background: transparent; border: 0; color: #cbd5e1;
+}
+.welcome-card-close:hover { background: rgba(255, 255, 255, 0.1); color: #fff; }
+html:not([data-theme="dark"]) .welcome-card {
+  border-color: #c7d2fe; color: #334155;
+  background: linear-gradient(135deg, #eff6ff 0%, #f5f3ff 55%, #fff1f2 100%);
+}
+html:not([data-theme="dark"]) .welcome-card h2,
+html:not([data-theme="dark"]) .welcome-card-points strong { color: #0f172a; }
+html:not([data-theme="dark"]) .welcome-card-lead { color: #475569; }
+html:not([data-theme="dark"]) .welcome-card-points li::before { color: #16a34a; }
+html:not([data-theme="dark"]) .welcome-card-btn { background: #fff; border-color: #cbd5e1; color: #0f172a; }
+html:not([data-theme="dark"]) .welcome-card-btn:hover { background: #f1f5f9; }
+html:not([data-theme="dark"]) .welcome-card-btn-primary { background: #e11d48; border-color: #e11d48; color: #fff; }
+html:not([data-theme="dark"]) .welcome-card-btn-primary:hover { background: #be123c; }
+html:not([data-theme="dark"]) .welcome-card-btn-quiet { background: transparent; border-color: transparent; color: #475569; }
+html:not([data-theme="dark"]) .welcome-card-close { color: #64748b; }
+html:not([data-theme="dark"]) .welcome-card-close:hover { background: rgba(15, 23, 42, 0.06); color: #0f172a; }
+@media (max-width: 600px) {
+  .welcome-card { padding: 1.2rem 1.1rem 1.1rem; }
+  .welcome-card h2 { font-size: 1.2rem; }
+  .welcome-card-btn { flex: 1 1 100%; justify-content: center; }
+}

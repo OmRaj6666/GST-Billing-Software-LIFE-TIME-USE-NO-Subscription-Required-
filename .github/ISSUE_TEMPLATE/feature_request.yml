@@ -1,0 +1,41 @@
+name: Ask for a feature
+description: Something the app should do that it does not do yet.
+title: "[Feature] "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you! We read every request each week. The ones most people ask for go into a **Saturday update** first, and you get a reply here when it is done.
+
+        Asked for already? Search the [open requests](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues) and add a 👍 to it: that counts as a vote.
+  - type: textarea
+    id: need
+    attributes:
+      label: What do you need?
+      description: Describe the job you are trying to do, not only the button you imagine.
+      placeholder: "I sell to the same 20 shops every week and want to make all their invoices at once..."
+    validations:
+      required: true
+  - type: textarea
+    id: today
+    attributes:
+      label: How do you do it today?
+      description: In this app, on paper, in Excel or in other software (for example Tally).
+  - type: dropdown
+    id: business
+    attributes:
+      label: Your business
+      options:
+        - Shop / retail
+        - Wholesale / trading
+        - Services / freelancer
+        - Manufacturing
+        - Restaurant / cafe
+        - Accountant / CA
+        - Other
+  - type: textarea
+    id: example
+    attributes:
+      label: An example
+      description: A sample bill, report or screenshot from other software helps a lot. Hide private details first.

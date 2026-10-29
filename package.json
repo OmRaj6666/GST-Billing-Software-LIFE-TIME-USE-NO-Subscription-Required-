@@ -1,0 +1,183 @@
+{
+  "name": "free-gst-billing-software",
+  "version": "1.10.81",
+  "description": "Free, open-source GST invoice & billing software for India. Tax Invoice, Proforma, Credit Note, Bill of Supply, Delivery Challan, GSTR-1 / GSTR-3B JSON exports, GSTR-2B reconciliation, e-Way Bill, TDS / TCS reports (Form 26Q / 27EQ), multi-currency for 22 countries, per-line custom units, rich-text Terms with 13 India presets, granular backup with optional Google Drive sync. Offline-first PWA. By OM RAJ.",
+  "author": "OM RAJ <omraj6666@gmail.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-.git"
+  },
+  "homepage": "https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-#readme",
+  "keywords": [
+    "gst",
+    "gst-invoice",
+    "gst-billing-software",
+    "free-billing-software",
+    "invoice-generator",
+    "tax-invoice",
+    "billing-software-india",
+    "gst-return",
+    "gstr-1",
+    "gstr-3b",
+    "gstr-2b",
+    "gstr-2b-reconciliation",
+    "gstr-1-json-export",
+    "gstr-3b-json-export",
+    "tds",
+    "tcs",
+    "form-26q",
+    "form-27eq",
+    "section-194q",
+    "section-206c",
+    "e-way-bill",
+    "delivery-challan",
+    "credit-note",
+    "proforma-invoice",
+    "bill-of-supply",
+    "pdf-generator",
+    "offline-billing",
+    "open-source",
+    "vyapar-alternative",
+    "tally-alternative",
+    "zoho-alternative",
+    "cleartax-alternative",
+    "marg-erp-alternative",
+    "mybillbook-alternative",
+    "hsn-code",
+    "sac-code",
+    "uqc",
+    "cgst-sgst-igst",
+    "place-of-supply",
+    "sez-invoice",
+    "lut-export-invoice",
+    "multi-currency-invoice",
+    "international-invoice-india",
+    "vat-invoice",
+    "upi-qr-invoice",
+    "pwa",
+    "offline-pwa",
+    "freelancer-invoice",
+    "small-business-billing",
+    "multi-business-profile",
+    "multi-gstin",
+    "rich-text-terms",
+    "india-business-templates",
+    "custom-units-invoice",
+    "granular-backup",
+    "google-drive-backup",
+    "searchable-user-guide-pdf",
+    "dark-mode-billing",
+    "react",
+    "vite",
+    "expressjs",
+    "india",
+    "omraj"
+  ],
+  "main": "electron/main.cjs",
+  "type": "module",
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "server": "node server.js",
+    "postinstall": "node scripts/bundle-tesseract-assets.mjs",
+    "prebuild": "node scripts/bundle-tesseract-assets.mjs",
+    "dev": "node scripts/bundle-tesseract-assets.mjs && node server.js & vite",
+    "dev:win": "node scripts/bundle-tesseract-assets.mjs && (start /b node server.js) && vite",
+    "build": "vite build",
+    "start": "vite build && node server.js",
+    "electron:dev": "npm run build && electron .",
+    "build:mac": "npm run build && electron-builder --mac",
+    "build:win": "npm run build && electron-builder --win",
+    "build:desktop": "npm run build && electron-builder -mw",
+    "lint": "eslint .",
+    "preview": "vite preview",
+    "icons": "node scripts/generate-icons.mjs",
+    "bundle:tesseract": "node scripts/bundle-tesseract-assets.mjs",
+    "release:zip": "npm run lint && npm run test:unit && npm run build && node scripts/build-release-zip.mjs && node scripts/verify-release.mjs",
+    "test": "npm run test:unit && node tests/smoke.mjs",
+    "test:unit": "node scripts/tax-test.mjs && node scripts/discount-modes-test.mjs && node scripts/csv-test.mjs",
+    "test:install": "playwright install firefox",
+    "test:update-unix": "node scripts/test-update-unix.mjs",
+    "release:check": "node scripts/release-check.mjs",
+    "docs:zip": "node scripts/build-docs-zip.mjs",
+    "verify:release": "node scripts/verify-release.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "dompurify": "^3.4.17",
+    "express": "^5.2.1",
+    "fflate": "^0.8.3",
+    "html2canvas": "^1.4.1",
+    "jspdf": "^4.2.1",
+    "lucide-react": "^0.577.0",
+    "pdf-lib": "^1.17.1",
+    "qrcode": "^1.5.4",
+    "react": "^19.3.0",
+    "react-dom": "^19.3.0",
+    "tesseract.js": "^7.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.5",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "@vitejs/plugin-react": "^5.2.0",
+    "electron": "^45.1.0",
+    "electron-builder": "^26.18.0",
+    "eslint": "^9.39.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "playwright": "^1.63.0",
+    "sharp": "^0.35.5",
+    "vite": "^7.3.7",
+    "vite-plugin-pwa": "^2.0.0"
+  },
+  "build": {
+    "appId": "com.omraj.freegstbilling",
+    "productName": "Free GST Billing Software",
+    "asar": true,
+    "directories": {
+      "output": "release-desktop"
+    },
+    "files": [
+      "dist/**/*",
+      "server.js",
+      "electron/**/*",
+      "src/utils.js",
+      "package.json"
+    ],
+    "mac": {
+      "category": "public.app-category.business",
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "public/icon-512.png",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "portable"
+      ],
+      "icon": "release-templates/_system-scripts/app-icon.ico"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Office"
+    }
+  },
+  "allowScripts": {
+    "core-js@3.48.0": true,
+    "electron-winstaller@5.4.0": true,
+    "esbuild@0.28.2": true,
+    "fsevents@2.3.3": true,
+    "tesseract.js@7.0.0": true
+  }
+}

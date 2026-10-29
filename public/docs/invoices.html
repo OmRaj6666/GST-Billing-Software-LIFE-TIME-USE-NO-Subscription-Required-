@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How to make a GST tax invoice: every field explained | Free GST Billing Software</title>
+<meta name="description" content="Every part of the invoice screen: document types, GSTIN check, HSN codes, discounts, CGST/SGST/IGST, reverse charge, TDS and TCS, e-way bill, print and WhatsApp.">
+<link rel="canonical" href="/docs/invoices.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#2563eb">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Free GST Billing Software">
+<meta property="og:title" content="How to make a GST tax invoice: every field explained">
+<meta property="og:description" content="Every part of the invoice screen: document types, GSTIN check, HSN codes, discounts, CGST/SGST/IGST, reverse charge, TDS and TCS, e-way bill, print and WhatsApp.">
+<meta property="og:url" content="/docs/invoices.html">
+<meta property="og:image" content="/docs/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How to make a GST tax invoice: every field explained">
+<meta name="twitter:description" content="Every part of the invoice screen: document types, GSTIN check, HSN codes, discounts, CGST/SGST/IGST, reverse charge, TDS and TCS, e-way bill, print and WhatsApp.">
+<meta name="twitter:image" content="/docs/assets/img/og.png">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="alternate" type="text/plain" title="Documentation for AI tools" href="llms.txt">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"/docs/"},{"@type":"ListItem","position":2,"name":"Invoicing","item":"/docs/invoices.html"},{"@type":"ListItem","position":3,"name":"Making an invoice","item":"/docs/invoices.html"}]},{"@type":"TechArticle","headline":"How to make a GST tax invoice: every field explained","description":"Every part of the invoice screen: document types, GSTIN check, HSN codes, discounts, CGST/SGST/IGST, reverse charge, TDS and TCS, e-way bill, print and WhatsApp.","url":"/docs/invoices.html","dateModified":"2026-10-29","inLanguage":"en-IN","about":{"@type":"SoftwareApplication","name":"Free GST Billing Software"},"publisher":{"@type":"Organization","name":"OM RAJ","url":"https://github.com/OmRaj6666"},"image":"/docs/assets/img/og.png"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Hind:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('fgb-docs-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open the menu">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <a class="brand" href="index.html">
+    <img src="assets/img/icon.svg" alt="" width="30" height="30">
+    <span>Free GST Billing</span>
+  </a>
+  <a class="top-link" href="support.html"><span aria-hidden="true">♥</span> <span class="top-link-text">Support &amp; About</span></a>
+  <div class="search">
+    <label class="sr-only" for="q">Search the docs</label>
+    <input id="q" type="search" placeholder="Search" autocomplete="off" spellcheck="false">
+    <kbd class="search-key" aria-hidden="true">/</kbd>
+    <div class="results" role="listbox" hidden></div>
+  </div>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+  <a class="download" href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest/download/Free-GST-Billing.zip">Download</a>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Documentation">
+      <div class="nav-group">
+        <p class="nav-heading">Start here</p>
+        <ul><li><a href="index.html">Welcome</a></li><li><a href="install.html">Install</a></li><li><a href="first-run.html">First-run setup</a></li><li><a href="first-invoice.html">Your first invoice</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Invoicing</p>
+        <ul><li><a href="invoices.html" aria-current="page">Making an invoice</a></li><li><a href="invoice-options.html">Customize panel</a></li><li><a href="thermal-printing.html">Thermal receipts</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Clients, stock and payments</p>
+        <ul><li><a href="clients.html">Clients</a></li><li><a href="products.html">Products and stock</a></li><li><a href="receipts.html">Payment receipts</a></li><li><a href="recurring.html">Recurring invoices</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Buying</p>
+        <ul><li><a href="purchases.html">Purchase bills</a></li><li><a href="expenses.html">Expenses</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Tax and reports</p>
+        <ul><li><a href="gst-returns.html">GST returns</a></li><li><a href="reports.html">Reports</a></li><li><a href="income-tax.html">Income tax</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Setting up</p>
+        <ul><li><a href="settings.html">Settings</a></li><li><a href="print-settings.html">Print and PDF settings</a></li><li><a href="backup.html">Backups and updates</a></li><li><a href="control-panel.html">Control Panel</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Help</p>
+        <ul><li><a href="shortcuts.html">Getting around</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li><li><a href="limitations.html">What it does not do</a></li><li><a href="glossary.html">Glossary</a></li><li><a href="support.html">Support &amp; About</a></li></ul>
+      </div>
+    <p class="sidebar-foot">Written for version 1.10.81. <a href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases">What changed in each version</a></p>
+  </nav>
+  <div class="scrim" hidden></div>
+  <main id="main" class="doc">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Documentation</a> <span aria-hidden="true">/</span> Invoicing</nav>
+    <h1>Making an invoice</h1>
+    <p class="lead">Every part of the New Invoice screen, from top to bottom: the toolbar, the document type, the client, the items, terms, extra pages, and what happens when you save, print or share.</p>
+    <div class="ledger">
+
+<section id="screen-layout">
+<h2><a class="anchor" href="#screen-layout" aria-label="Link to this section">#</a>How the screen is laid out</h2>
+<p>Open it with <span class="ui">New Invoice</span> in the sidebar, or <kbd>Ctrl</kbd> + <kbd>N</kbd>. The form is on the left and a live preview of the printed invoice is on the right. From top to bottom, the form has these cards:</p>
+<ol>
+  <li><b>Invoice Type</b>, with the <span class="ui">Customize</span> panel when it is open</li>
+  <li><b>Billed To</b>: the client</li>
+  <li><b>Invoice Details</b>: number, dates, place of supply and delivery address</li>
+  <li><b>Line Items</b></li>
+  <li><b>Terms &amp; Conditions</b>, notes and a private note</li>
+  <li><b>Additional Pages / Sections</b></li>
+</ol>
+<p>The totals are not in the form. They are worked out as you type and shown in the preview.</p>
+<figure><img src="assets/img/app-invoice-editor.webp" width="1600" height="937" alt="The invoice screen: the form on the left, the live preview on the right." loading="lazy"><figcaption>The invoice screen: the form on the left, the live preview on the right.</figcaption></figure>
+</section>
+
+<section id="toolbar">
+<h2><a class="anchor" href="#toolbar" aria-label="Link to this section">#</a>The toolbar</h2>
+<p>The toolbar stays at the top of the screen as you scroll.</p>
+<figure><img src="assets/img/toolbar.webp" width="1400" height="154" alt="The invoice toolbar: Save, Save and Download, Print, WhatsApp, E-Way Bill, Customize, Hide Preview"></figure>
+<div class="table-wrap"><table>
+  <tr><th>Button</th><th>What it does</th></tr>
+  <tr><td><span class="ui">←</span> Back</td><td>Leaves the invoice. If you have changed something that is not saved, you are asked first (see <a href="#leaving">Leaving with unsaved changes</a>).</td></tr>
+  <tr><td><span class="ui">?</span></td><td>A short how-to for this screen.</td></tr>
+  <tr><td>Save status</td><td>Shows <b>Draft - click to complete</b> until the invoice has a client and an item (click it to jump to what is missing), then <b>Not saved yet</b> until you first save it, then <b>Saving…</b>, <b>All changes saved</b> or <b>Ready</b>.</td></tr>
+  <tr><td><span class="ui">Save</span></td><td>Saves the invoice without making a PDF. <kbd>Ctrl</kbd> + <kbd>S</kbd> does the same.</td></tr>
+  <tr><td><span class="ui">Save &amp; Download</span></td><td>Saves the invoice and downloads the PDF. See <a href="#save-download">Save &amp; Download</a>.</td></tr>
+  <tr><td><span class="ui">Print</span></td><td>Saves the invoice, then prints it. See <a href="#print">Printing</a>.</td></tr>
+  <tr><td><span class="ui">WhatsApp</span></td><td>Opens WhatsApp with the invoice details typed in. See <a href="#whatsapp">Sending on WhatsApp</a>.</td></tr>
+  <tr><td><span class="ui">E-Way Bill</span></td><td>Tax invoices and delivery challans only. Downloads the e-way bill file. See <a href="#eway-bill">E-way bill</a>.</td></tr>
+  <tr><td><span class="ui">Customize</span></td><td>Opens the panel that controls what prints, the paper size, currency and more. See <a href="invoice-options.html">Customize: what prints and how</a>.</td></tr>
+  <tr><td><span class="ui">Hide Preview</span></td><td>Hides the preview so the form uses the whole width, handy for long invoices. <span class="ui">Show Preview</span> brings it back, and the app remembers your choice.</td></tr>
+</table></div>
+</section>
+
+<section id="invoice-types">
+<h2><a class="anchor" href="#invoice-types" aria-label="Link to this section">#</a>Choosing the document type</h2>
+<p>The six chips at the top decide the printed title, whether GST is charged, and whether the document counts as a sale in your totals and returns.</p>
+<div class="table-wrap"><table>
+  <tr><th>Type</th><th>Prints as</th><th>Use it for</th><th>GST</th><th>Counts as a sale?</th></tr>
+  <tr><td>Tax Invoice</td><td>TAX INVOICE</td><td>A normal sale by a GST-registered business</td><td>Yes</td><td>Yes</td></tr>
+  <tr><td>Quotation</td><td>QUOTATION</td><td>A priced offer for work or supply, numbered QUO/…. Convert it to a tax invoice when the client accepts.</td><td>Shown</td><td>No</td></tr>
+  <tr><td>Proforma / Estimate</td><td>PROFORMA INVOICE</td><td>A quote before the sale. Prints "This is not a tax invoice" and a faint ESTIMATE watermark.</td><td>Shown</td><td>No</td></tr>
+  <tr><td>Bill of Supply (No GST)</td><td>BILL OF SUPPLY</td><td>Exempt goods or services</td><td>No</td><td>Yes</td></tr>
+  <tr><td>Composition (Bill of Supply)</td><td>BILL OF SUPPLY</td><td>Sales under the composition scheme. The declaration required by Rule 46A prints automatically.</td><td>No</td><td>Yes</td></tr>
+  <tr><td>Credit Note</td><td>CREDIT NOTE</td><td>Returns, a price cut after the sale, or a correction. Its total is subtracted from your sales.</td><td>Yes</td><td>Subtracted</td></tr>
+  <tr><td>Delivery Challan</td><td>DELIVERY CHALLAN</td><td>Moving goods without a sale, such as to a job worker or on approval</td><td>No</td><td>No</td></tr>
+</table></div>
+<p>There are seven types. Changing the type also changes the invoice number to that type's series, replacing any number you typed.</p>
+<p><strong>Once an invoice is saved, its type is locked.</strong> The other chips are greyed out, because the number and the tax already issued to your client must not change. To make a different document from it, use <span class="ui">Duplicate</span> on the Dashboard.</p>
+</section>
+
+<section id="goods-services">
+<h2><a class="anchor" href="#goods-services" aria-label="Link to this section">#</a>Goods, services or both</h2>
+<p>Under the type chips, <b>This invoice is for</b> sets which units you are offered:</p>
+<table>
+  <tr><td>📦 Goods</td><td>Units such as Nos, Kg and Pcs. The default.</td></tr>
+  <tr><td>⏱ Services</td><td>Hours, sessions, visits and months. It also reminds you to put a SAC code in the HSN field.</td></tr>
+  <tr><td>🔀 Mixed</td><td>Every unit, unfiltered.</td></tr>
+</table>
+</section>
+
+<section id="client">
+<h2><a class="anchor" href="#client" aria-label="Link to this section">#</a>Billed To: the client</h2>
+<ol class="steps">
+  <li><strong>Type the name</strong>Clicking <b>Client Name</b> lists your saved clients. As you type, the list narrows. Use <kbd>↓</kbd> <kbd>↑</kbd> and <kbd>Enter</kbd>, or click one. Picking a saved client fills in all their details.</li>
+  <li><strong>Or save a new one</strong>For someone new, type their name and fill in the fields, then click <b>Save "name" as new client</b> to keep them for next time. You do not have to: an invoice can go to a name that is not saved.</li>
+  <li><strong>Check the address and GSTIN</strong>Address, country, city, PIN, state and GSTIN print on the invoice.</li>
+</ol>
+<p>A saved client's pencil icon opens their details for editing. Their email, phone and <b>SEZ</b> setting are only edited there, not on the invoice: see <a href="clients.html#client-form">Adding and editing a client</a>. A client can also have a preferred paper size, currency and auto-print setting, which are applied when you pick them on a new invoice.</p>
+<p>Changing the <b>country</b> clears the state, since each country has its own list.</p>
+</section>
+
+<section id="gstin-check">
+<h2><a class="anchor" href="#gstin-check" aria-label="Link to this section">#</a>What the GSTIN check tells you</h2>
+<p>When you leave the GSTIN box, the app reads the number. This works offline, with no GST portal lookup.</p>
+<table>
+  <tr><th>Message</th><th>Meaning</th></tr>
+  <tr><td>✓ Registered in <i>state</i>. State filled in.</td><td>The state was blank, so it has been filled in from the first two digits.</td></tr>
+  <tr><td>✓ Registered in <i>state</i>.</td><td>The GSTIN and the state agree.</td></tr>
+  <tr><td>⚠ This GSTIN is registered in <i>state</i>, but the state says <i>other state</i>.</td><td>Check which is right. The tax split follows the state and place of supply.</td></tr>
+  <tr><td>⚠ This GSTIN fails its own checksum. Check for a typo.</td><td>Every GSTIN ends with a check character. This one does not add up, so a character is almost certainly mistyped.</td></tr>
+</table>
+<p>These are warnings only. They never stop you saving.</p>
+</section>
+
+<section id="client-credit">
+<h2><a class="anchor" href="#client-credit" aria-label="Link to this section">#</a>Using a client's credit</h2>
+<p>If the client overpaid on earlier invoices, a banner shows how much credit they have and where it came from. On a new invoice you can:</p>
+<ul>
+  <li>type an amount to use, or click <span class="ui">Apply full</span> to use as much as this invoice needs;</li>
+  <li>click <span class="ui">Skip</span> to use none;</li>
+  <li>tick <b>Auto-apply available client credit on future invoices</b> to have it used automatically.</li>
+</ul>
+<p>When you save, the credit is recorded as a payment on this invoice.</p>
+</section>
+
+<section id="details">
+<h2><a class="anchor" href="#details" aria-label="Link to this section">#</a>Invoice Details</h2>
+<div class="table-wrap"><table>
+  <tr><th>Field</th><th>What to know</th></tr>
+  <tr><td>Invoice Number</td><td>Filled in with the next number for this type. It is only taken when you first save, so an invoice you abandon does not use up a number. If someone else's invoice took it meanwhile, yours gets the next free number and you are told. See <a href="settings.html#invoice-numbers">Invoice number format</a>.</td></tr>
+  <tr><td>Invoice Date</td><td>Today, unless you change it.</td></tr>
+  <tr><td>Due Date</td><td>Blank unless you set it. Once it passes, an unpaid invoice becomes <b>Overdue</b>.</td></tr>
+  <tr><td>Place of Supply</td><td>Where the goods or services are supplied. Leave it on <b>Defaults to Client State</b> unless the delivery is in a different state from the client's address. The tax split follows it. Not shown for bills of supply, composition bills or delivery challans.</td></tr>
+  <tr><td>Original Invoice Reference</td><td>Credit notes only: the invoice it is against, such as INV/2026-27/0001. It prints as "Against Invoice".</td></tr>
+  <tr><td>Ship to same as bill-to address</td><td>Ticked by default. Untick it to enter a delivery address, city, PIN and state. The invoice then prints a separate <b>SHIP TO</b> block.</td></tr>
+</table></div>
+</section>
+
+<section id="order-details">
+<h2><a class="anchor" href="#order-details" aria-label="Link to this section">#</a>Order, dispatch and reference details</h2>
+<p>Under Invoice Details, <b>Order, dispatch &amp; reference details</b> opens a set of optional fields, the boxes a Tally invoice carries:</p>
+<p>work details, revision no, vehicle no, service period from and to, buyer's order no and order date, reference no &amp; date, other references, delivery note and its date, dispatch doc no, dispatched through, destination, mode or terms of payment, and terms of delivery.</p>
+<p>Only what you fill in prints. The <a href="invoice-options.html#style">Tally style</a> design shows them in its reference boxes; the other designs list them under Bill To. The section stays open on an invoice that has any of them.</p>
+</section>
+
+<section id="items">
+<h2><a class="anchor" href="#items" aria-label="Link to this section">#</a>Line items</h2>
+<p>Each row has these fields:</p>
+<div class="table-wrap"><table>
+  <tr><th>Field</th><th>What to know</th></tr>
+  <tr><td>Description</td><td>The item name. Typing searches your <a href="products.html">products</a> by name or HSN; picking one fills in the HSN, rate, unit and GST rate, and links the row to the product so its stock is counted.</td></tr>
+  <tr><td>HSN/SAC</td><td>For common codes the app knows the usual GST rate, and shows it in green under the box. If the row's rate is still 18% or 0%, it is changed to match.</td></tr>
+  <tr><td>Qty</td><td>1 to start. Clicking the box selects the number, so typing replaces it.</td></tr>
+  <tr><td>Unit</td><td>From the list for Goods, Services or Mixed. <span class="ui">＋ Add custom…</span> adds your own unit (up to 20 characters), marked ★, and <span class="ui">− Remove</span> takes it away again. Invoices already made keep the unit they used.</td></tr>
+  <tr><td>Rate</td><td>Price for one unit.</td></tr>
+  <tr><td>Discount</td><td>An amount (₹) or a percentage (%) of the line. For an amount, a second box chooses what it comes off: <b>Net</b>, the line total (the default); <b>Unit</b>, that much off each unit; or <b>W/Tax</b>, off the total including tax.</td></tr>
+  <tr><td>GST %</td><td>0, 0.1, 0.25, 3, 5, 12, 18, 28 or 40%, plus any rates you added in <a href="print-settings.html#tax-rates">Print Settings</a>. <span class="ui">Custom…</span> takes any rate from 0 to 100. New rows start at 18%. Since 22 September 2025 most goods are at 5%, 18% or 40%; 12% and 28% stay for older invoices and the items still taxed at them.</td></tr>
+  <tr><td>Cess %</td><td>Compensation cess, for tobacco, cars, coal and the like. Hidden until you turn on <b>GST Cess % column</b> under Customize.</td></tr>
+</table></div>
+<ul>
+  <li><span class="ui">+ Add description</span> under a row adds a longer note that prints under the item name.</li>
+  <li><span class="ui">Add Item</span> adds a row. So does pressing <kbd>Enter</kbd> in the last row once it has something in it.</li>
+  <li><span class="ui">Delivery charges</span> adds the charge as its own line, SAC 996812, taxed at the highest GST rate among the goods on the invoice (delivery that comes with goods is taxed like them). Type the amount in its Rate. It is in the total and GST returns and never touches stock. Change its GST % if your delivery is a separate service.</li>
+  <li>The bin removes a row. The last remaining row cannot be removed.</li>
+  <li>Hiding a column under Customize, such as HSN or Discount, also hides it here.</li>
+</ul>
+</section>
+
+<section id="tax-inclusive">
+<h2><a class="anchor" href="#tax-inclusive" aria-label="Link to this section">#</a>Prices that already include GST</h2>
+<p>If your rates already include GST, tick <b>Prices include tax</b> at the top of the Line Items card. The printed Subtotal is then the value before tax, so Subtotal + tax = Total. The GST is then worked out backwards from each rate, and the invoice shows the taxable value and the tax separately.</p>
+</section>
+
+<section id="discounts">
+<h2><a class="anchor" href="#discounts" aria-label="Link to this section">#</a>Discounts</h2>
+<ul>
+  <li><strong>On a line</strong>: in the row's Discount box, as described above. This is the GST-correct way, because the discount comes off before tax.</li>
+  <li><strong>On the whole bill</strong>: <b>Discount on total</b>, under the items, as an amount or a percentage. It is taken off <em>after</em> tax, so it does not reduce the GST.</li>
+</ul>
+</section>
+
+<section id="gst">
+<h2><a class="anchor" href="#gst" aria-label="Link to this section">#</a>How GST is worked out</h2>
+<p>You never choose between CGST, SGST and IGST. The app decides from your state and the place of supply:</p>
+<table>
+  <tr><th>Situation</th><th>Charged as</th></tr>
+  <tr><td>Client in your state</td><td>CGST + SGST, half each</td></tr>
+  <tr><td>Client in another state</td><td>IGST</td></tr>
+  <tr><td>Within a Union Territory without a legislature (Chandigarh, Ladakh, Lakshadweep, Andaman and Nicobar, Dadra and Nagar Haveli and Daman and Diu)</td><td>CGST + UTGST</td></tr>
+  <tr><td>SEZ client, or a client outside India</td><td>IGST</td></tr>
+</table>
+<p>The preview shows <b>Intrastate (CGST + SGST)</b> or <b>Interstate (IGST)</b> next to the place of supply, so you can check it before saving.</p>
+<div class="note warn"><strong>Your own state must be set</strong>
+<p>If your business state is blank in <a href="settings.html#company-details">Settings</a>, the app warns you once and does not guess, because a wrong guess would charge the wrong tax on every invoice.</p></div>
+</section>
+
+<section id="reverse-charge">
+<h2><a class="anchor" href="#reverse-charge" aria-label="Link to this section">#</a>Reverse charge</h2>
+<p>When the buyer pays the GST instead of you, under section 9(3) or 9(4), open <span class="ui">Customize</span> and tick <b>Reverse Charge applies</b> under Compliance flags. The invoice then says <i>Reverse Charge: Yes</i> and prints a notice that the recipient pays the GST. Every tax invoice and credit note prints Reverse Charge Yes or No, as the rules require.</p>
+</section>
+
+<section id="tds-tcs">
+<h2><a class="anchor" href="#tds-tcs" aria-label="Link to this section">#</a>TDS and TCS</h2>
+<p>Both are under <span class="ui">Customize</span>, for Indian businesses. Turn on <b>TDS / TCS on invoices</b> in <a href="settings.html#modules">Settings, Modules</a> first; it is off to begin with.</p>
+<ul>
+  <li><strong>TCS</strong>, tax you collect: tick it and pick the section: CGST section 52 (1%, e-commerce operators), 206C(1), or a custom rate. TCS is added to the invoice total. Section 206C(1H), TCS on sale of goods, was removed from 1 April 2025, so new invoices cannot choose it; invoices already made with it keep it.</li>
+  <li><strong>TDS</strong>, tax your client deducts: tick it and pick the section, such as 194Q, 194C, 194J, 194I, 194H, 194O or 195. It is for information: the invoice shows <b>Less: TDS</b> and the <b>Net Receivable</b>, and the total does not change.</li>
+</ul>
+<p>Both are worked out on the amount including GST.</p>
+<ul>
+  <li><strong>194Q</strong> (and 206C(1H) on invoices before April 2025) only applies above ₹50 lakh a year with that client. The app adds up what you have already billed the client this financial year, and charges only the part above ₹50 lakh.</li>
+  <li><strong>Every other section</strong>, such as 194C, 194J or CGST section 52, applies from the first rupee. Tick it only when the rules say it applies to this client.</li>
+</ul>
+<p>Invoices with TDS or TCS are summed in <a href="gst-returns.html#tds-tcs">the TDS / TCS report</a>. Have your CA confirm which sections apply to you.</p>
+</section>
+
+<section id="currency">
+<h2><a class="anchor" href="#currency" aria-label="Link to this section">#</a>Billing in another currency</h2>
+<p>Under <span class="ui">Customize</span>, <b>Currency</b> offers 20 currencies, each with its own symbol and amount in words. For anything other than rupees you can enter the <b>exchange rate</b> for the day. It is kept with the invoice, so later reports stay right even when rates change, and it prints as an EXCHANGE RATE line.</p>
+<p>The UPI QR code only prints on rupee invoices.</p>
+</section>
+
+<section id="terms-notes">
+<h2><a class="anchor" href="#terms-notes" aria-label="Link to this section">#</a>Terms, notes and a private note</h2>
+<ul>
+  <li><strong>Terms &amp; Conditions</strong>: a text box with <b>B</b>, <i>I</i>, <u>U</u>, bulleted and numbered lists, headings, links and <span class="ui">✕</span> to clear formatting.
+    <ul>
+      <li><b>Insert preset</b> fills in starter wording for your kind of business: generic trader, freelancer, manufacturer or wholesaler, retail shop, restaurant, IT services, construction, medical, education and coaching, transport, real estate and rental, e-commerce seller, or export under LUT. If you already have terms, you are asked once before they are replaced.</li>
+      <li><b>Load saved template</b> uses one of <a href="settings.html#terms">your saved templates</a>. On a new invoice, your first template is loaded automatically.</li>
+    </ul>
+  </li>
+  <li><strong>PDF layout</strong>: <b>Compact</b> prints the terms and notes small, to save paper; <b>Formatted</b> prints them as readable paragraphs.</li>
+  <li><strong>Notes / Remarks</strong> print on the invoice, for the client.</li>
+  <li><strong>Private Note</strong> is only for you, such as "follow up on the 20th". It never prints. On the Dashboard, a yellow note icon next to the client shows it.</li>
+</ul>
+</section>
+
+<section id="extra-pages">
+<h2><a class="anchor" href="#extra-pages" aria-label="Link to this section">#</a>Extra pages</h2>
+<p>Under <b>Additional Pages / Sections</b>, <span class="ui">+ Add Section</span> adds a titled section, such as a scope of work or delivery timeline. Each one prints as its own page after the invoice. You can paste formatted text, lists and tables from Word or Google Docs, and use the arrows to change the order.</p>
+</section>
+
+<section id="preview">
+<h2><a class="anchor" href="#preview" aria-label="Link to this section">#</a>The live preview</h2>
+<p>The preview shows the invoice exactly as it will print, with the paper size, style and options you chose. <span class="ui">−</span> and <span class="ui">+</span> zoom out and in from 50% to 200%, and <span class="ui">Fit</span> fits it to the space. A saved invoice that has been cancelled shows CANCELLED across it.</p>
+</section>
+
+<section id="before-saving">
+<h2><a class="anchor" href="#before-saving" aria-label="Link to this section">#</a>What must be filled in</h2>
+<p>A new invoice needs a <b>client name</b> and <b>at least one item</b> with a description, quantity and rate. Otherwise <span class="ui">Save</span>, <span class="ui">Save &amp; Download</span> and <span class="ui">Print</span> tell you what is missing.</p>
+</section>
+
+<section id="save-download">
+<h2><a class="anchor" href="#save-download" aria-label="Link to this section">#</a>Save &amp; Download</h2>
+<p><span class="ui">Save &amp; Download</span> does all of this in one go:</p>
+<ol>
+  <li>Saves the invoice, giving a new invoice its number, and counts it as printed once more.</li>
+  <li>Downloads the PDF, showing that saved number, named after the type and number, such as <code>INV_INV-2026-27-0001.pdf</code>.</li>
+  <li>Keeps a copy of the PDF in the app's <code>Saved Invoices</code> folder, in a folder for that client.</li>
+  <li>Uploads it to Google Drive, if you have connected Drive in <a href="settings.html#google-drive">Settings</a>.</li>
+  <li>Prints it, if auto-print is on in <a href="print-settings.html#auto-print">Print Settings</a> or for this client.</li>
+</ol>
+<p>Saving takes the items out of stock, for rows picked from your products; saving again after changing a quantity moves only the difference, and a quotation or proforma moves none (see <a href="products.html#stock">How stock is counted</a>). If stock runs low or out, you are told.</p>
+<p>If you change an invoice you have already downloaded or printed, a plain <span class="ui">Save</span> also updates its PDF in the <code>Saved Invoices</code> folder, without downloading it again.</p>
+<p>Long invoices are split between rows, never through a row, and the signature and stamp are never cut across a page break: if they would be, the whole footer moves to the next page.</p>
+</section>
+
+<section id="print">
+<h2><a class="anchor" href="#print" aria-label="Link to this section">#</a>Printing</h2>
+<ul>
+  <li><strong>On A4, A5 and other sheet sizes</strong>, <span class="ui">Print</span> opens your browser's print window.</li>
+  <li><strong>On a thermal paper size</strong>, it first shows a <b>Print preview</b> of the receipt, with <span class="ui">Print</span>, <span class="ui">Download PDF</span> and <span class="ui">Cancel</span>. See <a href="thermal-printing.html">Thermal receipt printing</a>.</li>
+</ul>
+<p>Printing saves the invoice first, like <span class="ui">Save &amp; Download</span>, so what you hand the client is always in your records with the same number.</p>
+</section>
+
+<section id="whatsapp">
+<h2><a class="anchor" href="#whatsapp" aria-label="Link to this section">#</a>Sending on WhatsApp</h2>
+<p><span class="ui">WhatsApp</span> opens WhatsApp with the invoice number, date, client, subtotal and total typed in, and your business name. If the client is saved with a phone number, the chat opens with them; otherwise you choose the contact.</p>
+<p>From the invoice screen the PDF is not attached. Download it with <span class="ui">Save &amp; Download</span> and drag it into the chat. The WhatsApp button on the <a href="dashboard.html#row-actions">Dashboard</a> can attach the PDF on phones.</p>
+</section>
+
+<section id="eway-bill">
+<h2><a class="anchor" href="#eway-bill" aria-label="Link to this section">#</a>E-way bill</h2>
+<p>For tax invoices and delivery challans, <span class="ui">E-Way Bill</span> downloads a file, such as <code>EWB-INV-2026-27-0001.json</code>, in the format the NIC e-way bill portal accepts. Upload it there instead of typing everything again. Your own GSTIN must be set in Settings first. An e-way bill is generally needed when goods worth more than ₹50,000 are moved.</p>
+</section>
+
+<section id="autosave">
+<h2><a class="anchor" href="#autosave" aria-label="Link to this section">#</a>Saving as you go</h2>
+<ul>
+  <li>What you type is kept while the browser tab stays open. If you leave the screen by mistake and come back, the invoice is still there.</li>
+  <li>A <strong>new</strong> invoice is not stored in your records until you first click <span class="ui">Save</span>, <span class="ui">Save &amp; Download</span> or <span class="ui">Print</span>. Until then the badge says <b>Not saved yet</b>.</li>
+  <li>After that, changes are saved automatically about two seconds after you stop typing.</li>
+</ul>
+</section>
+
+<section id="leaving">
+<h2><a class="anchor" href="#leaving" aria-label="Link to this section">#</a>Leaving with unsaved changes</h2>
+<p>If you click Back with unsaved changes, you choose <span class="ui">Keep editing</span>, <span class="ui">Discard &amp; leave</span> or <span class="ui">Save &amp; leave</span>. Closing or reloading the browser tab asks too.</p>
+</section>
+
+<section id="keyboard">
+<h2><a class="anchor" href="#keyboard" aria-label="Link to this section">#</a>Keyboard shortcuts on this screen</h2>
+<table>
+  <tr><td><kbd>Ctrl</kbd> + <kbd>S</kbd></td><td>Save</td></tr>
+  <tr><td><kbd>Ctrl</kbd> + <kbd>P</kbd></td><td>Save and download the PDF (not print)</td></tr>
+  <tr><td><kbd>Ctrl</kbd> + <kbd>Enter</kbd></td><td>Add an item row</td></tr>
+  <tr><td><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>D</kbd></td><td>Duplicate the last row</td></tr>
+  <tr><td><kbd>Enter</kbd> in the last row</td><td>Add a row</td></tr>
+  <tr><td><kbd>↑</kbd> <kbd>↓</kbd> <kbd>Enter</kbd></td><td>Pick from the client or product suggestions</td></tr>
+  <tr><td><kbd>Esc</kbd></td><td>Close suggestions or a dialog</td></tr>
+</table>
+<p>On a Mac, use <kbd>⌘</kbd> instead of <kbd>Ctrl</kbd>. More shortcuts: <a href="shortcuts.html">Shortcuts, search and notifications</a>.</p>
+</section>
+
+<section id="credit-note">
+<h2><a class="anchor" href="#credit-note" aria-label="Link to this section">#</a>How to make a credit note</h2>
+<ol class="steps">
+  <li><strong>Start a new invoice</strong>Choose <b>Credit Note</b> as the type.</li>
+  <li><strong>Point it at the original</strong>In <b>Original Invoice Reference</b>, enter the number of the invoice it corrects.</li>
+  <li><strong>Enter what is being credited</strong>Add the returned items, or the price difference, with the same GST rates as the original.</li>
+  <li><strong>Save</strong>Its total is subtracted from your sales on the Dashboard, and it goes into GSTR-1 as a credit note.</li>
+</ol>
+</section>
+
+<section id="proforma-to-invoice">
+<h2><a class="anchor" href="#proforma-to-invoice" aria-label="Link to this section">#</a>Turning a quote into an invoice</h2>
+<p>When a client accepts a Quotation or a Proforma / Estimate, click <span class="ui">Convert to Tax Invoice</span> on it in the Dashboard. A new tax invoice opens with the same client and items, and gets its own number when you save it. The same works for a delivery challan. Once saved, the original shows <b>Converted</b> and its Convert button goes away, so it cannot be turned into a second invoice by mistake.</p>
+</section>
+
+<section id="cancel">
+<h2><a class="anchor" href="#cancel" aria-label="Link to this section">#</a>Cancelling an invoice</h2>
+<p>An invoice number, once issued, has to stay in your records, so a saved invoice is cancelled rather than deleted. Cancel it from the <a href="dashboard.html#cancel">Dashboard</a>: it keeps its number, prints with CANCELLED across it, drops out of your totals and GST returns, and its stock goes back.</p>
+<p>To correct an invoice already sent to a client, the GST way is a <a href="#credit-note">credit note</a> rather than a cancellation.</p>
+</section>
+
+    </div>
+    <nav class="pager" aria-label="Previous and next page">
+      <a class="prev" href="first-invoice.html"><span>Previous</span>Your first invoice</a>
+      <a class="next" href="invoice-options.html"><span>Next</span>Customize panel</a>
+    </nav>
+    <footer class="foot">
+      <p>Free GST Billing Software is free and open source under the MIT licence, made by <a href="https://github.com/OmRaj6666">OM RAJ</a>. Something wrong or missing on this page?
+      <a href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues">Tell us on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page">
+    <p class="toc-heading">On this page</p>
+    <ul><li><a href="#screen-layout">How the screen is laid out</a></li><li><a href="#toolbar">The toolbar</a></li><li><a href="#invoice-types">Choosing the document type</a></li><li><a href="#goods-services">Goods, services or both</a></li><li><a href="#client">Billed To: the client</a></li><li><a href="#gstin-check">What the GSTIN check tells you</a></li><li><a href="#client-credit">Using a client's credit</a></li><li><a href="#details">Invoice Details</a></li><li><a href="#order-details">Order, dispatch and reference details</a></li><li><a href="#items">Line items</a></li><li><a href="#tax-inclusive">Prices that already include GST</a></li><li><a href="#discounts">Discounts</a></li><li><a href="#gst">How GST is worked out</a></li><li><a href="#reverse-charge">Reverse charge</a></li><li><a href="#tds-tcs">TDS and TCS</a></li><li><a href="#currency">Billing in another currency</a></li><li><a href="#terms-notes">Terms, notes and a private note</a></li><li><a href="#extra-pages">Extra pages</a></li><li><a href="#preview">The live preview</a></li><li><a href="#before-saving">What must be filled in</a></li><li><a href="#save-download">Save &amp; Download</a></li><li><a href="#print">Printing</a></li><li><a href="#whatsapp">Sending on WhatsApp</a></li><li><a href="#eway-bill">E-way bill</a></li><li><a href="#autosave">Saving as you go</a></li><li><a href="#leaving">Leaving with unsaved changes</a></li><li><a href="#keyboard">Keyboard shortcuts on this screen</a></li><li><a href="#credit-note">How to make a credit note</a></li><li><a href="#proforma-to-invoice">Turning a quote into an invoice</a></li><li><a href="#cancel">Cancelling an invoice</a></li></ul>
+  </aside>
+</div>
+<script src="assets/search-index.js" defer></script>
+<script src="assets/docs.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Free GST Billing Software — User Guide & Documentation</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --border: #e2e8f0;
+      --accent: #0ea5e9;
+      --code-bg: #f1f5f9;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --primary: #3b82f6;
+        --primary-hover: #60a5fa;
+        --text: #f1f5f9;
+        --text-muted: #94a3b8;
+        --bg: #0f172a;
+        --surface: #1e293b;
+        --border: #334155;
+        --accent: #38bdf8;
+        --code-bg: #0b1120;
+      }
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.65;
+      color: var(--text);
+      background: var(--bg);
+      padding: 0;
+    }
+    header.header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+    .header-inner {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 1rem 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .header-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .header-title p {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+    }
+    .header-actions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.15s ease;
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+    }
+    .btn-primary:hover { background: var(--primary-hover); }
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--text);
+      border-color: var(--border);
+    }
+    .btn-secondary:hover { background: var(--code-bg); }
+    .container {
+      max-width: 1040px;
+      margin: 2rem auto;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: 240px 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 820px) {
+      .container { grid-template-columns: 1fr; }
+      nav.toc { display: none; }
+    }
+    nav.toc {
+      position: sticky;
+      top: 5rem;
+      align-self: start;
+      max-height: calc(100vh - 6rem);
+      overflow-y: auto;
+      padding-right: 0.5rem;
+    }
+    nav.toc h4 {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+    nav.toc ul { list-style: none; }
+    nav.toc li { margin-bottom: 0.4rem; }
+    nav.toc a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      display: block;
+      padding: 0.2rem 0;
+      transition: color 0.15s;
+    }
+    nav.toc a:hover { color: var(--primary); }
+    main.content {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2.5rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+    }
+    section { margin-bottom: 2.75rem; }
+    h2 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding-bottom: 0.4rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--text);
+    }
+    h3 {
+      font-size: 1.15rem;
+      margin: 1.25rem 0 0.5rem;
+      color: var(--text);
+    }
+    p, ul, ol { margin-bottom: 1rem; font-size: 0.95rem; }
+    ul, ol { padding-left: 1.4rem; }
+    li { margin-bottom: 0.35rem; }
+    code {
+      font-family: ui-monospace, SFMono-Regular, Consolas, monospace;
+      font-size: 0.88em;
+      background: var(--code-bg);
+      padding: 0.15em 0.4em;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+    }
+    pre {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 1rem;
+      border-radius: 8px;
+      overflow-x: auto;
+      font-size: 0.88rem;
+      margin-bottom: 1rem;
+    }
+    .callout {
+      background: rgba(37, 99, 235, 0.06);
+      border-left: 4px solid var(--primary);
+      padding: 1rem 1.25rem;
+      border-radius: 0 8px 8px 0;
+      margin: 1.25rem 0;
+    }
+    .callout p:last-child { margin-bottom: 0; }
+    .author-card {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+    .author-info h4 { font-size: 1rem; color: var(--text); }
+    .author-info p { font-size: 0.82rem; color: var(--text-muted); margin: 0; }
+    .author-links a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-right: 1rem;
+    }
+    .author-links a:hover { text-decoration: underline; }
+    
+    /* PRINT STYLESHEET */
+    @media print {
+      body { background: #fff !important; color: #000 !important; font-size: 11pt; }
+      header.header, nav.toc, .header-actions, .no-print { display: none !important; }
+      .container { display: block; max-width: 100%; margin: 0; padding: 0; }
+      main.content { border: none !important; box-shadow: none !important; padding: 0 !important; }
+      section { page-break-inside: avoid; }
+      h2 { page-break-after: avoid; border-bottom: 1pt solid #ccc !important; }
+      pre, code { background: #f5f5f5 !important; border: 1pt solid #ddd !important; }
+      a { color: #000 !important; text-decoration: underline !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <div class="header-inner">
+      <div class="header-title">
+        <h1>Free GST Billing Software — User Guide</h1>
+        <p>Offline-First GST Invoicing, Accounting & Returns System · Built by OM RAJ</p>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-primary" onclick="window.print()">
+          🖨️ Save as PDF / Print
+        </button>
+        <a class="btn btn-secondary" href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-" target="_blank" rel="noopener">
+          ⭐ GitHub
+        </a>
+        <a class="btn btn-secondary" href="https://www.linkedin.com/in/om-raj-vit/" target="_blank" rel="noopener">
+          💼 LinkedIn
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <nav class="toc">
+      <h4>Contents</h4>
+      <ul>
+        <li><a href="#overview">1. Overview</a></li>
+        <li><a href="#quickstart">2. Quick Start</a></li>
+        <li><a href="#setup">3. Business Setup</a></li>
+        <li><a href="#invoices">4. Invoicing & Billing</a></li>
+        <li><a href="#tax-engine">5. GST Tax Engine</a></li>
+        <li><a href="#print-pdf">6. Print & PDF Settings</a></li>
+        <li><a href="#reprint">7. Reprint Tracking</a></li>
+        <li><a href="#inventory">8. Inventory & Stock</a></li>
+        <li><a href="#gst-returns">9. GST Returns & ITC</a></li>
+        <li><a href="#backup">10. Backup & Privacy</a></li>
+        <li><a href="#support">11. Developer & Support</a></li>
+      </ul>
+    </nav>
+
+    <main class="content">
+      <section id="overview">
+        <h2>1. Overview</h2>
+        <p>
+          <strong>Free GST Billing Software</strong> is a free, full-featured, offline-native GST billing and taxation desktop application built for Indian SMEs, traders, freelancers, and service providers.
+        </p>
+        <div class="callout">
+          <p>
+            <strong>Local-First Guarantee:</strong> Your invoices, client records, bank details, and ledgers remain 100% on your own computer. The software never requires sign-in, charges zero subscription fees, and runs completely offline.
+          </p>
+        </div>
+        <p><strong>Core Capabilities:</strong></p>
+        <ul>
+          <li><strong>Document Generation:</strong> Tax Invoices, Quotations/Estimates, Proforma Invoices, Credit Notes, Bills of Supply, and Delivery Challans.</li>
+          <li><strong>Accurate Taxation:</strong> Intrastate (CGST + SGST), Interstate (IGST), Union Territory (UTGST), Cess, Reverse Charge (RCM), and Section 194Q / 206C TDS/TCS.</li>
+          <li><strong>Document Customization:</strong> Professional A4/Letter PDF templates and 58mm/80mm thermal receipt printing.</li>
+          <li><strong>Statutory Compliance:</strong> One-click GSTR-1 &amp; GSTR-3B JSON exports for direct upload to the GST Portal, and GSTR-2B ITC reconciliation.</li>
+          <li><strong>Seamless Payments:</strong> Dynamic UPI payment QR codes embedded directly onto invoices.</li>
+        </ul>
+      </section>
+
+      <section id="quickstart">
+        <h2>2. Quick Start</h2>
+        <h3>Running the Desktop Application</h3>
+        <ol>
+          <li><strong>macOS:</strong> Download and open the <code>.dmg</code> installer (Apple Silicon <code>arm64</code>), drag the application to your <em>Applications</em> folder, and launch.</li>
+          <li><strong>Windows:</strong> Run <code>Free GST Billing Software Setup 1.10.81.exe</code>. The installer configures background services, creates desktop shortcuts, and launches the app.</li>
+          <li><strong>Web / Development Mode:</strong> Run <code>npm run dev</code> from the terminal, then visit <code>http://localhost:47371</code> in any modern browser.</li>
+        </ol>
+      </section>
+
+      <section id="setup">
+        <h2>3. Business Setup</h2>
+        <p>On first run, the welcome wizard prompts for your essential business details:</p>
+        <ul>
+          <li><strong>Business Name &amp; Trade Name:</strong> Appears prominently in the header of all invoices.</li>
+          <li><strong>GSTIN:</strong> Your 15-digit Goods &amp; Services Tax Identification Number. The first 2 digits determine your State Code for automated CGST/SGST vs IGST calculation.</li>
+          <li><strong>Address, Email &amp; Phone:</strong> Listed in the supplier section.</li>
+          <li><strong>Bank &amp; UPI Details:</strong> Bank Name, Account Number, IFSC, and UPI ID (e.g. <code>9279126895@ptsbi</code>). Generating an invoice automatically renders a scannable payment QR code.</li>
+          <li><strong>Multiple Businesses:</strong> Manage up to 10 distinct business profiles from <em>Settings &rarr; Business Profiles</em>.</li>
+        </ul>
+      </section>
+
+      <section id="invoices">
+        <h2>4. Invoicing &amp; Billing</h2>
+        <p>Click <strong>New Invoice</strong> (or press <code>Ctrl+N</code> / <code>Cmd+N</code>):</p>
+        <ol>
+          <li><strong>Select Client:</strong> Choose an existing client or enter a new client's name and GSTIN. If their state differs from your business state, the engine automatically selects <strong>IGST</strong>.</li>
+          <li><strong>Add Items:</strong> Type the product or service description, HSN/SAC code, quantity, unit (e.g., PCS, KGS, BOX, MTR), and rate.</li>
+          <li><strong>Tax Rate:</strong> Select 0%, 5%, 12%, 18%, 28%, or custom exempt rates.</li>
+          <li><strong>Discounts:</strong> Add percentage or flat discounts per line item, or a whole-invoice discount.</li>
+          <li><strong>Preview &amp; Save:</strong> Click <strong>Save &amp; View PDF</strong> or <strong>Print</strong>. Invoices are stored in the local SQLite/JSON ledger.</li>
+        </ol>
+      </section>
+
+      <section id="tax-engine">
+        <h2>5. GST Tax Engine</h2>
+        <p>The mathematical computation engine is rigorously verified with 356 automated tests covering Indian tax rules:</p>
+        <ul>
+          <li><strong>Intrastate Supplies:</strong> Automatically splits tax into equal CGST and SGST halves.</li>
+          <li><strong>Union Territories:</strong> For supplies within UTs without legislature (Chandigarh, Andaman &amp; Nicobar, Ladakh, Lakshadweep, Dadra &amp; Nagar Haveli), tax is split into CGST and UTGST.</li>
+          <li><strong>Interstate Supplies:</strong> Applies single IGST rate.</li>
+          <li><strong>Reverse Charge Mechanism (RCM):</strong> Embedded tax is backed out if tax-inclusive, marking tax liability on recipient.</li>
+          <li><strong>TCS &amp; TDS:</strong> Section 206C(1H) / 194Q threshold logic applied accurately over cumulative ₹50 Lakh financial year purchases.</li>
+        </ul>
+      </section>
+
+      <section id="print-pdf">
+        <h2>6. Print &amp; PDF Settings</h2>
+        <p>Under <strong>Settings &rarr; Print &amp; PDF Settings</strong>, customize your document appearance:</p>
+        <ul>
+          <li><strong>Templates:</strong> Aurora (Modern Slate/Blue), Editorial (Classic serif), Executive (Corporate Navy), Whisper (Minimalist hairline), and more.</li>
+          <li><strong>Thermal Printing:</strong> Direct raw or graphical printing for 58mm and 80mm ESC/POS receipt printers.</li>
+          <li><strong>Header &amp; Letterhead:</strong> Upload custom letterheads (PNG/JPG) with automatic invoice header suppression.</li>
+          <li><strong>Signatures &amp; Stamps:</strong> Upload authorized signatory signature image for automatic placement above the signature line.</li>
+        </ul>
+      </section>
+
+      <section id="reprint">
+        <h2>7. Reprint Tracking</h2>
+        <div class="callout">
+          <p>
+            <strong>Reprint Badge Feature:</strong> When <em>Show REPRINT badge on reprints</em> is enabled, reprinting any previously printed invoice displays a distinct <code>REPRINT · Copy #N</code> indicator at the top of the invoice, preventing duplicate billing confusion.
+          </p>
+        </div>
+        <p>
+          Configure this in <strong>Settings &rarr; Print &amp; PDF Settings &rarr; Reprint tracking</strong> (recommended for retail and POS businesses).
+        </p>
+      </section>
+
+      <section id="inventory">
+        <h2>8. Inventory &amp; Stock</h2>
+        <p>Under <strong>Products</strong>, monitor your catalog:</p>
+        <ul>
+          <li><strong>Stock Movements:</strong> Invoices decrease available stock; Purchase bills increase stock.</li>
+          <li><strong>Low Stock Warnings:</strong> Set minimum stock thresholds to trigger dashboard alert badges.</li>
+          <li><strong>Bulk CSV Import/Export:</strong> Import existing product catalogs from Excel or Tally CSV files.</li>
+        </ul>
+      </section>
+
+      <section id="gst-returns">
+        <h2>9. GST Returns &amp; ITC Reconciliation</h2>
+        <p>Under <strong>GST Returns</strong>:</p>
+        <ul>
+          <li><strong>GSTR-1 JSON Export:</strong> Automatically compiles outward supplies into the government portal schema. Download the JSON file and upload directly to <code>gst.gov.in</code>.</li>
+          <li><strong>GSTR-3B Summary:</strong> Summarizes eligible ITC, tax payable, and reverse charge liabilities for monthly filing.</li>
+          <li><strong>GSTR-2B Matching:</strong> Upload your official GSTR-2B JSON or Excel file from the portal to reconcile claimed Input Tax Credit with supplier filings.</li>
+        </ul>
+      </section>
+
+      <section id="backup">
+        <h2>10. Backup &amp; Privacy</h2>
+        <p>Your data is stored in the <code>_system/data/</code> directory. To create a backup:</p>
+        <ul>
+          <li>Click <strong>Settings &rarr; Backup &amp; Restore &rarr; Download Full Backup</strong> to save an encrypted ZIP archive.</li>
+          <li><strong>Google Drive Sync:</strong> Optionally connect your Google Drive to automate off-site backup copies.</li>
+          <li><strong>PIN Lock:</strong> Set an application PIN under <em>Settings &rarr; Security</em> to protect sensitive billing data with Scrypt hashing and transient session tokens.</li>
+        </ul>
+      </section>
+
+      <section id="support">
+        <h2>11. Developer &amp; Support</h2>
+        <div class="author-card">
+          <div class="author-info">
+            <h4>Architected &amp; Maintained by OM RAJ</h4>
+            <p>Full-Stack Engineer &amp; Software Developer · India</p>
+          </div>
+          <div class="author-links">
+            <a href="https://github.com/OmRaj6666" target="_blank" rel="noopener">GitHub: @OmRaj6666</a>
+            <a href="https://www.linkedin.com/in/om-raj-vit/" target="_blank" rel="noopener">LinkedIn: /om-raj-vit</a>
+            <a href="mailto:omraj6666@gmail.com">omraj6666@gmail.com</a>
+          </div>
+        </div>
+        <p style="margin-top: 1rem; font-size: 0.88rem; color: var(--text-muted);">
+          Free GST Billing is open source under the MIT License. Contributions and feature requests are welcomed on GitHub.
+        </p>
+      </section>
+    </main>
+  </div>
+
+</body>
+</html>

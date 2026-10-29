@@ -1,0 +1,174 @@
+<!doctype html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GST bill printing on 58 mm and 80 mm thermal receipt printers | Free GST Billing Software</title>
+<meta name="description" content="Print GST bills on 58 mm and 80 mm thermal printers: set up the printer, the print preview, auto-print on save, what a receipt shows, and fixes for faint or cut-off prints.">
+<link rel="canonical" href="/docs/thermal-printing.html">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#2563eb">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Free GST Billing Software">
+<meta property="og:title" content="GST bill printing on 58 mm and 80 mm thermal receipt printers">
+<meta property="og:description" content="Print GST bills on 58 mm and 80 mm thermal printers: set up the printer, the print preview, auto-print on save, what a receipt shows, and fixes for faint or cut-off prints.">
+<meta property="og:url" content="/docs/thermal-printing.html">
+<meta property="og:image" content="/docs/assets/img/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="GST bill printing on 58 mm and 80 mm thermal receipt printers">
+<meta name="twitter:description" content="Print GST bills on 58 mm and 80 mm thermal printers: set up the printer, the print preview, auto-print on save, what a receipt shows, and fixes for faint or cut-off prints.">
+<meta name="twitter:image" content="/docs/assets/img/og.png">
+<link rel="icon" href="assets/img/icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="alternate" type="text/plain" title="Documentation for AI tools" href="llms.txt">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Documentation","item":"/docs/"},{"@type":"ListItem","position":2,"name":"Invoicing","item":"/docs/invoices.html"},{"@type":"ListItem","position":3,"name":"Thermal receipt printing","item":"/docs/thermal-printing.html"}]},{"@type":"TechArticle","headline":"GST bill printing on 58 mm and 80 mm thermal receipt printers","description":"Print GST bills on 58 mm and 80 mm thermal printers: set up the printer, the print preview, auto-print on save, what a receipt shows, and fixes for faint or cut-off prints.","url":"/docs/thermal-printing.html","dateModified":"2026-10-29","inLanguage":"en-IN","about":{"@type":"SoftwareApplication","name":"Free GST Billing Software"},"publisher":{"@type":"Organization","name":"OM RAJ","url":"https://github.com/OmRaj6666"},"image":"/docs/assets/img/og.png"}]}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,750&family=Hind:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="assets/style.css">
+<script>try{var t=localStorage.getItem('fgb-docs-theme');if(t)document.documentElement.dataset.theme=t;}catch(e){}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open the menu">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  </button>
+  <a class="brand" href="index.html">
+    <img src="assets/img/icon.svg" alt="" width="30" height="30">
+    <span>Free GST Billing</span>
+  </a>
+  <a class="top-link" href="support.html"><span aria-hidden="true">♥</span> <span class="top-link-text">Support &amp; About</span></a>
+  <div class="search">
+    <label class="sr-only" for="q">Search the docs</label>
+    <input id="q" type="search" placeholder="Search" autocomplete="off" spellcheck="false">
+    <kbd class="search-key" aria-hidden="true">/</kbd>
+    <div class="results" role="listbox" hidden></div>
+  </div>
+  <button class="theme-btn" type="button" aria-label="Switch between light and dark">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+  </button>
+  <a class="download" href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest/download/Free-GST-Billing.zip">Download</a>
+</header>
+<div class="shell">
+  <nav class="sidebar" id="sidebar" aria-label="Documentation">
+      <div class="nav-group">
+        <p class="nav-heading">Start here</p>
+        <ul><li><a href="index.html">Welcome</a></li><li><a href="install.html">Install</a></li><li><a href="first-run.html">First-run setup</a></li><li><a href="first-invoice.html">Your first invoice</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Invoicing</p>
+        <ul><li><a href="invoices.html">Making an invoice</a></li><li><a href="invoice-options.html">Customize panel</a></li><li><a href="thermal-printing.html" aria-current="page">Thermal receipts</a></li><li><a href="dashboard.html">Dashboard</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Clients, stock and payments</p>
+        <ul><li><a href="clients.html">Clients</a></li><li><a href="products.html">Products and stock</a></li><li><a href="receipts.html">Payment receipts</a></li><li><a href="recurring.html">Recurring invoices</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Buying</p>
+        <ul><li><a href="purchases.html">Purchase bills</a></li><li><a href="expenses.html">Expenses</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Tax and reports</p>
+        <ul><li><a href="gst-returns.html">GST returns</a></li><li><a href="reports.html">Reports</a></li><li><a href="income-tax.html">Income tax</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Setting up</p>
+        <ul><li><a href="settings.html">Settings</a></li><li><a href="print-settings.html">Print and PDF settings</a></li><li><a href="backup.html">Backups and updates</a></li><li><a href="control-panel.html">Control Panel</a></li></ul>
+      </div>
+      <div class="nav-group">
+        <p class="nav-heading">Help</p>
+        <ul><li><a href="shortcuts.html">Getting around</a></li><li><a href="troubleshooting.html">Troubleshooting</a></li><li><a href="limitations.html">What it does not do</a></li><li><a href="glossary.html">Glossary</a></li><li><a href="support.html">Support &amp; About</a></li></ul>
+      </div>
+    <p class="sidebar-foot">Written for version 1.10.81. <a href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases">What changed in each version</a></p>
+  </nav>
+  <div class="scrim" hidden></div>
+  <main id="main" class="doc">
+    <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Documentation</a> <span aria-hidden="true">/</span> Invoicing</nav>
+    <h1>Thermal receipt printing</h1>
+    <p class="lead">Printing bills on a 58 mm or 80 mm receipt printer at a shop counter, from setting it up to what the receipt shows.</p>
+    <div class="ledger">
+
+<section id="setup">
+<h2><a class="anchor" href="#setup" aria-label="Link to this section">#</a>Setting it up</h2>
+<ol class="steps">
+  <li><strong>Install the printer in Windows</strong>Use the driver that came with it, set the paper size in the driver to your roll width, and make it your default printer, or pick it in the print window each time.</li>
+  <li><strong>Choose the receipt size</strong>On an invoice, open <span class="ui">Customize</span> and set <b>Paper / print size</b> to <b>80mm Thermal</b> or <b>58mm Thermal</b>. The app remembers it for your next invoice.</li>
+  <li><strong>Try a test print</strong>In <a href="print-settings.html#how-it-saves">Print Settings</a>, pick the <b>Thermal (80mm)</b> preview tab and click <span class="ui">Test Print</span>.</li>
+  <li><strong>Print a real bill</strong>Save the invoice, then click <span class="ui">Print</span>. A preview of the receipt opens; click <span class="ui">Print</span> again.</li>
+</ol>
+<p>Picking the <b>Retail Shop</b> or <b>Restaurant</b> business type in <a href="print-settings.html#business-type">Print Settings</a> sets sensible receipt defaults in one go.</p>
+</section>
+
+<section id="print-preview">
+<h2><a class="anchor" href="#print-preview" aria-label="Link to this section">#</a>The print preview</h2>
+<p>On a receipt size, <span class="ui">Print</span> shows the receipt at 160% so you can read it. Its buttons:</p>
+<table>
+  <tr><td><span class="ui">Print</span></td><td>Sends it to the printer. Shows "Sending…" while it works.</td></tr>
+  <tr><td><span class="ui">Download PDF</span></td><td>Saves and downloads a PDF instead, the same as Save &amp; Download.</td></tr>
+  <tr><td><span class="ui">Cancel</span></td><td>Closes it. So does <kbd>Esc</kbd>.</td></tr>
+</table>
+</section>
+
+<section id="auto-print">
+<h2><a class="anchor" href="#auto-print" aria-label="Link to this section">#</a>Printing straight after saving</h2>
+<p>At a busy counter, turn on <a href="print-settings.html#auto-print">Auto-print on save</a>: <span class="ui">Save &amp; Download</span> then prints the receipt as well, with no extra click. It can also be turned on for just one client, in their details.</p>
+</section>
+
+<section id="receipt-contents">
+<h2><a class="anchor" href="#receipt-contents" aria-label="Link to this section">#</a>What a receipt shows</h2>
+<ul>
+  <li>Your logo (if turned on in Print Settings), business name in capitals, tagline, address, GSTIN and phone.</li>
+  <li>The document type, such as TAX INVOICE, then the invoice number, reverse charge, date, and the client's name, GSTIN and phone.</li>
+  <li>Each item: its name, then quantity × rate, GST rate and HSN, with the amount on the right. The amount is quantity × rate, before discount and tax.</li>
+  <li>Subtotal, discount, CGST, SGST or IGST, cess, round-off and <b>TOTAL</b>.</li>
+  <li>Amount in words, bank details, a UPI QR code with "Scan to pay via UPI", and notes.</li>
+  <li>Your footer message, such as "Thank you for your business!", your email, the cut line and blank lines to tear against.</li>
+</ul>
+</section>
+
+<section id="not-on-receipts">
+<h2><a class="anchor" href="#not-on-receipts" aria-label="Link to this section">#</a>What a receipt leaves out</h2>
+<p>To fit a narrow roll, receipts do not print: terms and conditions, the signature and stamp, extra pages, the due date, place of supply, client address, TCS, TDS, whole-bill discount lines, the exchange rate, watermarks, the reverse charge and composition notices, or the PDF style and colour. The custom invoice title is not used either.</p>
+<p>If you need any of these, print that invoice on A4 or A5 instead.</p>
+</section>
+
+<section id="receipt-settings">
+<h2><a class="anchor" href="#receipt-settings" aria-label="Link to this section">#</a>Changing how receipts look</h2>
+<p>Font, boldness, capitals, spacing, darkness, what is shown, the QR size, the footer message, the cut mark and feed lines are all in <a href="print-settings.html#thermal">Print Settings, Thermal receipts</a>.</p>
+</section>
+
+<section id="receipt-problems">
+<h2><a class="anchor" href="#receipt-problems" aria-label="Link to this section">#</a>When a receipt prints badly</h2>
+<table>
+  <tr><th>Problem</th><th>Try</th></tr>
+  <tr><td>Text is cut off on the right</td><td>Use a smaller printable width: most 80 mm printers print 72 mm, and most 58 mm printers print 48 mm. Use <b>Custom size</b> if yours differs.</td></tr>
+  <tr><td>Print is faint</td><td>Set <b>Font weight</b> to Bold or Ultra bold, and <b>Thermal ink darkness</b> to Dark.</td></tr>
+  <tr><td>The printer jams or stops half-way</td><td>Turn on <a href="print-settings.html#thermal-compatibility">Buffer-safe mode</a>.</td></tr>
+  <tr><td>Blurry text, or nothing prints</td><td>Set <b>Thermal print method</b> to <b>Via PDF</b>.</td></tr>
+  <tr><td>Paper does not feed far enough to tear</td><td>Increase <b>Feed lines after cut</b>.</td></tr>
+</table>
+</section>
+
+    </div>
+    <nav class="pager" aria-label="Previous and next page">
+      <a class="prev" href="invoice-options.html"><span>Previous</span>Customize panel</a>
+      <a class="next" href="dashboard.html"><span>Next</span>Dashboard</a>
+    </nav>
+    <footer class="foot">
+      <p>Free GST Billing Software is free and open source under the MIT licence, made by <a href="https://github.com/OmRaj6666">OM RAJ</a>. Something wrong or missing on this page?
+      <a href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues">Tell us on GitHub</a>.</p>
+    </footer>
+  </main>
+  <aside class="toc" aria-label="On this page">
+    <p class="toc-heading">On this page</p>
+    <ul><li><a href="#setup">Setting it up</a></li><li><a href="#print-preview">The print preview</a></li><li><a href="#auto-print">Printing straight after saving</a></li><li><a href="#receipt-contents">What a receipt shows</a></li><li><a href="#not-on-receipts">What a receipt leaves out</a></li><li><a href="#receipt-settings">Changing how receipts look</a></li><li><a href="#receipt-problems">When a receipt prints badly</a></li></ul>
+  </aside>
+</div>
+<script src="assets/search-index.js" defer></script>
+<script src="assets/docs.js" defer></script>
+</body>
+</html>

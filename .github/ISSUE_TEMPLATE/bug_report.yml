@@ -1,0 +1,59 @@
+name: Report a problem
+description: Something in Free GST Billing is wrong or does not work.
+title: "[Problem] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time. Problems reported here are fixed in the **Saturday update** (anything urgent, such as the app not opening, straight away).
+
+        **Please hide your GSTIN, bank details and client names** in screenshots.
+  - type: input
+    id: version
+    attributes:
+      label: App version
+      description: At the bottom of the Dashboard, or in Settings → App Updates.
+      placeholder: "1.10.81"
+    validations:
+      required: true
+  - type: dropdown
+    id: system
+    attributes:
+      label: Computer
+      options:
+        - Windows 11
+        - Windows 10
+        - Windows (older)
+        - Mac
+        - Linux
+        - NAS / server
+        - Phone or tablet (browser)
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, step by step, and what you saw. Copy any error message exactly.
+      placeholder: |
+        1. Opened New Invoice
+        2. Added two items and clicked Save
+        3. It said "..."
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect instead?
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: Drag images here. Hide private details first.
+  - type: input
+    id: node
+    attributes:
+      label: Only if the app does not start or install
+      description: Open Command Prompt, type `node -v` and `npm -v`, and paste what they show.
+      placeholder: "v20.19.0 / 10.8.2"
