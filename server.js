@@ -1111,7 +1111,7 @@ app.get('/api/check-update', async (req, res) => {
     // GitHub Releases API (for release notes). Both have a 4s timeout so a
     // flaky network can't lock the UI.
     const ctrl = new AbortController();
-    const t = setTimeout(() => ctrl.abort(), 4000);
+    const t = setTimeout(() => ctrl.abort(), 8000);
     const [pkgRes, relRes] = await Promise.all([
       fetch('https://raw.githubusercontent.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/main/package.json', { signal: ctrl.signal }).catch(() => null),
       fetch('https://api.github.com/repos/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest', {
