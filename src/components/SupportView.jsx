@@ -9,11 +9,11 @@ import { toast } from './Toast';
 import useSupporters from './useSupporters';
 import WhatsNew from './WhatsNew';
 import SupportersList from './SupportersList';
+import customQrImage from '../assets/support-qr.jpeg';
 
 const inr = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
 const UPI_NAME = 'Omraj';
-const CUSTOM_QR_IMAGE = '/support-qr.jpeg?v=' + Date.now();
 const REPO = 'https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-';
 const GITHUB_PROFILE = 'https://github.com/OmRaj6666';
 const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/om-raj-vit/';
@@ -70,7 +70,7 @@ export default function SupportView() {
           <p style={{ margin: '0 0 1rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>Scan with GPay, PhonePe, Paytm, BHIM, SBI or any UPI app. Any amount helps keep updates coming.</p>
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.5rem 0' }}>
             <div style={{ background: '#fff', padding: 12, borderRadius: 12, lineHeight: 0, border: '1px solid var(--border-color)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
-              <img src={CUSTOM_QR_IMAGE} width={200} height={200} style={{ objectFit: 'contain', borderRadius: 8 }} alt={`UPI QR code to pay ${UPI_NAME}`} />
+              <img src={customQrImage} width={200} height={200} style={{ objectFit: 'contain', borderRadius: 8 }} alt={`UPI QR code to pay ${UPI_NAME}`} />
             </div>
             <p style={{ marginTop: '0.85rem', marginBottom: 0, fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
               Scan the QR code above with any UPI app to support ongoing open-source development.
