@@ -11,6 +11,10 @@
 > 
 > Features automated Tax Invoicing, GSTR-1 / GSTR-3B JSON exports, GSTR-2B purchase reconciliation, e-Way bills, TDS/TCS compliance, multi-currency support for 22 countries, rich-text terms, UPI QR code generation, and multi-business profiles with automated daily backups.
 
+<p align="center">
+  <img src="docs-site/assets/img/app-dashboard.png" alt="Free GST Billing Software - Modern Dashboard Preview" width="880" style="border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);" />
+</p>
+
 ---
 
 ## 🌟 Key Highlights
@@ -27,6 +31,69 @@
   * **GSTR-2B Reconciliation** matching supplier invoices against internal books to maximize Input Tax Credit (ITC).
 * **Instant Payments via UPI QR**: Automatically embeds dynamic, standard-compliant UPI payment QR codes on invoices linking directly to your VPA.
 * **Enterprise Security Hardening**: Anti-DNS Rebinding host validation, strict loopback binding (`127.0.0.1`), scrypt-salted PIN lock with API session tokens, object prototype pollution defenses, and DOMPurify XSS sanitization.
+
+---
+
+## 📸 Application Showcase & Screenshots
+
+### 1. Modern Financial Dashboard
+Overview of monthly revenue, unpaid receivables, tax liability split (CGST, SGST, IGST), and recent transactions at a glance.
+<p align="center">
+  <img src="docs-site/assets/img/app-dashboard.png" alt="Dashboard" width="840" />
+</p>
+
+---
+
+### 2. Comprehensive Tax Invoice Generator
+Create Tax Invoices, Proformas, and Delivery Challans with dynamic tax rate suggestions, instant UPI QR generation, multi-discount engines, and live invoice previews.
+<p align="center">
+  <img src="docs-site/assets/img/app-invoice-editor.png" alt="Invoice Generator" width="840" />
+</p>
+
+---
+
+### 3. GST Return Filing & Portal JSON Generation
+Automated calculation of GSTR-1 (Table 4 B2B, Table 5 B2CL, Table 7 B2CS, Table 8 Nil/Exempt, Table 12 HSN Summary) and GSTR-3B tax liabilities with one-click official portal-compliant JSON generation.
+<p align="center">
+  <img src="docs-site/assets/img/app-gstr1.png" alt="GST Returns" width="840" />
+</p>
+
+---
+
+### 4. Advanced Income Tax & Capital Gains Calculator
+Built-in tax planning engine supporting Budget 2025-26 rules, new vs old regime comparative analysis, Section 87A rebate calculations, and Section 234A/B/C advance tax interest.
+<p align="center">
+  <img src="docs-site/assets/img/app-income-tax.png" alt="Income Tax Calculator" width="840" />
+</p>
+
+---
+
+### 5. Client Directory, Aging & Ledgers
+Track client GSTINs, state codes, credit limits, outstanding balances, and generate date-filtered customer statements.
+<p align="center">
+  <img src="docs-site/assets/img/app-clients.png" alt="Client Directory" width="840" />
+</p>
+
+---
+
+### 6. Inventory & Real-Time Stock Tracking
+Manage product catalogs, HSN/SAC codes, low stock alerts, cost price vs selling price margins, and batch CSV imports.
+<p align="center">
+  <img src="docs-site/assets/img/app-products.png" alt="Product Inventory" width="840" />
+</p>
+
+---
+
+### 7. Professional Print & Template Formats
+Choose between multiple industry-standard print styles including **Boxed Elegance**, **Tally-style Accounting Format**, **Modern Clean**, and **Thermal POS 80mm/58mm** formats.
+
+| Boxed Elegance Template | Tally-Style Format |
+| :---: | :---: |
+| <img src="docs-site/assets/img/design-boxed.png" alt="Boxed Invoice Design" width="400" /> | <img src="docs-site/assets/img/design-tally.png" alt="Tally Style Invoice Design" width="400" /> |
+
+<p align="center">
+  <img src="docs-site/assets/img/app-print-settings.png" alt="Print Settings" width="840" />
+</p>
 
 ---
 
@@ -91,8 +158,8 @@ This project has been statically audited using **REA (Reverse Engineer Anything)
 
 ### Option 1: Native Desktop Installers (.dmg / .exe)
 
-* **macOS**: Download the `.dmg` file, open it, and drag **Free GST Billing** into your `Applications` folder.
-* **Windows**: Download the `.exe` installer (or standalone portable `.exe`) and double-click to launch.
+* **macOS**: Download the `.dmg` file from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases), open it, and drag **Free GST Billing** into your `Applications` folder.
+* **Windows**: Download the `.exe` installer (or standalone portable `.exe`) from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) and double-click to launch.
 
 *(To build the installers yourself from source, see [Building Desktop Packages](#building-desktop-packages) below).*
 
@@ -161,7 +228,7 @@ npm run test
 
 Unit test coverage verifies:
 * Intrastate vs Interstate tax splits (CGST + SGST vs IGST).
-* Round-off accuracy for invoices up to ₹1,00,00,000+.
+* Round-off accuracy for invoices up to ₹1,00,000+.
 * Inclusive vs Exclusive GST back-calculation.
 * Discount modes (percentage, fixed amount per unit, tax-inclusive discount).
 * CSV bulk client and product import parsers.
@@ -187,4 +254,9 @@ This project is open-source under the **[MIT License](LICENSE)**.
 * **GitHub Profile**: [@OmRaj6666](https://github.com/OmRaj6666)
 * **LinkedIn Profile**: [om-raj-vit](https://www.linkedin.com/in/om-raj-vit/)
 * **Email**: [omraj6666@gmail.com](mailto:omraj6666@gmail.com)
-  
+* **Direct UPI**: `9279126895@ptsbi`
+
+<p align="center">
+  <img src="public/support-qr.jpeg" alt="Developer UPI QR Code" width="220" style="border-radius: 8px; border: 1px solid #e2e8f0; padding: 4px;" /><br/>
+  <sub>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM, SBI) to support ongoing open-source development.</sub>
+</p>
