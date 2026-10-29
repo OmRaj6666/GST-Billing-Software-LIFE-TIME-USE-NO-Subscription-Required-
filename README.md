@@ -257,7 +257,8 @@ This project is open-source under the **[MIT License](LICENSE)**.
 
 
 <p align="center">
-  <img src="<img width="638" height="587" alt="WhatsApp Image 2026-10-29 at 17 43 28" src="https://github.com/user-attachments/assets/ae7dda29-51d0-41cb-9dc2-13ad8e188ab4" />
+<img width="638" height="587" alt="WhatsApp Image 2026-10-29 at 17 43 28" src="https://github.com/user-attachments/assets/bda1049e-1552-420e-a0c1-35b22724f4cf" />
+
 " alt="Developer UPI QR Code" width="220" style="border-radius: 8px; border: 1px solid #e2e8f0; padding: 4px;" /><br/>
   <sub>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM, SBI) to support ongoing open-source development.</sub>
 </p>
