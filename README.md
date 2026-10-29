@@ -254,9 +254,9 @@ This project is open-source under the **[MIT License](LICENSE)**.
 * **GitHub Profile**: [@OmRaj6666](https://github.com/OmRaj6666)
 * **LinkedIn Profile**: [om-raj-vit](https://www.linkedin.com/in/om-raj-vit/)
 * **Email**: [omraj6666@gmail.com](mailto:omraj6666@gmail.com)
-* **Direct UPI**: `9279126895@ptsbi`
+
 
 <p align="center">
-  <img src="public/support-qr.jpeg" alt="Developer UPI QR Code" width="220" style="border-radius: 8px; border: 1px solid #e2e8f0; padding: 4px;" /><br/>
+  <img src="" alt="Developer UPI QR Code" width="220" style="border-radius: 8px; border: 1px solid #e2e8f0; padding: 4px;" /><br/>
   <sub>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM, SBI) to support ongoing open-source development.</sub>
 </p>
