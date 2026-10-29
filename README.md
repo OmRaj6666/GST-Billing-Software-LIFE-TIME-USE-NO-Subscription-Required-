@@ -187,4 +187,4 @@ This project is open-source under the **[MIT License](LICENSE)**.
 * **GitHub Profile**: [@OmRaj6666](https://github.com/OmRaj6666)
 * **LinkedIn Profile**: [om-raj-vit](https://www.linkedin.com/in/om-raj-vit/)
 * **Email**: [omraj6666@gmail.com](mailto:omraj6666@gmail.com)
-* **Direct UPI**: `9279126895@ptsbi`
+  
