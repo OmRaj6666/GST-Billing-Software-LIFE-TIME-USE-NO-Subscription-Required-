@@ -290,7 +290,5 @@ This project is open-source under the **[MIT License](LICENSE)**.
 
 <br/>
 
-<p align="center">
-  <img width="220" alt="UPI QR Code" src="https://github.com/user-attachments/assets/bda1049e-1552-420e-a0c1-35b22724f4cf" style="border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 8px;" /><br/>
-  <sub>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM, SBI) to support ongoing open-source development.</sub>
+
 </p>
