@@ -13,7 +13,7 @@ import SupportersList from './SupportersList';
 const inr = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
 const UPI_NAME = 'Omraj';
-const CUSTOM_QR_IMAGE = '/support-qr.jpeg';
+const CUSTOM_QR_IMAGE = '/support-qr.jpeg?v=' + Date.now();
 const REPO = 'https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-';
 const GITHUB_PROFILE = 'https://github.com/OmRaj6666';
 const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/om-raj-vit/';

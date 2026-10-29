@@ -2596,18 +2596,11 @@ Free GST Billing is built and maintained by [@omraj](https://github.com/OmRaj666
 
 If it saves you time every month, you can help keep the fixes and new features coming.
 
-## Support with UPI
+## Support with UPI QR
 
-Scan with GPay, PhonePe, Paytm or any UPI app. Any amount helps.
+Scan with GPay, PhonePe, Paytm, BHIM, SBI or any UPI app. Any amount helps keep updates coming.
 
-UPI ID
-
-9279126895@ptsbi
-
-On your phone, tap an amount to open your UPI app:
-₹101 ₹251 ₹501 Any amount
-
-The payment note says "Free GST Billing support". Paying from the app's Support & About page adds your business name to it, so OM RAJ can thank you.
+Scan with any UPI app to support ongoing open-source development.
 
 ## Supporters
 

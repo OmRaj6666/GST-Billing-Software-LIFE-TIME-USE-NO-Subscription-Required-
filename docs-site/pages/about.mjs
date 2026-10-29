@@ -1,13 +1,6 @@
 // Support & About - the docs-site twin of the app's Support & About page
 // (src/components/SupportView.jsx). Keep the two saying the same things.
-import QRCode from 'qrcode';
 import { SITE } from '../site.mjs';
-
-const UPI_ID = '9279126895@ptsbi';
-const upi = (amount) => `upi://pay?pa=${encodeURIComponent(UPI_ID)}&pn=OM%20RAJ&cu=INR`
-  + `&tn=${encodeURIComponent('Free GST Billing support')}${amount ? `&am=${amount}.00` : ''}`;
-// Drawn at build time: the page needs no script, and the QR works offline once saved.
-const qrSvg = await QRCode.toString(upi(0), { type: 'svg', margin: 1, errorCorrectionLevel: 'M' });
 
 const SERVICES = [
   ['Custom software &amp; web apps', 'Websites, web apps and business tools built for how you work.'],
@@ -34,18 +27,14 @@ export default [
 </section>
 
 <section id="upi">
-<h2>Support with UPI</h2>
-<p>Scan with GPay, PhonePe, Paytm or any UPI app. Any amount helps.</p>
-<div class="upi-box">
-  <div class="upi-qr" role="img" aria-label="UPI QR code to pay OM RAJ">${qrSvg}</div>
-  <div class="upi-text">
-    <p class="upi-label">UPI ID</p>
-    <p class="upi-id"><code>${UPI_ID}</code></p>
-    <p class="upi-amounts">On your phone, tap an amount to open your UPI app:
-      <a href="${upi(101)}">₹101</a> <a href="${upi(251)}">₹251</a> <a href="${upi(501)}">₹501</a> <a href="${upi(0)}">Any amount</a></p>
+<h2>Support with UPI QR</h2>
+<p>Scan with GPay, PhonePe, Paytm, BHIM, SBI or any UPI app. Any amount helps keep updates coming.</p>
+<div class="upi-box" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 1rem 0;">
+  <div style="background: #fff; padding: 12px; border-radius: 12px; line-height: 0; border: 1px solid var(--border-color, #e2e8f0); display: inline-flex; box-shadow: 0 4px 14px rgba(0,0,0,0.06);">
+    <img src="/support-qr.jpeg" width="200" height="200" alt="UPI QR code" style="border-radius: 8px; object-fit: contain;" />
   </div>
+  <p style="margin-top: 0.85rem; font-size: 0.85rem; color: var(--ink-faint, #64748b); text-align: center;">Scan with any UPI app to support ongoing open-source development.</p>
 </div>
-<p>The payment note says "Free GST Billing support". Paying from the app's Support &amp; About page adds your business name to it, so OM RAJ can thank you.</p>
 </section>
 
 <section id="supporters" class="supporters" hidden>
