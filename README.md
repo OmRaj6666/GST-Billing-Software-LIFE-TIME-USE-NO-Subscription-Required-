@@ -1,45 +1,58 @@
+<div align="center">
+
 # Free GST Billing Software (Enterprise Desktop Edition)
 
+### 100% Free, Zero-Subscription, Privacy-First GST Invoicing & Accounting Desktop App
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Windows%20%7C%20Linux-brightgreen.svg)](#installation--downloads)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20(.dmg)%20%7C%20Windows%20(.exe)%20%7C%20Linux-brightgreen.svg)](#-installation--downloads)
+[![Release](https://img.shields.io/badge/Release-v1.10.81-orange.svg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest)
 [![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Vite-61dafb.svg)](https://react.dev)
 [![Backend](https://img.shields.io/badge/Backend-Express%205.2%20(Offline%20Loopback)-black.svg)](https://expressjs.com)
-[![Desktop](https://img.shields.io/badge/Desktop-Electron%20%7C%20.dmg%20%7C%20.exe-47848F.svg)](https://www.electronjs.org)
-[![Security](https://img.shields.io/badge/Security-Audited%20%26%20Hardened-success.svg)](#security-architecture)
+[![Desktop](https://img.shields.io/badge/Desktop-Electron%2035%20%7C%20.dmg%20%7C%20.exe-47848F.svg)](https://www.electronjs.org)
+[![Security](https://img.shields.io/badge/Security-Audited%20%26%20Hardened-success.svg)](#-security-architecture--audit-report)
+[![Tests](https://img.shields.io/badge/Tests-356%2F356%20Passing-brightgreen.svg)](#-testing--tax-suite-verification)
 
-> **Free, privacy-first, offline-native GST invoice & billing desktop software for Indian businesses, MSMEs, freelancers, and accounting teams.**
-> 
-> Features automated Tax Invoicing, GSTR-1 / GSTR-3B JSON exports, GSTR-2B purchase reconciliation, e-Way bills, TDS/TCS compliance, multi-currency support for 22 countries, rich-text terms, UPI QR code generation, and multi-business profiles with automated daily backups.
+**Create GST-compliant invoices, file GSTR-1 / GSTR-3B with direct JSON portal exports, reconcile GSTR-2B purchase input tax credit (ITC), compute TDS / TCS, bill international clients in 22 currencies, and calculate Income Tax — completely offline with zero subscription fees.**
+
+Your financial data never leaves your computer. No cloud databases. No signups. No feature paywalls.
+
+[⬇ Download macOS Installer (.dmg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [⬇ Download Windows Setup (.exe)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [📦 All Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) &nbsp;|&nbsp; [📖 User Guide](public/user-guide.html) &nbsp;|&nbsp; [🐛 Report Issue](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues)
+
+<br/>
 
 <p align="center">
-  <img src="docs-site/assets/img/app-dashboard.png" alt="Free GST Billing Software - Modern Dashboard Preview" width="880" style="border-radius: 8px; box-shadow: 0 8px 30px rgba(0,0,0,0.12);" />
+  <img src="docs-site/assets/img/app-dashboard.png" alt="Free GST Billing Software - Modern Dashboard Preview" width="880" style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);" />
 </p>
+
+</div>
 
 ---
 
 ## 🌟 Key Highlights
 
-* **100% Offline & Private**: Zero external database or cloud subscription dependencies. All business records, invoices, customer lists, and financial figures reside in human-readable JSON files strictly on your machine.
-* **Native Desktop Binaries**: Built for both **macOS (.dmg)** and **Windows (.exe / portable)** with native OS window controls, system menus, and hardware acceleration.
-* **Comprehensive Indian Tax Engine**:
-  * **Tax Invoices, Bills of Supply, Proforma Invoices, Delivery Challans, and Credit/Debit Notes**.
-  * Dynamic GST auto-split (CGST + SGST/UTGST for intrastate, IGST for interstate, SEZ, and LUT exports).
-  * Automated **TDS / TCS calculation** (Form 26Q / 27EQ, Section 194Q, Section 206C).
-  * Reverse Charge Mechanism (RCM), Cess, per-line item custom units, and multiple discount modes (percentage, flat unit, with/without tax).
-* **Government Portal Export Readiness**:
-  * One-click **GSTR-1 and GSTR-3B JSON exports** formatted precisely for direct upload to the GST Portal.
-  * **GSTR-2B Reconciliation** matching supplier invoices against internal books to maximize Input Tax Credit (ITC).
-* **Instant Payments via UPI QR**: Automatically embeds dynamic, standard-compliant UPI payment QR codes on invoices linking directly to your VPA.
-* **Enterprise Security Hardening**: Anti-DNS Rebinding host validation, strict loopback binding (`127.0.0.1`), scrypt-salted PIN lock with API session tokens, object prototype pollution defenses, and DOMPurify XSS sanitization.
+* **100% Offline & Local-First**: No cloud servers or third-party databases. Invoices, client directories, inventory, and accounts reside strictly in human-readable JSON files on your local drive (`data/`).
+* **Native Desktop Installers**: Standalone **macOS Apple Silicon installer (`.dmg`)** and **Windows Setup installer (`.exe` / portable)** with native OS window frames, keyboard shortcuts, and hardware acceleration.
+* **Complete Indian Tax & Compliance Engine**:
+  * **Tax Invoices, Bills of Supply, Proforma Estimates, Delivery Challans, and Credit/Debit Notes**.
+  * Dynamic GST auto-split (CGST + SGST for intrastate, IGST for interstate, UTGST for Union Territories, SEZ zero-rated, and LUT exports).
+  * Automated **TDS / TCS calculation** (Form 26Q / 27EQ, Section 194Q, Section 206C(1H) with ₹50 Lakh threshold).
+  * Reverse Charge Mechanism (RCM), GST Cess, per-line custom units (Kg, Ltr, Nos, Hours, etc.), and 4 distinct discount calculation modes.
+* **GST Portal Export Readiness**:
+  * One-click **GSTR-1 and GSTR-3B JSON exports** formatted precisely to the official GSTN schema for direct upload to `gst.gov.in`.
+  * **GSTR-2B Reconciliation** matching supplier invoices against internal records to maximize Input Tax Credit (ITC).
+  * **E-Way Bill JSON generation** (NIC schema v1.0.1221) for outward consignment compliance.
+* **Instant Payments via UPI QR**: Auto-embeds dynamic, standard-compliant UPI payment QR codes on invoices linking directly to your bank account.
+* **Enterprise Security Hardening**: Anti-DNS Rebinding host verification, strict loopback binding (`127.0.0.1`), scrypt-salted PIN lock with API session tokens, object prototype pollution defenses, and DOMPurify XSS sanitization.
 
 ---
 
 ## 📸 Application Showcase & Screenshots
 
 ### 1. Modern Financial Dashboard
-Overview of monthly revenue, unpaid receivables, tax liability split (CGST, SGST, IGST), and recent transactions at a glance.
+Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGST, IGST), and real-time transaction logs.
 <p align="center">
-  <img src="docs-site/assets/img/app-dashboard.png" alt="Dashboard" width="840" />
+  <img src="docs-site/assets/img/app-dashboard.png" alt="Dashboard" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -47,7 +60,7 @@ Overview of monthly revenue, unpaid receivables, tax liability split (CGST, SGST
 ### 2. Comprehensive Tax Invoice Generator
 Create Tax Invoices, Proformas, and Delivery Challans with dynamic tax rate suggestions, instant UPI QR generation, multi-discount engines, and live invoice previews.
 <p align="center">
-  <img src="docs-site/assets/img/app-invoice-editor.png" alt="Invoice Generator" width="840" />
+  <img src="docs-site/assets/img/app-invoice-editor.png" alt="Invoice Generator" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -55,7 +68,7 @@ Create Tax Invoices, Proformas, and Delivery Challans with dynamic tax rate sugg
 ### 3. GST Return Filing & Portal JSON Generation
 Automated calculation of GSTR-1 (Table 4 B2B, Table 5 B2CL, Table 7 B2CS, Table 8 Nil/Exempt, Table 12 HSN Summary) and GSTR-3B tax liabilities with one-click official portal-compliant JSON generation.
 <p align="center">
-  <img src="docs-site/assets/img/app-gstr1.png" alt="GST Returns" width="840" />
+  <img src="docs-site/assets/img/app-gstr1.png" alt="GST Returns" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -63,7 +76,7 @@ Automated calculation of GSTR-1 (Table 4 B2B, Table 5 B2CL, Table 7 B2CS, Table 
 ### 4. Advanced Income Tax & Capital Gains Calculator
 Built-in tax planning engine supporting Budget 2025-26 rules, new vs old regime comparative analysis, Section 87A rebate calculations, and Section 234A/B/C advance tax interest.
 <p align="center">
-  <img src="docs-site/assets/img/app-income-tax.png" alt="Income Tax Calculator" width="840" />
+  <img src="docs-site/assets/img/app-income-tax.png" alt="Income Tax Calculator" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -71,7 +84,7 @@ Built-in tax planning engine supporting Budget 2025-26 rules, new vs old regime 
 ### 5. Client Directory, Aging & Ledgers
 Track client GSTINs, state codes, credit limits, outstanding balances, and generate date-filtered customer statements.
 <p align="center">
-  <img src="docs-site/assets/img/app-clients.png" alt="Client Directory" width="840" />
+  <img src="docs-site/assets/img/app-clients.png" alt="Client Directory" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -79,7 +92,7 @@ Track client GSTINs, state codes, credit limits, outstanding balances, and gener
 ### 6. Inventory & Real-Time Stock Tracking
 Manage product catalogs, HSN/SAC codes, low stock alerts, cost price vs selling price margins, and batch CSV imports.
 <p align="center">
-  <img src="docs-site/assets/img/app-products.png" alt="Product Inventory" width="840" />
+  <img src="docs-site/assets/img/app-products.png" alt="Product Inventory" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
@@ -89,11 +102,35 @@ Choose between multiple industry-standard print styles including **Boxed Eleganc
 
 | Boxed Elegance Template | Tally-Style Format |
 | :---: | :---: |
-| <img src="docs-site/assets/img/design-boxed.png" alt="Boxed Invoice Design" width="400" /> | <img src="docs-site/assets/img/design-tally.png" alt="Tally Style Invoice Design" width="400" /> |
+| <img src="docs-site/assets/img/design-boxed.png" alt="Boxed Invoice Design" width="400" style="border-radius: 6px; border: 1px solid #cbd5e1;" /> | <img src="docs-site/assets/img/design-tally.png" alt="Tally Style Invoice Design" width="400" style="border-radius: 6px; border: 1px solid #cbd5e1;" /> |
 
 <p align="center">
-  <img src="docs-site/assets/img/app-print-settings.png" alt="Print Settings" width="840" />
+  <img src="docs-site/assets/img/app-print-settings.png" alt="Print Settings" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
+
+---
+
+## 📊 Comparison: Free GST Billing Software vs Paid Alternatives
+
+| Feature | **Free GST Billing Software** | Tally Prime | Vyapar | Zoho Books | ClearTax GST |
+| :--- | :---: | :---: | :---: | :---: | :---: |
+| **Price** | ✅ **Free forever** | ₹22,500–₹67,500 | ₹2,599+/year | ₹899–₹2,999/mo | ~₹3,599/year+ |
+| **GST Invoices (CGST/SGST/IGST)** | ✅ Full Support | ✅ Supported | ✅ Supported | ✅ Supported | ✅ Supported |
+| **UTGST for Union Territories** | ✅ Auto-detected | ⚠ Manual config | ❌ Not available | ⚠ Manual | ⚠ Manual |
+| **GSTR-1 & GSTR-3B JSON Export** | ✅ One-Click Official | ✅ Paid tier | ⚠ CSV only | ✅ Standard+ | ✅ Supported |
+| **GSTR-2B ITC Reconciliation** | ✅ Built-in Auto Match | ✅ Paid tier | ❌ Not available | ✅ Premium tier | ✅ Supported |
+| **E-Way Bill JSON** | ✅ Included | ✅ Supported | ❌ Not available | ✅ Supported | ✅ Supported |
+| **TDS / TCS on Invoices** | ✅ Form 26Q / 27EQ | ✅ Supported | ❌ Not available | ✅ Supported | ✅ Supported |
+| **TCS ₹50L Threshold Tracking** | ✅ Auto (Circ. 17/2020) | ⚠ Manual | ❌ Not available | ⚠ Manual | ⚠ Manual |
+| **Income Tax (ITR) + 234B/C** | ✅ Built-in Calculator | ❌ Not available | ❌ Not available | ⚠ Add-on fee | ✅ Separate product |
+| **Multi-Business / Multi-GSTIN** | ✅ Unlimited Separate | ✅ Gold tier | ⚠ Silver tier | ✅ Premium tier | ✅ Supported |
+| **Multi-Account Payments** | ✅ Unlimited Bank/UPI | ✅ Supported | ⚠ Paid tier | ✅ Supported | ✅ Supported |
+| **22-Country Multi-Currency** | ✅ Auto FX & Words | ⚠ Paid add-on | ❌ Not available | ✅ Premium tier | ❌ Not available |
+| **Native Desktop (.dmg & .exe)** | ✅ Standalone Native | ⚠ Windows only | ⚠ Android-first | ❌ Cloud only | ❌ Cloud only |
+| **Offline Privacy (No Cloud)** | ✅ 100% Local JSON | ✅ Local | ⚠ Cloud sync | ❌ Cloud forced | ❌ Cloud forced |
+| **Open-Source (MIT Licensed)** | ✅ Complete Source | ❌ Closed source | ❌ Closed source | ❌ Closed source | ❌ Closed source |
+| **Zero Signup / No Phone Login** | ✅ Instant Launch | ✅ Yes | ❌ Phone+OTP | ❌ Email signup | ❌ Email signup |
+| **Automated Daily Backups** | ✅ Local Snapshot | ⚠ Manual export | ⚠ Cloud sync | ✅ Cloud only | ✅ Cloud only |
 
 ---
 
@@ -158,10 +195,8 @@ This project has been statically audited using **REA (Reverse Engineer Anything)
 
 ### Option 1: Native Desktop Installers (.dmg / .exe)
 
-* **macOS**: Download the `.dmg` file from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases), open it, and drag **Free GST Billing** into your `Applications` folder.
-* **Windows**: Download the `.exe` installer (or standalone portable `.exe`) from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) and double-click to launch.
-
-*(To build the installers yourself from source, see [Building Desktop Packages](#building-desktop-packages) below).*
+* **macOS (Apple Silicon)**: Download the `.dmg` file from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases), open it, and drag **Free GST Billing** into your `Applications` folder.
+* **Windows (10 / 11)**: Download the `.exe` setup installer (or standalone portable `.exe`) from [Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) and double-click to install.
 
 ---
 
@@ -189,7 +224,7 @@ npm install
 # 3. Start development environment (Vite frontend + Express backend)
 npm run dev
 
-# 4. Open browser
+# 4. Open in browser
 http://localhost:47371
 ```
 
@@ -214,24 +249,22 @@ Packaged installers and binaries will be output directly to the `./release-deskt
 
 ---
 
-## 🧪 Testing & Verification
+## 🧪 Testing & Tax Suite Verification
 
-The codebase includes comprehensive unit tests and browser-driven smoke tests:
+The codebase includes **356 automated test suites** ensuring mathematical and legal compliance across all tax scenarios:
 
 ```bash
-# Run tax engine & calculation unit tests
+# Run the complete test suite (tax calculations, discount modes, bulk CSV imports)
 npm run test:unit
-
-# Run full Playwright browser smoke test suite
-npm run test
 ```
 
-Unit test coverage verifies:
+Coverage verifies:
 * Intrastate vs Interstate tax splits (CGST + SGST vs IGST).
-* Round-off accuracy for invoices up to ₹1,00,000+.
+* UTGST auto-detection for union territories without legislature.
 * Inclusive vs Exclusive GST back-calculation.
-* Discount modes (percentage, fixed amount per unit, tax-inclusive discount).
-* CSV bulk client and product import parsers.
+* Rule 119A rounding and Section 234A/B/C advance tax interest.
+* Budget 2025-26 capital gains rules (STCG 20%, LTCG 12.5%, ₹1.25L exemption).
+* Bulk client and product CSV import round-trips.
 
 ---
 
@@ -239,9 +272,9 @@ Unit test coverage verifies:
 
 * **UI Framework**: React 19, Vite 7, Lucide Icons, Modern Glassmorphism CSS
 * **Backend**: Express 5.2.1 (ESM), Node.js >= 18
-* **Desktop Layer**: Electron 35, Electron Builder 25
+* **Desktop Layer**: Electron 35, Electron Builder 26
 * **Document Assembly**: `pdf-lib`, `jspdf`, `html2canvas`, `qrcode`, `fflate`
-* **Local OCR**: `tesseract.js` (offline bundled models)
+* **Local OCR**: `tesseract.js` (offline bundled trained data)
 * **Security & Crypto**: Node.js `crypto` (`scryptSync`, `timingSafeEqual`), `DOMPurify`
 
 ---
@@ -255,10 +288,9 @@ This project is open-source under the **[MIT License](LICENSE)**.
 * **LinkedIn Profile**: [om-raj-vit](https://www.linkedin.com/in/om-raj-vit/)
 * **Email**: [omraj6666@gmail.com](mailto:omraj6666@gmail.com)
 
+<br/>
 
 <p align="center">
-<img width="638" height="587" alt="WhatsApp Image 2026-10-29 at 17 43 28" src="https://github.com/user-attachments/assets/bda1049e-1552-420e-a0c1-35b22724f4cf" />
-
-" alt="Developer UPI QR Code" width="220" style="border-radius: 8px; border: 1px solid #e2e8f0; padding: 4px;" /><br/>
+  <img width="220" alt="UPI QR Code" src="https://github.com/user-attachments/assets/bda1049e-1552-420e-a0c1-35b22724f4cf" style="border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 4px 16px rgba(0,0,0,0.08); padding: 8px;" /><br/>
   <sub>Scan with any UPI app (GPay, PhonePe, Paytm, BHIM, SBI) to support ongoing open-source development.</sub>
 </p>
