@@ -3,26 +3,21 @@
 // maintainer: ask gently, never lock a feature, never print anything on a
 // user's invoice. UPI only for money: it works offline (the QR is drawn here)
 // and costs the giver nothing.
-import { useEffect, useState } from 'react';
-import QRCode from 'qrcode';
-import { Heart, Star, Share2, Bug, Copy, Check, Mail, Globe, Code, Wrench, Database, LifeBuoy, Bot, Smartphone, Workflow, Users } from 'lucide-react';
+import { useState } from 'react';
+import { Heart, Star, Share2, Bug, Mail, Globe, Code, Wrench, Database, LifeBuoy, Bot, Smartphone, Workflow, Users } from 'lucide-react';
 import { toast } from './Toast';
-import { getProfile } from '../store';
-import { upiNote } from '../utils/supporters';
 import useSupporters from './useSupporters';
 import WhatsNew from './WhatsNew';
 import SupportersList from './SupportersList';
 
 const inr = (n) => `₹${Number(n).toLocaleString('en-IN')}`;
 
-const SUPPORT_UPI_ID = '9279126895@ptsbi';
 const UPI_NAME = 'Omraj';
 const CUSTOM_QR_IMAGE = '/support-qr.jpeg';
 const REPO = 'https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-';
 const GITHUB_PROFILE = 'https://github.com/OmRaj6666';
 const LINKEDIN_PROFILE = 'https://www.linkedin.com/in/om-raj-vit/';
 const EMAIL = 'omraj6666@gmail.com';
-const AMOUNTS = [0, 101, 251, 501];
 
 const SERVICES = [
   { icon: Code, title: 'Custom software & web apps', text: 'Websites, web apps and business tools built for how you work.' },
@@ -34,37 +29,8 @@ const SERVICES = [
   { icon: Smartphone, title: 'Mobile apps', text: 'Android and iPhone apps for your business or customers.' },
 ];
 
-// v1.10.80 - the note carries the payer's business name (unless they untick
-// it), so the maintainer can see who paid and thank them.
-const upiLink = (amount, note) => `upi://pay?pa=${encodeURIComponent(SUPPORT_UPI_ID)}&pn=${encodeURIComponent(UPI_NAME)}&cu=INR`
-  + `&tn=${encodeURIComponent(note)}${amount ? `&am=${amount}.00` : ''}`;
-
 export default function SupportView() {
-  const [amount, setAmount] = useState(0);
-  const [qr, setQr] = useState('');
-  const [copied, setCopied] = useState(false);
-  const [businessName, setBusinessName] = useState('');
-  const [withName, setWithName] = useState(true);
   const tracker = useSupporters();
-  const note = upiNote(withName ? businessName : '');
-
-  useEffect(() => { getProfile().then((p) => setBusinessName(p?.businessName || '')).catch(() => {}); }, []);
-
-  useEffect(() => {
-    let live = true;
-    QRCode.toDataURL(upiLink(amount, note), { width: 220, margin: 1, errorCorrectionLevel: 'M' })
-      .then((url) => { if (live) setQr(url); })
-      .catch(() => { if (live) setQr(''); });
-    return () => { live = false; };
-  }, [amount, note]);
-
-  const copyUpi = async () => {
-    try {
-      await navigator.clipboard.writeText(SUPPORT_UPI_ID);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch { toast(`UPI ID: ${SUPPORT_UPI_ID}`, 'info', 6000); }
-  };
 
   const shareText = `I make my GST invoices with Free GST Billing Software. It's free, works offline and keeps data on your own computer: ${REPO}`;
   const freeWays = [
@@ -100,41 +66,15 @@ export default function SupportView() {
 
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.25rem', marginBottom: '1.25rem' }}>
         <div className="glass-panel" style={card}>
-          <h3 style={{ margin: '0 0 0.25rem', fontSize: '1rem' }}>Support with UPI</h3>
-          <p style={{ margin: '0 0 1rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>Scan with GPay, PhonePe, Paytm or any UPI app. Any amount helps.</p>
-          <div style={{ display: 'flex', gap: '0.4rem', flexWrap: 'wrap', marginBottom: '1rem' }} role="group" aria-label="Amount">
-            {AMOUNTS.map((a) => (
-              <button key={a} type="button" className={`btn ${amount === a ? 'btn-primary' : 'btn-secondary'}`}
-                aria-pressed={amount === a} onClick={() => setAmount(a)} style={{ padding: '0.35rem 0.8rem', fontSize: '0.82rem' }}>
-                {a ? `₹${a}` : 'Any amount'}
-              </button>
-            ))}
-          </div>
-          <div style={{ display: 'flex', gap: '1.25rem', alignItems: 'center', flexWrap: 'wrap' }}>
-            <div style={{ background: '#fff', padding: 8, borderRadius: 8, lineHeight: 0, border: '1px solid var(--border-color)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              {amount === 0 ? (
-                <img src={CUSTOM_QR_IMAGE} width={180} height={180} style={{ objectFit: 'contain' }} alt={`UPI QR code to pay ${UPI_NAME}`} />
-              ) : (
-                qr ? <img src={qr} width={180} height={180} alt={`UPI QR code to pay ${UPI_NAME}${amount ? ` ₹${amount}` : ''}`} />
-                  : <img src={CUSTOM_QR_IMAGE} width={180} height={180} style={{ objectFit: 'contain' }} alt={`UPI QR code to pay ${UPI_NAME}`} />
-              )}
+          <h3 style={{ margin: '0 0 0.25rem', fontSize: '1rem' }}>Support with UPI QR</h3>
+          <p style={{ margin: '0 0 1rem', fontSize: '0.82rem', color: 'var(--text-muted)' }}>Scan with GPay, PhonePe, Paytm, BHIM, SBI or any UPI app. Any amount helps keep updates coming.</p>
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '0.5rem 0' }}>
+            <div style={{ background: '#fff', padding: 12, borderRadius: 12, lineHeight: 0, border: '1px solid var(--border-color)', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', boxShadow: '0 4px 14px rgba(0,0,0,0.06)' }}>
+              <img src={CUSTOM_QR_IMAGE} width={200} height={200} style={{ objectFit: 'contain', borderRadius: 8 }} alt={`UPI QR code to pay ${UPI_NAME}`} />
             </div>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>UPI ID</div>
-              <div style={{ fontWeight: 700, wordBreak: 'break-all', margin: '0.15rem 0 0.6rem' }}>{SUPPORT_UPI_ID}</div>
-              <button type="button" className="btn btn-secondary" onClick={copyUpi} style={{ fontSize: '0.82rem' }}>
-                {copied ? <><Check size={15} /> Copied</> : <><Copy size={15} /> Copy UPI ID</>}
-              </button>
-            </div>
-          </div>
-          <div style={{ marginTop: '0.9rem', fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-            Payment note: <b style={{ color: 'var(--text-primary)' }}>{note}</b>
-            {businessName && (
-              <label style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', marginTop: '0.35rem', cursor: 'pointer' }}>
-                <input type="checkbox" checked={withName} onChange={(e) => setWithName(e.target.checked)} />
-                Include my business name, so Omraj can thank you
-              </label>
-            )}
+            <p style={{ marginTop: '0.85rem', marginBottom: 0, fontSize: '0.82rem', color: 'var(--text-secondary)', textAlign: 'center' }}>
+              Scan the QR code above with any UPI app to support ongoing open-source development.
+            </p>
           </div>
         </div>
 
