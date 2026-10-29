@@ -455,4 +455,3 @@ PRs welcome. The project follows
 - Issues: <https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues>
 - LinkedIn: <https://www.linkedin.com/in/om-raj-vit/>
 - Email OM RAJ: omraj6666@gmail.com
-- Direct UPI: `9279126895@ptsbi`

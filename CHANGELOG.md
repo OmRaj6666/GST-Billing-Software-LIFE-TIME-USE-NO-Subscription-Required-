@@ -22,7 +22,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Electron Security Sandbox:** Native process sandboxing with contextIsolation: true, nodeIntegration: false, and strict preload IPC boundaries.
 
 ### Payments & Support
-- **Direct UPI Integration:** Direct zero-fee instant UPI transfer integration to 9279126895@ptsbi with real-time payment link generation and automated transaction remarks.
+- **Direct UPI Integration:** Direct zero-fee instant UPI transfer support with seamless QR scanning across all major UPI apps (GPay, PhonePe, Paytm, BHIM, SBI).
 - **Verified QR Scanner:** Embedded high-resolution dynamic QR code renderer for seamless UPI payments across all major UPI apps (GPay, PhonePe, Paytm, BHIM, SBI).
 - **Direct Developer Support:** Built-in direct enquiry and developer support channel via omraj6666@gmail.com.
 
