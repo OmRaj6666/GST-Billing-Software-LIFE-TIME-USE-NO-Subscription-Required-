@@ -288,7 +288,3 @@ This project is open-source under the **[MIT License](LICENSE)**.
 * **LinkedIn Profile**: [om-raj-vit](https://www.linkedin.com/in/om-raj-vit/)
 * **Email**: [omraj6666@gmail.com](mailto:omraj6666@gmail.com)
 
-<br/>
-
-
-</p>
