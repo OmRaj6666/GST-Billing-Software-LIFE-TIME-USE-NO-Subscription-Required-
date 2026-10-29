@@ -94,8 +94,12 @@ trap 'exit 130' INT TERM
 # --- Step 0: is this a release install we can update? ----------------------
 if [ ! -f "$SYSTEM_DIR/server.js" ] || [ ! -f "$SYSTEM_DIR/package.json" ]; then
   if [ -d "$SYSTEM_DIR/../../.git" ]; then
-    fail 'This copy runs from a git checkout, not the release ZIP. Update it with:
-    git pull && npm install && npm run build'
+    ROOT_DIR="$(CDPATH='' cd "$SYSTEM_DIR/../.." && pwd -P)"
+    say "Detected source repository checkout."
+    say "Pulling latest updates from GitHub and rebuilding..."
+    (cd "$ROOT_DIR" && git pull --rebase origin main && npm run build) || fail "Git update failed."
+    say "Update completed successfully! Reload the page to use the newest version."
+    exit 0
   fi
   fail "The app was not found next to this script ($SYSTEM_DIR). Download the release ZIP again."
 fi
