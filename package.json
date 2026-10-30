@@ -1,6 +1,6 @@
 {
   "name": "free-gst-billing-software",
-  "version": "1.10.81",
+  "version": "1.10.82",
   "description": "Free, open-source GST invoice & billing software for India. Tax Invoice, Proforma, Credit Note, Bill of Supply, Delivery Challan, GSTR-1 / GSTR-3B JSON exports, GSTR-2B reconciliation, e-Way Bill, TDS / TCS reports (Form 26Q / 27EQ), multi-currency for 22 countries, per-line custom units, rich-text Terms with 13 India presets, granular backup with optional Google Drive sync. Offline-first PWA. By OM RAJ.",
   "author": "OM RAJ <omraj6666@gmail.com>",
   "license": "MIT",
@@ -89,8 +89,8 @@
     "start": "vite build && node server.js",
     "electron:dev": "npm run build && electron .",
     "build:mac": "npm run build && electron-builder --mac",
-    "build:win": "npm run build && electron-builder --win",
-    "build:desktop": "npm run build && electron-builder -mw",
+    "build:win": "npm run build && electron-builder --win --x64",
+    "build:desktop": "npm run build && electron-builder --mac && electron-builder --win --x64",
     "lint": "eslint .",
     "preview": "vite preview",
     "icons": "node scripts/generate-icons.mjs",
@@ -146,6 +146,8 @@
       "server.js",
       "electron/**/*",
       "src/utils.js",
+      "CHANGELOG.md",
+      "public/icons/**/*",
       "package.json"
     ],
     "mac": {
@@ -154,14 +156,24 @@
         "dmg",
         "zip"
       ],
-      "icon": "public/icon-512.png",
-      "hardenedRuntime": true,
+      "icon": "public/icons/icon-512.png",
+      "hardenedRuntime": false,
       "gatekeeperAssess": false
     },
     "win": {
       "target": [
-        "nsis",
-        "portable"
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
       ],
       "icon": "release-templates/_system-scripts/app-icon.ico"
     },

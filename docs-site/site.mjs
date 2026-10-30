@@ -9,7 +9,7 @@ export const SITE = {
   // social previews and llms.txt, which all need full addresses.
   url: '/docs/',
   publisher: { name: 'OM RAJ', url: 'https://github.com/OmRaj6666' },
-  version: '1.10.81',
+  version: '1.10.82',
   repo: 'https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-',
   // Always the newest release: GitHub resolves this to the latest release's
   // file of exactly this name (see docs/RELEASE_CHECKLIST.md, step 4b).

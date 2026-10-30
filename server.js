@@ -15,7 +15,25 @@ import { fileURLToPath } from 'url';
 import { templateTotals, clientYearToDate, nextCounterValue, startFor, numberSeriesFor, counterKeyFor, formatDocNumber, businessKeyOf, getFinancialYearLabel, INVOICE_TYPES } from './src/utils.js';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-const DATA_DIR = path.join(__dirname, 'data');
+const isAsar = __dirname.includes('app.asar');
+
+// Resolve the root directory for writable user data (bills, profiles, saved invoices, trash, port preference).
+// In desktop/Electron packaging, files inside the application bundle (app.asar) or /Applications or Program Files
+// are read-only and unwriteable. Writable data must reside in the OS user data directory.
+const resolveUserDataBase = () => {
+  if (process.env.APP_DATA_DIR) return process.env.APP_DATA_DIR;
+  if (!isAsar) return __dirname;
+  if (process.platform === 'win32') {
+    return path.join(process.env.APPDATA || process.env.USERPROFILE || '', 'free-gst-billing-software');
+  }
+  if (process.platform === 'darwin') {
+    return path.join(process.env.HOME || '', 'Library', 'Application Support', 'free-gst-billing-software');
+  }
+  return path.join(process.env.HOME || '', '.config', 'free-gst-billing-software');
+};
+
+const USER_DATA_BASE = resolveUserDataBase();
+const DATA_DIR = path.join(USER_DATA_BASE, 'data');
 
 // Port choice — we deliberately default to a high, unusual number rather than
 // the conventional 3001. The 3000-range is heavily used by every other Node /
@@ -27,7 +45,7 @@ const DATA_DIR = path.join(__dirname, 'data');
 // wins over this default — so a single user who genuinely needs 47371 for
 // something else can edit that file and we'll respect it forever.
 const DEFAULT_PORT = 47371;
-const PORT_FILE = path.join(__dirname, 'data', 'port.txt');
+const PORT_FILE = path.join(DATA_DIR, 'port.txt');
 const META_PATH = path.join(DATA_DIR, 'meta.json');
 const LOCK_KEY = 'appLock';
 const withoutLock = (meta) => { const { [LOCK_KEY]: _lock, ...rest } = meta || {}; return rest; };
@@ -35,8 +53,12 @@ const withLock = (meta, lock) => (lock ? { ...withoutLock(meta), [LOCK_KEY]: loc
 
 // PIN lock definitions and session tokens (v1.11.0)
 const PIN_RE = /^(\d{6}|\d{8})$/;
-const RESET_PIN_FILES = [path.join(__dirname, '..'), __dirname]
-  .flatMap((dir) => ['RESET-PIN', 'RESET-PIN.txt'].map((n) => path.join(dir, n)));
+const RESET_PIN_FILES = [
+  USER_DATA_BASE,
+  DATA_DIR,
+  path.join(__dirname, '..'),
+  __dirname
+].flatMap((dir) => ['RESET-PIN', 'RESET-PIN.txt'].map((n) => path.join(dir, n)));
 const pinHash = (pin, salt) => crypto.scryptSync(String(pin), salt, 32).toString('hex');
 const pinMatches = (lock, pin) => {
   if (!lock?.salt || !lock?.hash || !PIN_RE.test(String(pin ?? ''))) return false;
@@ -171,9 +193,15 @@ app.use((req, res, next) => {
 
 // Ensure data directory and sub-directories exist
 const DIRS = ['bills', 'clients', 'templates', 'products', 'expenses', 'recurring', 'receipts', 'profiles', 'purchases'];
-for (const dir of DIRS) {
-  const dirPath = path.join(DATA_DIR, dir);
-  if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+try {
+  if (!fs.existsSync(USER_DATA_BASE)) fs.mkdirSync(USER_DATA_BASE, { recursive: true });
+  if (!fs.existsSync(DATA_DIR)) fs.mkdirSync(DATA_DIR, { recursive: true });
+  for (const dir of DIRS) {
+    const dirPath = path.join(DATA_DIR, dir);
+    if (!fs.existsSync(dirPath)) fs.mkdirSync(dirPath, { recursive: true });
+  }
+} catch (e) {
+  console.error('[Startup Directory Error]', e);
 }
 
 // Helper: safe filename from ID (replace slashes, etc.)
@@ -859,8 +887,10 @@ app.post('/api/import', (req, res) => {
 // ========================
 // Save PDF to local folder
 // ========================
-const INVOICES_DIR = path.join(__dirname, 'Saved Invoices');
-if (!fs.existsSync(INVOICES_DIR)) fs.mkdirSync(INVOICES_DIR, { recursive: true });
+const INVOICES_DIR = path.join(USER_DATA_BASE, 'Saved Invoices');
+try {
+  if (!fs.existsSync(INVOICES_DIR)) fs.mkdirSync(INVOICES_DIR, { recursive: true });
+} catch { /* ignore */ }
 
 app.post('/api/save-pdf', express.raw({ type: 'application/pdf', limit: '20mb' }), (req, res) => {
   try {
@@ -891,7 +921,7 @@ app.post('/api/save-pdf', express.raw({ type: 'application/pdf', limit: '20mb' }
     // Don't leak absolute FS path — client only needs to know it saved
     // and where (relative). Absolute path revealed OS username +
     // install dir to any origin.
-    res.json({ saved: true, relPath: path.relative(__dirname, filePath).split(path.sep).join('/') });
+    res.json({ saved: true, relPath: path.relative(USER_DATA_BASE, filePath).split(path.sep).join('/') });
   } catch (err) {
     errRes(res, 500, 'server-error', err);
   }
@@ -1006,9 +1036,10 @@ app.post('/api/saved-pdf/cancel-mark', express.json(), async (req, res) => {
 // ========================
 // Move saved PDF to Trash
 // ========================
-const TRASH_DIR = path.join(__dirname, 'Trash');
-
-if (!fs.existsSync(TRASH_DIR)) fs.mkdirSync(TRASH_DIR, { recursive: true });
+const TRASH_DIR = path.join(USER_DATA_BASE, 'Trash');
+try {
+  if (!fs.existsSync(TRASH_DIR)) fs.mkdirSync(TRASH_DIR, { recursive: true });
+} catch { /* ignore */ }
 
 app.post('/api/trash-pdf', express.json(), (req, res) => {
   try {
@@ -2184,3 +2215,10 @@ setTimeout(() => { processDueRecurring().catch(err => logFatal(err, 'recurring')
 // often never makes extra invoices - it just stops a template due today from
 // waiting until the same time tomorrow on a PC that stays on.
 setInterval(() => { processDueRecurring().catch(err => logFatal(err, 'recurring')); }, 60 * 60 * 1000);
+
+// Graceful shutdown when parent process (e.g. Electron desktop wrapper) terminates
+if (process.connected) {
+  process.on('disconnect', () => {
+    process.exit(0);
+  });
+}

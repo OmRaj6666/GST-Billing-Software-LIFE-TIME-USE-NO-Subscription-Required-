@@ -6,7 +6,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20(.dmg)%20%7C%20Windows%20(.exe)%20%7C%20Linux-brightgreen.svg)](#-installation--downloads)
-[![Release](https://img.shields.io/badge/Release-v1.10.81-orange.svg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest)
+[![Release](https://img.shields.io/badge/Release-v1.10.82-orange.svg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest)
 [![Frontend](https://img.shields.io/badge/Frontend-React%2019%20%2B%20Vite-61dafb.svg)](https://react.dev)
 [![Backend](https://img.shields.io/badge/Backend-Express%205.2%20(Offline%20Loopback)-black.svg)](https://expressjs.com)
 [![Desktop](https://img.shields.io/badge/Desktop-Electron%2035%20%7C%20.dmg%20%7C%20.exe-47848F.svg)](https://www.electronjs.org)

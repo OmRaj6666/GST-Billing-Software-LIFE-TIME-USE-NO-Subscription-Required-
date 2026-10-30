@@ -3,9 +3,7 @@
 // maintainer: ask gently, never lock a feature, never print anything on a
 // user's invoice. UPI only for money: it works offline (the QR is drawn here)
 // and costs the giver nothing.
-import { useState } from 'react';
 import { Heart, Star, Share2, Bug, Mail, Globe, Code, Wrench, Database, LifeBuoy, Bot, Smartphone, Workflow, Users } from 'lucide-react';
-import { toast } from './Toast';
 import useSupporters from './useSupporters';
 import WhatsNew from './WhatsNew';
 import SupportersList from './SupportersList';

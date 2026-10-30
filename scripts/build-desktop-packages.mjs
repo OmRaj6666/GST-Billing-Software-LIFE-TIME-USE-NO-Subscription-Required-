@@ -31,13 +31,13 @@ try {
   if (targetArg === 'mac') {
     buildCmd += ' --mac';
   } else if (targetArg === 'win') {
-    buildCmd += ' --win';
+    buildCmd += ' --win --x64';
   } else if (targetArg === 'all') {
-    buildCmd += ' -mw';
+    buildCmd += ' --mac && npx electron-builder --win --x64';
   } else {
     // Current platform
     if (process.platform === 'darwin') buildCmd += ' --mac';
-    else if (process.platform === 'win32') buildCmd += ' --win';
+    else if (process.platform === 'win32') buildCmd += ' --win --x64';
     else buildCmd += ' --linux';
   }
 
