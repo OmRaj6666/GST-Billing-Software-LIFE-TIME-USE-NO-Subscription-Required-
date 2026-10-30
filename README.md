@@ -168,10 +168,20 @@ Track client GSTINs, state codes, credit limits, outstanding balances, and gener
 ---
 
 ### 6. Inventory & Real-Time Stock Tracking
+
 Manage product catalogs, HSN/SAC codes, low stock alerts, cost price vs selling price margins, and batch CSV imports.
+
 <p align="center">
-  <img src="docs-site/assets/img/app-products.png" alt="Product Inventory" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
+  <img
+    src="<img width="1639" height="960" alt="GST Billing Inventory Dashboard" src="https://github.com/user-attachments/assets/b35c6e85-859c-492c-b9cd-058ee307358b" />
+"
+    alt="GST Billing Inventory Dashboard"
+    width="840"
+    style="border-radius: 8px; border: 1px solid #e2e8f0;"
+  />
 </p>
+
+
 
 ---
 
