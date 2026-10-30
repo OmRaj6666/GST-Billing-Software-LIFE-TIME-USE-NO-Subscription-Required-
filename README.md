@@ -103,7 +103,8 @@ https://github.com/user-attachments/assets/a16b13cd-3f82-4096-9f78-42a21a58dbf7
 ### 1. Modern Financial Dashboard
 Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGST, IGST), and real-time transaction logs.
 <p align="center">
-  <img src="docs-site/assets/img/app-dashboard.png" alt="Dashboard" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
+  <img src="<img width="1639" height="960" alt="GST Billing Clients Dashboard" src="https://github.com/user-attachments/assets/522f6aac-2db7-400e-9ee2-3465149e4ce2" />
+" alt="Dashboard" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
