@@ -30,7 +30,7 @@
 
 ### How to update
 
-**Current version:** 1.10.81  →  **New version:** 1.10.82
+**Target Version:** v1.10.82 (Upgrades from v1.10.81 or earlier)
 
 #### For Desktop Users (macOS / Windows)
 1. Download the new installer from the Assets section below:
