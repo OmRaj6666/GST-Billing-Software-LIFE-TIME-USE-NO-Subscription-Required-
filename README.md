@@ -173,7 +173,8 @@ Manage product catalogs, HSN/SAC codes, low stock alerts, cost price vs selling 
 
 <p align="center">
   <img
-    src="<img width="1639" height="960" alt="GST Billing Inventory Dashboard" src="https://github.com/user-attachments/assets/b35c6e85-859c-492c-b9cd-058ee307358b" />
+    src="![Uploading GST Billing Inventory Dashboard.png…]()"
+ height="960" alt="GST Billing Inventory Dashboard" src="https://github.com/user-attachments/assets/b35c6e85-859c-492c-b9cd-058ee307358b" />
 "
     alt="GST Billing Inventory Dashboard"
     width="840"
