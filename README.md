@@ -120,6 +120,7 @@ Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGS
 
 ---
 
+
 ## Application Features & Screenshots
 
 <table>
@@ -130,16 +131,25 @@ Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGS
   </tr>
   <tr>
     <td align="center">
-      <img src="docs-site/assets/img/app-invoice-editor.png"
-           alt="GST Tax Invoice Generator" width="100%" />
+      <img
+        src="https://github.com/user-attachments/assets/3a24214b-7c96-48e5-b0f3-f0ef34ef3472"
+        alt="GST Tax Invoice Generator"
+        width="100%"
+      />
     </td>
     <td align="center">
-      <img src="docs-site/assets/img/app-gstr1.png"
-           alt="GST Return Filing Dashboard" width="100%" />
+      <img
+        src="https://github.com/user-attachments/assets/1e135d00-b32e-4632-a3ba-31f7bd5bb263"
+        alt="GST Return Filing Dashboard"
+        width="100%"
+      />
     </td>
     <td align="center">
-      <img src="docs-site/assets/img/app-income-tax.png"
-           alt="Income Tax Calculator" width="100%" />
+      <img
+        src="https://github.com/user-attachments/assets/f67a2091-5920-4147-b876-db628611db1b"
+        alt="Income Tax Calculator"
+        width="100%"
+      />
     </td>
   </tr>
 </table>
