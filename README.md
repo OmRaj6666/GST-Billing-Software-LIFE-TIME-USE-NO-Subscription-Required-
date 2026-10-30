@@ -30,7 +30,8 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
   <img
     width="880"
     alt="GST Billing App Interface Collage"
-    src="https://github.com/user-attachments/assets/981f6a0e-e110-4e5a-aa1a-08d7b258b4fc"
+    src="<img width="1639" height="960" alt="GST Billing Clients Dashboard" src="https://github.com/user-attachments/assets/e3efc5e5-2bee-49c3-b6cb-981774a43729" />"
+"
   />
 </p>
 
