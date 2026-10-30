@@ -22,15 +22,19 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
 <br/>
 
 
+<p align="center">
+  <strong>Free GST Billing Software - Modern Dashboard Preview</strong>
+</p>
 
 <p align="center">
   <img
     width="880"
-    alt="Free GST Billing Software - Modern Dashboard Preview"
+    alt="GST Billing App Interface Collage"
     src="https://github.com/user-attachments/assets/981f6a0e-e110-4e5a-aa1a-08d7b258b4fc"
-    style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"
   />
 </p>
+
+
 
 
 </p>
