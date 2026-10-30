@@ -162,7 +162,8 @@ Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGS
 ### 5. Client Directory, Aging & Ledgers
 Track client GSTINs, state codes, credit limits, outstanding balances, and generate date-filtered customer statements.
 <p align="center">
-  <img src="docs-site/assets/img/app-clients.png" alt="Client Directory" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
+  <img src="<img width="1639" height="960" alt="GST Billing Clients Dashboard (1)" src="https://github.com/user-attachments/assets/0c86ed8a-6f0e-4743-87d0-39257ebb8a2f" />
+" alt="Client Directory" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
 </p>
 
 ---
