@@ -24,7 +24,8 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
 
 <p align="center">
   <img
-    src="assets/gst-billing-dashboard.png"
+    src="![Uploading GST Billing Clients Dashboard.png…]()
+"
     alt="Free GST Billing Software - Modern Dashboard Preview"
     width="880"
     style="border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);"
