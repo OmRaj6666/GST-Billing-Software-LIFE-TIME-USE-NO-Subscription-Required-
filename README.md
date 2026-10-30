@@ -22,6 +22,7 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
 <br/>
 
 
+
 <p align="center">
   <strong>Free GST Billing Software - Modern Dashboard Preview</strong>
 </p>
@@ -29,9 +30,8 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
 <p align="center">
   <img
     width="880"
-    alt="GST Billing App Interface Collage"
-    src="<img width="1639" height="960" alt="GST Billing Clients Dashboard" src="https://github.com/user-attachments/assets/e3efc5e5-2bee-49c3-b6cb-981774a43729" />"
-"
+    alt="GST Billing Clients Dashboard"
+    src="https://github.com/user-attachments/assets/e3efc5e5-2bee-49c3-b6cb-981774a43729"
   />
 </p>
 
