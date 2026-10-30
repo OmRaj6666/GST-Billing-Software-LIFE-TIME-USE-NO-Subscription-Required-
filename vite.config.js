@@ -36,6 +36,9 @@ export default defineConfig({
   plugins: [
     react(),
     VitePWA({
+      devOptions: {
+        enabled: true,
+      },
       // v1.10.2 — Prior 'autoUpdate' triggered an immediate location.reload()
       // via main.jsx's onNeedRefresh handler → cashier mid-invoice would
       // lose form state on deploy. Switched to 'prompt' so the app can
