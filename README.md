@@ -17,7 +17,7 @@
 
 Your financial data never leaves your computer. No cloud databases. No signups. No feature paywalls.
 
-[⬇ Download macOS Installer (.dmg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [⬇ Download Windows Setup (.exe)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [📦 All Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) &nbsp;|&nbsp; [📖 User Guide](public/user-guide.html) &nbsp;|&nbsp; [🐛 Report Issue](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues)
+[⬇ Download macOS Installer (.dmg)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [⬇ Download Windows Setup (.exe)](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/latest) &nbsp;|&nbsp; [🎬 Watch Video Tour](#-1-minute-video-tour-enterprise-desktop-edition) &nbsp;|&nbsp; [📦 All Releases](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases) &nbsp;|&nbsp; [📖 User Guide](public/user-guide.html) &nbsp;|&nbsp; [🐛 Report Issue](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/issues)
 
 <br/>
 
@@ -26,6 +26,42 @@ Your financial data never leaves your computer. No cloud databases. No signups. 
 </p>
 
 </div>
+
+---
+
+## 🎬 1-Minute Video Tour (Enterprise Desktop Edition)
+
+> 💡 **Why pay ₹2,599+/year for GST billing?** Watch this fast-paced 78-second feature walkthrough demonstrating the live dashboard, instant GST invoice generation with dynamic UPI QR codes, official portal-ready GSTR-1 / GSTR-3B JSON exports, built-in Income Tax calculator, and 100% offline security.
+
+<div align="center">
+
+https://github.com/user-attachments/assets/a16b13cd-3f82-4096-9f78-42a21a58dbf7
+
+<p align="center">
+  <sub>🎥 <em>Click play above for the 1080p Full HD video tour with narration &nbsp;|&nbsp; ⬇ <a href="https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/download/v1.10.82/GST-Billing-Explainer.mp4">Direct MP4 Download (18 MB)</a></em></sub>
+</p>
+
+</div>
+
+<details>
+<summary><b>⏱️ Video Chapters & Walkthrough Guide (Click to expand)</b></summary>
+<br/>
+
+| Timestamp | Chapter | Feature Highlight & What You See |
+| :---: | :--- | :--- |
+| **`0:00`** | **Stop Yearly Fees** | Why pay ₹2,599+/year just to send GST invoices? There's a better, 100% free way. |
+| **`0:06`** | **Introducing Free GST Billing** | Enterprise desktop edition: 100% free for life, zero subscriptions, 100% offline, open source. |
+| **`0:12`** | **Real-Time Financial Dashboard** | Instant visibility into monthly turnover, tax collected, pending receivables, and live inventory alerts. |
+| **`0:18`** | **Invoicing in Seconds & UPI QR** | Auto-split CGST, SGST, IGST, UTGST, and instant dynamic UPI payment QR codes embedded on every bill. |
+| **`0:30`** | **File-Ready GSTR-1 & GSTR-3B** | One-click official schema JSON exports ready to upload directly to `gst.gov.in` without manual entry. |
+| **`0:38`** | **Built-in Income Tax Calculator** | Compare Old vs New Tax Regimes, calculate rebates under 87A, and advance tax interest (234A/B/C). |
+| **`0:43`** | **All-In-One Power Tools** | E-Way Bill JSON, automated TDS/TCS, GSTR-2B ITC reconciliation, 22 global currencies, and debit/credit notes. |
+| **`0:52`** | **Professional Print Formats** | Boxed Elegance, Tally-style Accounting Format, and Thermal POS receipt layouts for retail counters. |
+| **`0:59`** | **100% Offline Privacy & PIN Lock** | Your financial data never leaves your computer. No cloud databases, no signups, PIN-lock security. |
+| **`1:05`** | **Paid Alternatives Cost Comparison** | Tally Prime (₹22,500+), Zoho Books (₹899+/mo), Vyapar (₹2,599+/yr) vs **Free GST Billing (₹0 forever)**. |
+| **`1:12`** | **Free Forever Download** | Standalone installers for macOS (`.dmg`) and Windows (`.exe`), open-source under MIT License. |
+
+</details>
 
 ---
 

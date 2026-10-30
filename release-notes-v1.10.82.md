@@ -5,6 +5,14 @@
 
 ---
 
+### 🎬 1-Minute Feature Walkthrough Video
+
+https://github.com/user-attachments/assets/a16b13cd-3f82-4096-9f78-42a21a58dbf7
+
+*(Also available as a direct download: [GST-Billing-Explainer.mp4](https://github.com/OmRaj6666/GST-Billing-Software-LIFE-TIME-USE-NO-Subscription-Required-/releases/download/v1.10.82/GST-Billing-Explainer.mp4))*.
+
+---
+
 ### 📦 Direct Desktop Downloads
 
 | Platform | Installer File | Architecture | Download Link |
