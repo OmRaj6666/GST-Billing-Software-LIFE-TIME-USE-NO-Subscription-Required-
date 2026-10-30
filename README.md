@@ -117,27 +117,35 @@ Overview of monthly turnover, unpaid receivables, tax liability split (CGST, SGS
 
 ---
 
-### 2. Comprehensive Tax Invoice Generator
-Create Tax Invoices, Proformas, and Delivery Challans with dynamic tax rate suggestions, instant UPI QR generation, multi-discount engines, and live invoice previews.
-<p align="center">
-  <img src="docs-site/assets/img/app-invoice-editor.png" alt="Invoice Generator" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
-</p>
 
 ---
 
-### 3. GST Return Filing & Portal JSON Generation
-Automated calculation of GSTR-1 (Table 4 B2B, Table 5 B2CL, Table 7 B2CS, Table 8 Nil/Exempt, Table 12 HSN Summary) and GSTR-3B tax liabilities with one-click official portal-compliant JSON generation.
-<p align="center">
-  <img src="docs-site/assets/img/app-gstr1.png" alt="GST Returns" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
-</p>
+## Application Features & Screenshots
+
+<table>
+  <tr>
+    <th align="center">Tax Invoice Generator</th>
+    <th align="center">GST Return Filing</th>
+    <th align="center">Income Tax Calculator</th>
+  </tr>
+  <tr>
+    <td align="center">
+      <img src="docs-site/assets/img/app-invoice-editor.png"
+           alt="GST Tax Invoice Generator" width="100%" />
+    </td>
+    <td align="center">
+      <img src="docs-site/assets/img/app-gstr1.png"
+           alt="GST Return Filing Dashboard" width="100%" />
+    </td>
+    <td align="center">
+      <img src="docs-site/assets/img/app-income-tax.png"
+           alt="Income Tax Calculator" width="100%" />
+    </td>
+  </tr>
+</table>
 
 ---
 
-### 4. Advanced Income Tax & Capital Gains Calculator
-Built-in tax planning engine supporting Budget 2025-26 rules, new vs old regime comparative analysis, Section 87A rebate calculations, and Section 234A/B/C advance tax interest.
-<p align="center">
-  <img src="docs-site/assets/img/app-income-tax.png" alt="Income Tax Calculator" width="840" style="border-radius: 8px; border: 1px solid #e2e8f0;" />
-</p>
 
 ---
 
